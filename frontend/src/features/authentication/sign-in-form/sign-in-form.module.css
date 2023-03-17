@@ -1,0 +1,41 @@
+.input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+}
+.input-container > input + input {
+  margin-top: 1rem;
+}
+.input-container > button {
+  margin: 1.75rem 0;
+}
+
+.error-container {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: hsl(var(--clr-danger-400));
+
+  border-radius: 0.4rem;
+}
+.error {
+  display: block;
+
+  font-size: 0.9rem;
+  color: hsl(var(--clr-neutral-800));
+  white-space: pre-wrap;
+  line-height: 0.7;
+
+  transition: opacity 200ms ease-in-out;
+}
+.error + .error {
+  margin-top: 0.8rem;
+}
+
+.hidden {
+  opacity: 0%;
+  user-select: none;
+}

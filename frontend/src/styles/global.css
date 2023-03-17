@@ -1,0 +1,67 @@
+:root {
+  --clr-primary-100: 214, 95%, 93%;
+  --clr-primary-200: 213, 97%, 87%;
+  --clr-primary-300: 212, 96%, 78%;
+  --clr-primary-400: 213, 94%, 68%;
+  --clr-primary-500: 217, 91%, 60%;
+  --clr-primary-600: 221, 83%, 53%;
+  --clr-primary-700: 224, 76%, 48%;
+  --clr-primary-800: 226, 71%, 40%;
+  --clr-primary-900: 224, 64%, 33%;
+
+  --clr-neutral-100: 218, 15%, 89%;
+  --clr-neutral-200: 217, 15%, 79%;
+  --clr-neutral-300: 214, 14%, 68%;
+  --clr-neutral-400: 215, 14%, 57%;
+  --clr-neutral-500: 215, 16%, 47%;
+  --clr-neutral-600: 215, 16%, 37%;
+  --clr-neutral-700: 214, 16%, 28%;
+  --clr-neutral-800: 218, 17%, 19%;
+  --clr-neutral-900: 218, 17%, 9%;
+
+  --clr-danger-100: 0, 85%, 92%;
+  --clr-danger-200: 0, 85%, 84%;
+  --clr-danger-300: 0, 84%, 76%;
+  --clr-danger-400: 0, 84%, 68%;
+  --clr-danger-500: 0, 84%, 60%;
+  --clr-danger-600: 0, 56%, 48%;
+  --clr-danger-700: 0, 55%, 36%;
+  --clr-danger-800: 0, 56%, 24%;
+  --clr-danger-900: 0, 55%, 12%;
+
+  --clr-success-100: 143, 57%, 89%;
+  --clr-success-200: 142, 59%, 78%;
+  --clr-success-300: 142, 58%, 67%;
+  --clr-success-400: 142, 59%, 56%;
+  --clr-success-500: 142, 71%, 45%;
+  --clr-success-600: 142, 71%, 36%;
+  --clr-success-700: 142, 71%, 27%;
+  --clr-success-800: 142, 70%, 18%;
+  --clr-success-900: 143, 70%, 9%;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+* {
+  font-family: system-ui, sans-serif;
+}
+
+*:focus {
+  outline: 0.125rem solid white;
+  outline-offset: 0.125rem;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+}
+
+a {
+  color: hsl(var(--clr-primary-400));
+}
