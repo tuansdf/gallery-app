@@ -35,13 +35,15 @@
 
 .right {
   position: absolute;
-  max-width: 26rem;
+  height: 100%;
+  max-width: 24rem;
   width: 100%;
-  padding: 2rem;
+  padding: 1rem;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .heading {

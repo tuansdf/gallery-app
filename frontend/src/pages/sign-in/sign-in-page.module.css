@@ -46,18 +46,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 20rem;
-  width: 100%;
-}
-
-.input {
+  max-width: 24rem;
   width: 100%;
   padding: 1rem;
-
-  font-size: 1rem;
-
-  border-radius: 0.5rem;
-  border: none;
 }
 
 .notice {

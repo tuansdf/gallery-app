@@ -1,4 +1,4 @@
-.input-container {
+.form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -6,10 +6,10 @@
 
   width: 100%;
 }
-.input-container > input + input {
+.form > input + input {
   margin-top: 0.875rem;
 }
-.input-container > button {
+.form > button {
   margin-top: 1.75rem;
 }
 

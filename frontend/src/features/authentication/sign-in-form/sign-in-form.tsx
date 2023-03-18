@@ -1,80 +1,70 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { useForm } from "react-hook-form";
 import styles from "./sign-in-form.module.css";
 import { ErrorMessage } from "/src/features/authentication/utils/constants";
-import {
-  validateEmail,
-  validatePassword,
-} from "/src/features/authentication/utils/validators";
+import { FormRegex } from "/src/features/authentication/utils/validators";
 import Button from "/src/features/ui/button/button";
 import TextField from "/src/features/ui/text-field/text-field";
 
+const initialValues = {
+  email: "",
+  password: "",
+};
+
+interface FormInput {
+  email: string;
+  password: string;
+}
+
 export default function SignInForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInput>({ values: initialValues });
 
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-
-  const updateEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-  const updatePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
+  const onSubmit = () => {
+    console.log("submitted");
   };
 
-  const validateAllFields = (): boolean => {
-    resetAllErrors();
-
-    const isEmailValid = validateEmail(email);
-    const isPasswordValid = validatePassword(password);
-
-    if (!isEmailValid) {
-      setEmailError(ErrorMessage.EMAIL);
-    }
-    if (!isPasswordValid) {
-      setPasswordError(ErrorMessage.PASSWORD);
-    }
-    if (!isEmailValid || !isPasswordValid) {
-      return false;
-    }
-
-    return true;
-  };
-  const resetAllErrors = (): void => {
-    setEmailError("");
-    setPasswordError("");
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const isAllFieldsValid = validateAllFields();
-    if (!isAllFieldsValid) {
-      return;
-    }
-  };
-
-  const isAnyFieldError = emailError || passwordError;
+  const isAnyFieldError = Object.keys(errors).length !== 0;
 
   return (
-    <form onSubmit={handleSubmit} className={styles["input-container"]}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <TextField
         type="text"
         placeholder="Email"
-        onChange={updateEmail}
-        value={email}
+        {...register("email", {
+          required: {
+            value: true,
+            message: "Please enter your email",
+          },
+          pattern: {
+            value: FormRegex.EMAIL,
+            message: ErrorMessage.EMAIL,
+          },
+        })}
       />
       <TextField
         type="password"
         placeholder="Password"
-        onChange={updatePassword}
-        value={password}
+        {...register("password", {
+          required: {
+            value: true,
+            message: "Please enter your password",
+          },
+          pattern: {
+            value: FormRegex.PASSWORD,
+            message: ErrorMessage.PASSWORD,
+          },
+        })}
       />
       {isAnyFieldError ? (
         <ul className={styles["error-container"]}>
-          {emailError ? <li className={styles.error}>{emailError}</li> : null}
-          {passwordError ? (
-            <li className={styles.error}>{passwordError}</li>
+          {errors.email?.message ? (
+            <li className={styles.error}>{errors.email.message}</li>
+          ) : null}
+          {errors.password?.message ? (
+            <li className={styles.error}>{errors.password.message}</li>
           ) : null}
         </ul>
       ) : null}

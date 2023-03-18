@@ -1,146 +1,123 @@
-import { ChangeEvent, FormEvent, useState } from "react";
-
+import { useForm } from "react-hook-form";
 import styles from "./sign-up-form.module.css";
 import { ErrorMessage } from "/src/features/authentication/utils/constants";
-import {
-  validateEmail,
-  validatePassword,
-} from "/src/features/authentication/utils/validators";
+import { FormRegex } from "/src/features/authentication/utils/validators";
 import Button from "/src/features/ui/button/button";
 import TextField from "/src/features/ui/text-field/text-field";
 
+const initialValues = {
+  email: "",
+  password: "",
+  confirmPassword: "",
+  firstName: "",
+  lastName: "",
+};
+
+interface FormInput {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  firstName: string;
+  lastName: string;
+}
+
 const SignUpForm = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm<FormInput>({ values: initialValues });
 
-  const [emailError, setEmailError] = useState<string>("");
-  const [passwordError, setPasswordError] = useState<string>("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState<string>("");
-  const [firstNameError, setFirstNameError] = useState<string>("");
-  const [lastNameError, setLastNameError] = useState<string>("");
-
-  const updateEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-  const updatePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-  const updateConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => {
-    setConfirmPassword(e.target.value);
-  };
-  const updateFirstName = (e: ChangeEvent<HTMLInputElement>) => {
-    setFirstName(e.target.value);
-  };
-  const updateLastName = (e: ChangeEvent<HTMLInputElement>) => {
-    setLastName(e.target.value);
-  };
-
-  const validateAllFields = (): boolean => {
-    resetAllErrors();
-
-    let isAnyError = false;
-
-    const isEmailValid = validateEmail(email);
-    const isPasswordValid = validatePassword(password);
-
-    if (!firstName) {
-      setFirstNameError("Please enter your first name");
-      isAnyError = true;
-    }
-    if (!lastName) {
-      setLastNameError("Please enter your last name");
-      isAnyError = true;
-    }
-    if (!isEmailValid) {
-      setEmailError(ErrorMessage.EMAIL);
-      isAnyError = true;
-    }
-    if (!isPasswordValid) {
-      setPasswordError(ErrorMessage.PASSWORD);
-      isAnyError = true;
-    }
-    if (password !== confirmPassword) {
-      setConfirmPasswordError("Confirm password does not match");
-      isAnyError = true;
-    }
-
-    return isAnyError;
-  };
-  const resetAllErrors = () => {
-    setEmailError("");
-    setPasswordError("");
-    setConfirmPasswordError("");
-    setFirstNameError("");
-    setLastNameError("");
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const isAllFieldsValid = validateAllFields();
-    if (!isAllFieldsValid) {
-      return;
-    }
-
+  const onSubmit = () => {
     console.log("submitted");
   };
 
-  const isAnyFieldError =
-    firstNameError ||
-    lastNameError ||
-    emailError ||
-    passwordError ||
-    confirmPasswordError;
+  const isAnyFieldError = Object.keys(errors).length !== 0;
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <TextField
         type="text"
         placeholder="First Name"
-        onChange={updateFirstName}
-        value={firstName}
+        {...register("firstName", {
+          required: {
+            value: true,
+            message: "Please enter your first name",
+          },
+        })}
       />
       <TextField
         type="text"
         placeholder="Last Name"
-        onChange={updateLastName}
-        value={lastName}
+        {...register("lastName", {
+          required: {
+            value: true,
+            message: "Please enter your last name",
+          },
+        })}
       />
       <TextField
         type="email"
         placeholder="Email"
-        onChange={updateEmail}
-        value={email}
+        {...register("email", {
+          required: {
+            value: true,
+            message: "Please enter your email",
+          },
+          pattern: {
+            value: FormRegex.EMAIL,
+            message: ErrorMessage.EMAIL,
+          },
+        })}
       />
       <TextField
         type="password"
         placeholder="Password"
-        onChange={updatePassword}
-        value={password}
+        {...register("password", {
+          required: {
+            value: true,
+            message: "Please enter a password",
+          },
+          pattern: {
+            value: FormRegex.PASSWORD,
+            message: ErrorMessage.PASSWORD,
+          },
+          validate: (value) =>
+            value !== getValues("confirmPassword") &&
+            "Confirm password does not match",
+        })}
       />
       <TextField
         type="password"
         placeholder="Confirm your password"
-        onChange={updateConfirmPassword}
-        value={confirmPassword}
+        {...register("confirmPassword", {
+          required: {
+            value: true,
+            message: "Please confirm your password",
+          },
+          validate: (value) =>
+            value !== getValues("password") &&
+            "Confirm password does not match",
+        })}
       />
       {isAnyFieldError ? (
         <ul className={styles["error-container"]}>
-          {firstNameError ? (
-            <li className={styles.error}>{firstNameError}</li>
+          {errors.firstName?.message ? (
+            <li className={styles.error}>{errors.firstName.message}</li>
           ) : null}
-          {lastNameError ? (
-            <li className={styles.error}>{lastNameError}</li>
+          {errors.lastName?.message ? (
+            <li className={styles.error}>{errors.lastName.message}</li>
           ) : null}
-          {emailError ? <li className={styles.error}>{emailError}</li> : null}
-          {passwordError ? (
-            <li className={styles.error}>{passwordError}</li>
+          {errors.email?.message ? (
+            <li className={styles.error}>{errors.email.message}</li>
           ) : null}
-          {confirmPasswordError ? (
-            <li className={styles.error}>{confirmPasswordError}</li>
+          {errors.password?.message ? (
+            <li className={styles.error}>{errors.password.message}</li>
+          ) : null}
+          {errors.confirmPassword?.message &&
+          errors.password?.message !== errors.confirmPassword.message ? (
+            <li className={styles.error}>{errors.confirmPassword.message}</li>
           ) : null}
         </ul>
       ) : null}
