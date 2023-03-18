@@ -1,21 +1,21 @@
-.input-container {
+.form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-
   width: 100%;
 }
-.input-container > input + input {
-  margin-top: 0.875rem;
+
+.form > input + input {
+  margin-top: 0.75rem;
 }
-.input-container > button {
+
+.form > button {
   margin-top: 1.75rem;
 }
 
 .error-container {
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 0.85rem;
   padding: 1rem;
 
   background-color: hsl(var(--clr-danger-400));
@@ -34,4 +34,10 @@
 }
 .error + .error {
   margin-top: 0.5rem;
+}
+
+@media (min-width: 1200px) {
+  .form {
+    align-items: start;
+  }
 }

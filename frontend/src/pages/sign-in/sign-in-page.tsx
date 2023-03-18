@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styles from "./sign-in-page.module.css";
 import SignInForm from "/src/features/authentication/sign-in-form/sign-in-form";
 
@@ -19,8 +20,8 @@ export default function SignInPage() {
       <div className={styles["form-container"]}>
         <h1 className={styles.heading}>Welcome back</h1>
         <SignInForm />
-        <span className={styles.small}>
-          Don't have an account? <a href="sign-up">Sign Up</a>
+        <span className={styles.notice}>
+          Don't have an account? <Link to="/sign-up">Sign Up</Link>
         </span>
       </div>
     </main>

@@ -60,7 +60,9 @@
   border: none;
 }
 
-.small {
+.notice {
+  margin-top: 1.75rem;
+
   font-size: 0.9rem;
   color: white;
 }
