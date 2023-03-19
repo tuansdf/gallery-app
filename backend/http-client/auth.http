@@ -1,0 +1,19 @@
+POST {{base-url}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+###
+
+POST {{base-url}}/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "{{first-name}}",
+  "lastName": "{{last-name}}",
+  "email": "{{email}}",
+  "password": "{{password}}"
+}

@@ -1,0 +1,2 @@
+GET {{base-url}}/albums/
+Authorization: Bearer {{token}}
