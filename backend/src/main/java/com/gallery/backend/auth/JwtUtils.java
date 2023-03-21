@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 @Service
@@ -48,8 +49,8 @@ public class JwtUtils {
     public String generateToken(
             UserDetails userDetails
     ) {
-        final int ONE_MONTH_IN_MS = 1000 * 60 * 24 * 30;
-        final int TOKEN_EXPIRE_DURATION_IN_MS = ONE_MONTH_IN_MS;
+        final long ONE_MONTH_IN_MS = TimeUnit.DAYS.toMillis(30);
+        final long TOKEN_EXPIRE_DURATION_IN_MS = ONE_MONTH_IN_MS;
         return Jwts
                 .builder()
                 .setSubject(userDetails.getUsername())

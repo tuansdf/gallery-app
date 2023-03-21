@@ -17,3 +17,8 @@ Content-Type: application/json
   "email": "{{email}}",
   "password": "{{password}}"
 }
+
+###
+
+GET {{base-url}}/auth/confirm?token={{confirmationToken}}
+Content-Type: application/json
