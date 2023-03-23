@@ -6,6 +6,8 @@ import com.gallery.backend.auth.dto.RegisterRequest;
 import com.gallery.backend.confirmationToken.ConfirmationToken;
 import com.gallery.backend.confirmationToken.ConfirmationTokenService;
 import com.gallery.backend.email.EmailService;
+import com.gallery.backend.shared.exception.NotFoundException;
+import com.gallery.backend.shared.exception.UnauthorizedException;
 import com.gallery.backend.user.User;
 import com.gallery.backend.user.UserRepository;
 import com.gallery.backend.user.UserService;
@@ -15,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -71,22 +74,24 @@ public class AuthService {
         return new AuthResponse(jwtToken);
     }
 
-    public AuthResponse verifyConfirmationToken(String token) {
-        ConfirmationToken confirmationToken = confirmationTokenService.findByToken(token);
+    @Transactional
+    public void verifyConfirmationToken(String token) {
+        ConfirmationToken confirmationToken = confirmationTokenService.findByToken(token)
+                .orElseThrow(() -> new UnauthorizedException());
 
         boolean isTokenConfirmed = confirmationToken.getConfirmedAt() != null;
         if (isTokenConfirmed) {
-            throw new IllegalStateException();
+            throw new UnauthorizedException();
         }
 
         boolean isTokenExpired = confirmationToken.getExpiresAt().isBefore(LocalDateTime.now());
         if (isTokenExpired) {
-            throw new IllegalStateException();
+            throw new UnauthorizedException();
         }
 
         confirmationTokenService.confirmToken(confirmationToken);
         userService.enableUser(confirmationToken.getUser().getEmail());
 
-        return new AuthResponse("confirmed");
+        new AuthResponse("confirmed");
     }
 }

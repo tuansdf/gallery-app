@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.Optional;
+import java.util.OptionalInt;
 
 @Service
 @RequiredArgsConstructor
@@ -17,9 +19,8 @@ public class ConfirmationTokenService {
         repository.save(confirmationToken);
     }
 
-    public ConfirmationToken findByToken(String token) {
-        return repository.findByToken(token)
-                .orElseThrow();
+    public Optional<ConfirmationToken> findByToken(String token) {
+        return repository.findByToken(token);
     }
 
     public ConfirmationToken generateConfirmationToken(User user) {
