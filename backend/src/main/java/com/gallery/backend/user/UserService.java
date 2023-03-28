@@ -1,5 +1,6 @@
 package com.gallery.backend.user;
 
+import com.gallery.backend.shared.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ public class UserService {
 
     public void enableUser(String email) {
         User user = repository.findByEmail(email)
-                .orElseThrow();
+                .orElseThrow(() -> new NotFoundException("User not found"));
         user.setEnabled(true);
         repository.save(user);
     }

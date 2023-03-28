@@ -3,7 +3,6 @@ package com.gallery.backend.auth;
 import com.gallery.backend.auth.dto.AuthResponse;
 import com.gallery.backend.auth.dto.LoginRequest;
 import com.gallery.backend.auth.dto.RegisterRequest;
-import com.gallery.backend.shared.ResponseObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,43 +15,25 @@ public class AuthController {
     private final AuthService service;
 
     @PostMapping("/register")
-    public ResponseEntity<ResponseObject<AuthResponse>> register(
+    public ResponseEntity<Void> register(
             @RequestBody RegisterRequest request
     ) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(new ResponseObject<>(
-                                HttpStatus.CREATED.value(),
-                                "Account registered. Please check your email to activate your account",
-                                service.register(request)
-                        )
-                );
+        service.register(request);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseObject<AuthResponse>> login(
+    public ResponseEntity<AuthResponse> login(
             @RequestBody LoginRequest request
     ) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new ResponseObject<>(
-                                HttpStatus.OK,
-                                service.login(request)
-                        )
-                );
+        return new ResponseEntity<>(service.login(request), HttpStatus.OK);
     }
 
     @GetMapping("/confirm")
-    public ResponseEntity<ResponseObject<Object>> confirm(
+    public ResponseEntity<Void> confirm(
             @RequestParam String token
     ) {
         service.verifyConfirmationToken(token);
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body(new ResponseObject<>(
-                                HttpStatus.NO_CONTENT,
-                                null
-                        )
-                );
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

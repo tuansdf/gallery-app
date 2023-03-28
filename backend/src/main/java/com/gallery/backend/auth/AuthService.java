@@ -6,13 +6,12 @@ import com.gallery.backend.auth.dto.RegisterRequest;
 import com.gallery.backend.confirmationToken.ConfirmationToken;
 import com.gallery.backend.confirmationToken.ConfirmationTokenService;
 import com.gallery.backend.email.EmailService;
-import com.gallery.backend.shared.exception.NotFoundException;
-import com.gallery.backend.shared.exception.UnauthorizedException;
 import com.gallery.backend.user.User;
 import com.gallery.backend.user.UserRepository;
 import com.gallery.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,29 +34,27 @@ public class AuthService {
     @Value(value = "${email.base-url.confirmation}")
     private String CONFIRMATION_BASE_URL;
 
-    public AuthResponse register(RegisterRequest request) {
+    public void register(RegisterRequest request) {
         User user = new User(
                 request.getFirstName(),
                 request.getLastName(),
                 request.getEmail(),
                 passwordEncoder.encode(request.getPassword())
         );
-        repository.save(user);
+        User savedUser = repository.save(user);
 
-        ConfirmationToken confirmationToken = confirmationTokenService.generateConfirmationToken(user);
+        ConfirmationToken confirmationToken = confirmationTokenService.generateConfirmationToken(savedUser);
 
-        emailService.send(user.getEmail(), "Confirm your email",
-                String.format("""
-                                Hi %s,
+        String emailContent = String.format("""
+                        Hi %s,
 
-                                Please follow this link to activate your account:
-                                %s%s
+                        Please follow this link to activate your account:
+                        %s%s
 
-                                Best regards.""",
-                        user.getFirstName(), CONFIRMATION_BASE_URL, confirmationToken.getToken()
-                ));
+                        Best regards.""",
+                savedUser.getFirstName(), CONFIRMATION_BASE_URL, confirmationToken.getToken());
 
-        return new AuthResponse(confirmationToken.getToken());
+        emailService.send(savedUser.getEmail(), "Confirm your email", emailContent);
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -71,27 +68,30 @@ public class AuthService {
         User user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
         String jwtToken = jwtUtils.generateToken(user);
-        return new AuthResponse(jwtToken);
+        return new AuthResponse(
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                jwtToken
+        );
     }
 
     @Transactional
     public void verifyConfirmationToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService.findByToken(token)
-                .orElseThrow(() -> new UnauthorizedException());
+                .orElseThrow(() -> new AccessDeniedException("Access Denied"));
 
         boolean isTokenConfirmed = confirmationToken.getConfirmedAt() != null;
         if (isTokenConfirmed) {
-            throw new UnauthorizedException();
+            throw new AccessDeniedException("Access Denied");
         }
 
         boolean isTokenExpired = confirmationToken.getExpiresAt().isBefore(LocalDateTime.now());
         if (isTokenExpired) {
-            throw new UnauthorizedException();
+            throw new AccessDeniedException("Access Denied");
         }
 
         confirmationTokenService.confirmToken(confirmationToken);
         userService.enableUser(confirmationToken.getUser().getEmail());
-
-        new AuthResponse("confirmed");
     }
 }
