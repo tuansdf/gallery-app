@@ -18,22 +18,33 @@
   margin-top: 0.85rem;
   padding: 1rem;
 
-  background-color: hsl(var(--clr-danger-400));
-
   border-radius: 0.4rem;
+
+  background-color: hsl(var(--clr-danger-400));
 }
 .error {
   font-size: 0.9rem;
   color: hsl(var(--clr-neutral-800));
   white-space: pre-wrap;
-
-  transition: opacity 200ms ease-in-out;
 }
 .error::before {
   content: "- ";
 }
 .error + .error {
   margin-top: 0.5rem;
+}
+
+.success {
+  width: 100%;
+  margin-top: 0.85rem;
+  padding: 1rem;
+
+  border-radius: 0.4rem;
+
+  font-size: 0.9rem;
+  color: hsl(var(--clr-neutral-800));
+
+  background-color: hsl(var(--clr-success-400));
 }
 
 @media (min-width: 1200px) {

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./sign-in-page.module.css";
-import SignInForm from "/src/features/authentication/sign-in-form/sign-in-form";
+import SignInForm from "/src/features/authentication/components/sign-in-form/sign-in-form";
 
 export default function SignInPage() {
   return (

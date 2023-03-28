@@ -1,5 +1,8 @@
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+import { useState } from "react";
 import styles from "./sign-up-form.module.css";
+import { useRegisterMutation } from "/src/features/authentication/stores/auth-api-slice";
 import { ErrorMessage } from "/src/features/authentication/utils/constants";
 import { FormRegex } from "/src/features/authentication/utils/validators";
 import Button from "/src/features/ui/button/button";
@@ -22,18 +25,42 @@ interface FormInput {
 }
 
 const SignUpForm = () => {
+  const [requestError, setRequestError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   const {
     register,
     handleSubmit,
     getValues,
+    reset,
     formState: { errors },
   } = useForm<FormInput>({ values: initialValues });
 
-  const onSubmit = () => {
-    console.log("submitted");
+  const [registerApi, { isLoading }] = useRegisterMutation();
+
+  const onSubmit: SubmitHandler<FormInput> = async (data) => {
+    setRequestError("");
+
+    const { email, password, firstName, lastName } = data;
+    try {
+      await registerApi({
+        email,
+        password,
+        firstName,
+        lastName,
+      }).unwrap();
+
+      reset();
+      setSuccessMessage(
+        "Account has been registered. Please check your email to activate your account."
+      );
+    } catch (e) {
+      setRequestError("Something went wrong.");
+      console.error(e);
+    }
   };
 
-  const isAnyFieldError = Object.keys(errors).length !== 0;
+  const isAnyFieldError = Object.keys(errors).length !== 0 || requestError;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -83,24 +110,9 @@ const SignUpForm = () => {
             value: FormRegex.PASSWORD,
             message: ErrorMessage.PASSWORD,
           },
-          validate: (value) =>
-            value !== getValues("confirmPassword") &&
-            "Confirm password does not match",
         })}
       />
-      <TextField
-        type="password"
-        placeholder="Confirm your password"
-        {...register("confirmPassword", {
-          required: {
-            value: true,
-            message: "Please confirm your password",
-          },
-          validate: (value) =>
-            value !== getValues("password") &&
-            "Confirm password does not match",
-        })}
-      />
+
       {isAnyFieldError ? (
         <ul className={styles["error-container"]}>
           {errors.firstName?.message ? (
@@ -115,13 +127,17 @@ const SignUpForm = () => {
           {errors.password?.message ? (
             <li className={styles.error}>{errors.password.message}</li>
           ) : null}
-          {errors.confirmPassword?.message &&
-          errors.password?.message !== errors.confirmPassword.message ? (
-            <li className={styles.error}>{errors.confirmPassword.message}</li>
+          {requestError ? (
+            <li className={styles.error}>{requestError}</li>
           ) : null}
         </ul>
       ) : null}
-      <Button>Sign Up</Button>
+
+      {successMessage ? (
+        <div className={styles.success}>{successMessage}</div>
+      ) : null}
+
+      <Button isLoading={isLoading}>Sign Up</Button>
     </form>
   );
 };

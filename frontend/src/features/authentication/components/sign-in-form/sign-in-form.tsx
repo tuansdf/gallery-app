@@ -1,5 +1,11 @@
-import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import styles from "./sign-in-form.module.css";
+import { useLoginMutation } from "/src/features/authentication/stores/auth-api-slice";
+import { setCredentials } from "/src/features/authentication/stores/auth-slice";
 import { ErrorMessage } from "/src/features/authentication/utils/constants";
 import { FormRegex } from "/src/features/authentication/utils/validators";
 import Button from "/src/features/ui/button/button";
@@ -16,17 +22,41 @@ interface FormInput {
 }
 
 export default function SignInForm() {
+  const [requestError, setRequestError] = useState("");
+
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormInput>({ values: initialValues });
 
-  const onSubmit = () => {
-    console.log("submitted");
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
+
+  const onSubmit: SubmitHandler<FormInput> = async (data) => {
+    setRequestError("");
+
+    const { email, password } = data;
+    try {
+      const data = await login({
+        email,
+        password,
+      }).unwrap();
+
+      dispatch(setCredentials(data));
+
+      reset();
+      navigate("/");
+    } catch (e) {
+      setRequestError("Something went wrong.");
+      console.error(e);
+    }
   };
 
-  const isAnyFieldError = Object.keys(errors).length !== 0;
+  const isAnyFieldError = Object.keys(errors).length !== 0 || requestError;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -66,9 +96,12 @@ export default function SignInForm() {
           {errors.password?.message ? (
             <li className={styles.error}>{errors.password.message}</li>
           ) : null}
+          {requestError ? (
+            <li className={styles.error}>{requestError}</li>
+          ) : null}
         </ul>
       ) : null}
-      <Button>Sign In</Button>
+      <Button isLoading={isLoading}>Sign In</Button>
     </form>
   );
 }

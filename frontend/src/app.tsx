@@ -1,5 +1,7 @@
+import { Provider } from "react-redux";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
+import { store } from "/src/app/store";
 import NotFoundPage from "/src/pages/not-found/not-found-page";
 import SignInPage from "/src/pages/sign-in/sign-in-page";
 import SignUpPage from "/src/pages/sign-up/sign-up-page";
@@ -20,7 +22,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router}></RouterProvider>;
+  return (
+    <Provider store={store}>
+      <RouterProvider router={router}></RouterProvider>;
+    </Provider>
+  );
 }
 
 export default App;
