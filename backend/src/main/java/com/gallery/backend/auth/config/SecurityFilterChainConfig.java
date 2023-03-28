@@ -23,6 +23,8 @@ public class SecurityFilterChainConfig {
         http
                 .csrf()
                 .disable()
+                .cors()
+                .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v*/auth/**")
                 .permitAll()
