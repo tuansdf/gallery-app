@@ -3,6 +3,7 @@ package com.gallery.backend.auth;
 import com.gallery.backend.auth.dto.AuthResponse;
 import com.gallery.backend.auth.dto.LoginRequest;
 import com.gallery.backend.auth.dto.RegisterRequest;
+import com.gallery.backend.auth.dto.ResetPasswordRequest;
 import com.gallery.backend.confirmationToken.ConfirmationToken;
 import com.gallery.backend.confirmationToken.ConfirmationTokenService;
 import com.gallery.backend.email.EmailService;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +33,10 @@ public class AuthService {
     private final UserService userService;
     private final EmailService emailService;
 
-    @Value(value = "${email.base-url.confirmation}")
-    private String CONFIRMATION_BASE_URL;
+    @Value(value = "${email.url-prefix.email-verification}")
+    private String EMAIL_VERIFICATION_URL_PREFIX;
+    @Value(value = "${email.url-prefix.forgot-password}")
+    private String FORGOT_PASSWORD_URL_PREFIX;
 
     public void register(RegisterRequest request) {
         User user = new User(
@@ -43,7 +47,11 @@ public class AuthService {
         );
         User savedUser = repository.save(user);
 
-        ConfirmationToken confirmationToken = confirmationTokenService.generateConfirmationToken(savedUser);
+        sendVerificationEmail(savedUser);
+    }
+
+    public void sendVerificationEmail(User user) {
+        ConfirmationToken confirmationToken = confirmationTokenService.generateConfirmationToken(user);
 
         String emailContent = String.format("""
                         Hi %s,
@@ -52,9 +60,32 @@ public class AuthService {
                         %s%s
 
                         Best regards.""",
-                savedUser.getFirstName(), CONFIRMATION_BASE_URL, confirmationToken.getToken());
+                user.getFirstName(), EMAIL_VERIFICATION_URL_PREFIX, confirmationToken.getToken());
 
-        emailService.send(savedUser.getEmail(), "Confirm your email", emailContent);
+        emailService.send(user.getEmail(), "Confirm your email", emailContent);
+    }
+
+    public void findUserAndSendForgotPasswordEmail(String email) {
+        Optional<User> user = repository.findByEmail(email);
+
+        if (user.isPresent()) {
+            sendForgotPasswordEmail(user.get());
+        }
+    }
+
+    public void sendForgotPasswordEmail(User user) {
+        ConfirmationToken confirmationToken = confirmationTokenService.generateConfirmationToken(user);
+
+        String emailContent = String.format("""
+                        Hi %s,
+
+                        Please follow this link to reset your password:
+                        %s%s
+
+                        Best regards.""",
+                user.getFirstName(), FORGOT_PASSWORD_URL_PREFIX, confirmationToken.getToken());
+
+        emailService.send(user.getEmail(), "Reset your password", emailContent);
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -93,5 +124,29 @@ public class AuthService {
 
         confirmationTokenService.confirmToken(confirmationToken);
         userService.enableUser(confirmationToken.getUser().getEmail());
+    }
+
+    public void resetPassword(
+            ResetPasswordRequest request
+    ) {
+        ConfirmationToken confirmationToken = confirmationTokenService.findByToken(request.getToken())
+                .orElseThrow(() -> new AccessDeniedException("Access Denied"));
+
+        boolean isTokenConfirmed = confirmationToken.getConfirmedAt() != null;
+        if (isTokenConfirmed) {
+            throw new AccessDeniedException("Access Denied");
+        }
+
+        boolean isTokenExpired = confirmationToken.getExpiresAt().isBefore(LocalDateTime.now());
+        if (isTokenExpired) {
+            throw new AccessDeniedException("Access Denied");
+        }
+
+        User user = repository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new AccessDeniedException("Access Denied"));
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        repository.save(user);
+
+        confirmationTokenService.confirmToken(confirmationToken);
     }
 }

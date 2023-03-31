@@ -20,5 +20,25 @@ Content-Type: application/json
 
 ###
 
-GET {{base-url}}/auth/confirm?token={{confirmationToken}}
+GET {{base-url}}/auth/confirm?token={{confirmation-token}}
 Content-Type: application/json
+
+###
+
+POST {{base-url}}/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "{{email}}"
+}
+
+###
+
+POST {{base-url}}/auth/reset-password
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}",
+  "token": "{{reset-token}}"
+}

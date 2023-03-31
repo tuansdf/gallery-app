@@ -1,8 +1,6 @@
 package com.gallery.backend.auth;
 
-import com.gallery.backend.auth.dto.AuthResponse;
-import com.gallery.backend.auth.dto.LoginRequest;
-import com.gallery.backend.auth.dto.RegisterRequest;
+import com.gallery.backend.auth.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +25,22 @@ public class AuthController {
             @RequestBody LoginRequest request
     ) {
         return new ResponseEntity<>(service.login(request), HttpStatus.OK);
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Void> forgotPassword(
+            @RequestBody ForgotPasswordRequest request
+    ) {
+        service.findUserAndSendForgotPasswordEmail(request.getEmail());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(
+            @RequestBody ResetPasswordRequest request
+    ) {
+        service.resetPassword(request);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/confirm")
