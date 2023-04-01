@@ -49,7 +49,7 @@ export default function SignInForm() {
       dispatch(setCredentials(data));
 
       reset();
-      navigate("/");
+      navigate("/", { replace: true });
     } catch (e) {
       setRequestError("Email or password is wrong");
       console.error(e);
