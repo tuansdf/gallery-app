@@ -142,7 +142,7 @@ public class AuthService {
             throw new AccessDeniedException("Access Denied");
         }
 
-        User user = repository.findByEmail(request.getEmail())
+        User user = repository.findByEmail(confirmationToken.getUser().getEmail())
                 .orElseThrow(() -> new AccessDeniedException("Access Denied"));
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         repository.save(user);
