@@ -51,7 +51,7 @@ export default function SignInForm() {
       reset();
       navigate("/");
     } catch (e) {
-      setRequestError("Something went wrong.");
+      setRequestError("Email or password is wrong");
       console.error(e);
     }
   };

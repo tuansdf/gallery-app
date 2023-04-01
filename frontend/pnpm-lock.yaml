@@ -12,6 +12,7 @@ specifiers:
   react-hook-form: ^7.43.6
   react-redux: ^8.0.5
   react-router-dom: ^6.9.0
+  redux-persist: 6.0.0-pre2.1
   typescript: ^4.9.3
   vite: ^4.1.0
 
@@ -24,6 +25,7 @@ dependencies:
   react-hook-form: 7.43.6_react@18.2.0
   react-redux: 8.0.5_3xleytyzprlgycb2ded54tx72i
   react-router-dom: 6.9.0_biqbaboplfbrettd7655fr4n2y
+  redux-persist: 6.0.0-pre2.1
 
 devDependencies:
   '@types/react': 18.0.28
@@ -953,6 +955,12 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
+    dev: false
+
+  /redux-persist/6.0.0-pre2.1:
+    resolution: {integrity: sha512-Gj4YuVgTsl2aSTQvonKsqqaWqODB0I32Ao8R0TLl9njfyXJ53Ab0+h3ciJA2ylYWYkF+1smRoYRRnCd63TE8Tw==}
+    peerDependencies:
+      redux: '>4.0.0'
     dev: false
 
   /redux-thunk/2.4.2_redux@4.2.1:

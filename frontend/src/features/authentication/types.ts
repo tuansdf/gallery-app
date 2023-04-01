@@ -19,3 +19,12 @@ export type UserLogin = {
   lastName: string;
   email: string;
 };
+
+export type ForgotPasswordRequest = {
+  email: string;
+};
+
+export type ResetPasswordRequest = {
+  password: string;
+  token: string;
+};
