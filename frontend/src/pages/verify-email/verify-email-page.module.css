@@ -1,0 +1,39 @@
+.main {
+  text-align: center;
+  line-height: 1.5;
+}
+
+.main > * + * {
+  margin-top: 1rem;
+}
+
+.error,
+.loading,
+.success {
+  padding: 0.8rem;
+  border-radius: 0.3rem;
+}
+
+.success {
+  background-color: hsl(var(--clr-success-400));
+  color: hsl(var(--clr-neutral-800));
+}
+
+.success a {
+  color: hsl(var(--clr-primary-600));
+}
+
+.error {
+  color: white;
+  background-color: hsl(var(--clr-danger-400));
+}
+
+.loading {
+  background-color: hsl(var(--clr-neutral-100));
+  color: hsl(var(--clr-neutral-900));
+}
+
+.info {
+  color: white;
+  font-size: 0.9rem;
+}

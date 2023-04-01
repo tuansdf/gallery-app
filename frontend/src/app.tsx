@@ -12,6 +12,7 @@ import ResetPasswordPage from "/src/pages/sign-in/reset-password-page";
 import SignInLayout from "/src/pages/sign-in/sign-in-layout";
 import SignInPage from "/src/pages/sign-in/sign-in-page";
 import SignUpPage from "/src/pages/sign-up/sign-up-page";
+import VerifyEmailPage from "/src/pages/verify-email/verify-email-page";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
           {
             path: "/reset-password",
             element: <ResetPasswordPage />,
+          },
+          {
+            path: "/verify-email",
+            element: <VerifyEmailPage />,
           },
         ],
       },

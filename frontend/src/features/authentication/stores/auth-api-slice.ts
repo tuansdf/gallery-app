@@ -5,6 +5,7 @@ import {
   LoginResponse,
   RegisterRequest,
   ResetPasswordRequest,
+  VerifyEmailRequest,
 } from "/src/features/authentication/types";
 
 export const authApiSlice = apiSlice.injectEndpoints({
@@ -16,25 +17,31 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    register: builder.mutation<any, RegisterRequest>({
+    register: builder.mutation<void, RegisterRequest>({
       query: (data) => ({
         url: "/auth/register",
         method: "POST",
         body: data,
       }),
     }),
-    forgotPassword: builder.mutation<any, ForgotPasswordRequest>({
+    forgotPassword: builder.mutation<void, ForgotPasswordRequest>({
       query: (data) => ({
         url: "/auth/forgot-password",
         method: "POST",
         body: data,
       }),
     }),
-    resetPassword: builder.mutation<any, ResetPasswordRequest>({
+    resetPassword: builder.mutation<void, ResetPasswordRequest>({
       query: (data) => ({
         url: "/auth/reset-password",
         method: "POST",
         body: data,
+      }),
+    }),
+    verifyEmail: builder.query<void, VerifyEmailRequest>({
+      query: (data) => ({
+        url: "/auth/confirm?token=" + data.token,
+        method: "GET",
       }),
     }),
   }),
@@ -45,4 +52,5 @@ export const {
   useRegisterMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
+  useVerifyEmailQuery,
 } = authApiSlice;
