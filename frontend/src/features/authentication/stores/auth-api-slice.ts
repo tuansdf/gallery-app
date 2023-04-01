@@ -1,5 +1,6 @@
 import { apiSlice } from "/src/app/api-slice";
 import {
+  ChangePasswordRequest,
   ForgotPasswordRequest,
   LoginRequest,
   LoginResponse,
@@ -44,6 +45,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    changePassword: builder.mutation<void, ChangePasswordRequest>({
+      query: (data) => ({
+        url: "/auth/password",
+        method: "PATCH",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -53,4 +61,5 @@ export const {
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useVerifyEmailQuery,
+  useChangePasswordMutation,
 } = authApiSlice;

@@ -1,0 +1,26 @@
+.main {
+  width: 100%;
+  padding: 1rem;
+
+  border-radius: 0.4rem;
+
+  font-size: 0.9rem;
+}
+
+.is-success {
+  color: hsl(var(--clr-neutral-800));
+
+  background-color: hsl(var(--clr-success-400));
+}
+
+.is-danger {
+  color: hsl(var(--clr-neutral-800));
+
+  background-color: hsl(var(--clr-danger-400));
+}
+
+.is-info {
+  color: hsl(var(--clr-neutral-800));
+
+  background-color: hsl(var(--clr-primary-300));
+}

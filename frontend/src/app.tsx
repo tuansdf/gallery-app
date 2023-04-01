@@ -1,12 +1,16 @@
 import { Provider } from "react-redux";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 
 import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "/src/app/store";
 import RequireAuth from "/src/features/authentication/components/require-auth";
 import RequireNotAuth from "/src/features/authentication/components/require-not-auth";
-import Homepage from "/src/pages/homepage/homepage";
 import NotFoundPage from "/src/pages/not-found/not-found-page";
+import SettingsPage from "/src/pages/settings/settings-page";
 import ForgotPasswordPage from "/src/pages/sign-in/forgot-password-page";
 import ResetPasswordPage from "/src/pages/sign-in/reset-password-page";
 import SignInLayout from "/src/pages/sign-in/sign-in-layout";
@@ -50,7 +54,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Homepage />,
+        element: <Navigate to="/settings" />,
+      },
+      {
+        path: "/settings",
+        element: <SettingsPage />,
       },
     ],
   },
