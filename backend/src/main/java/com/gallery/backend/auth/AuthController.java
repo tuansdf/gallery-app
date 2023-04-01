@@ -26,6 +26,14 @@ public class AuthController {
     ) {
         return new ResponseEntity<>(service.login(request), HttpStatus.OK);
     }
+    
+    @PatchMapping("/password")
+    public ResponseEntity<Void> changePassword(
+            @RequestBody ChangePasswordRequest request
+    ) {
+        service.changePassword(request);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
     @PostMapping("/forgot-password")
     public ResponseEntity<Void> forgotPassword(

@@ -20,6 +20,17 @@ Content-Type: application/json
 
 ###
 
+PATCH {{base-url}}/auth/password
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "oldPassword": "{{password}}",
+  "newPassword": "{{new-password}}"
+}
+
+###
+
 GET {{base-url}}/auth/confirm?token={{confirmation-token}}
 Content-Type: application/json
 

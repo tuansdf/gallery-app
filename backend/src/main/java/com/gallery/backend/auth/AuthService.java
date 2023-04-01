@@ -1,9 +1,6 @@
 package com.gallery.backend.auth;
 
-import com.gallery.backend.auth.dto.AuthResponse;
-import com.gallery.backend.auth.dto.LoginRequest;
-import com.gallery.backend.auth.dto.RegisterRequest;
-import com.gallery.backend.auth.dto.ResetPasswordRequest;
+import com.gallery.backend.auth.dto.*;
 import com.gallery.backend.confirmationToken.ConfirmationToken;
 import com.gallery.backend.confirmationToken.ConfirmationTokenService;
 import com.gallery.backend.email.EmailService;
@@ -25,7 +22,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    private final UserRepository repository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
@@ -45,12 +42,26 @@ public class AuthService {
                 request.getEmail(),
                 passwordEncoder.encode(request.getPassword())
         );
-        User savedUser = repository.save(user);
+        User savedUser = userRepository.save(user);
 
         sendVerificationEmail(savedUser);
     }
+    
+    public void changePassword(ChangePasswordRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new AccessDeniedException(""));
+        System.out.println("THiS");
+        
+        boolean isPasswordCorrect = passwordEncoder.matches(request.getOldPassword(), user.getPassword());
+        if (!isPasswordCorrect) {
+            throw new AccessDeniedException("");
+        }
+        
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+    }
 
-    public void sendVerificationEmail(User user) {
+    private void sendVerificationEmail(User user) {
         ConfirmationToken confirmationToken = confirmationTokenService.generateConfirmationToken(user);
 
         String emailContent = String.format("""
@@ -66,14 +77,14 @@ public class AuthService {
     }
 
     public void findUserAndSendForgotPasswordEmail(String email) {
-        Optional<User> user = repository.findByEmail(email);
+        Optional<User> user = userRepository.findByEmail(email);
 
         if (user.isPresent()) {
             sendForgotPasswordEmail(user.get());
         }
     }
 
-    public void sendForgotPasswordEmail(User user) {
+    private void sendForgotPasswordEmail(User user) {
         ConfirmationToken confirmationToken = confirmationTokenService.generateConfirmationToken(user);
 
         String emailContent = String.format("""
@@ -96,7 +107,7 @@ public class AuthService {
                 )
         );
 
-        User user = repository.findByEmail(request.getEmail())
+        User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow();
         String jwtToken = jwtUtils.generateToken(user);
         return new AuthResponse(
@@ -142,10 +153,10 @@ public class AuthService {
             throw new AccessDeniedException("Access Denied");
         }
 
-        User user = repository.findByEmail(confirmationToken.getUser().getEmail())
+        User user = userRepository.findByEmail(confirmationToken.getUser().getEmail())
                 .orElseThrow(() -> new AccessDeniedException("Access Denied"));
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        repository.save(user);
+        userRepository.save(user);
 
         confirmationTokenService.confirmToken(confirmationToken);
     }
