@@ -1,4 +1,6 @@
 :root {
+  --sidebar-size-closed: 3.5rem;
+
   --clr-primary-100: 214, 95%, 93%;
   --clr-primary-200: 213, 97%, 87%;
   --clr-primary-300: 212, 96%, 78%;
