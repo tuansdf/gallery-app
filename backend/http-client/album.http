@@ -1,2 +1,12 @@
 GET {{base-url}}/albums/
 Authorization: Bearer {{token}}
+
+###
+
+POST {{base-url}}/albums/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "album 1"
+}
