@@ -1,0 +1,30 @@
+.main {
+  width: 100%;
+  height: 4rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: none;
+
+  background-color: transparent;
+
+  color: hsl(var(--clr-neutral-900));
+  font-size: 1rem;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition-property: background-color;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in;
+}
+
+.main.active {
+  background-color: hsl(var(--clr-primary-200));
+}
+
+.main:hover {
+  background-color: hsl(var(--clr-primary-100));
+}

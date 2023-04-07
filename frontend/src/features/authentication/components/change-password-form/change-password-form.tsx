@@ -47,8 +47,6 @@ const ChangePasswordForm = ({ email }: Props) => {
     }
   };
 
-  const isFormError = !!errors.root?.message;
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <label htmlFor="">Email</label>
