@@ -1,5 +1,5 @@
 :root {
-  --sidebar-size-closed: 3.5rem;
+  --sidebar-size-closed: 3rem;
 
   --clr-primary-100: 214, 95%, 93%;
   --clr-primary-200: 213, 97%, 87%;
@@ -40,6 +40,12 @@
   --clr-success-700: 142, 71%, 27%;
   --clr-success-800: 142, 70%, 18%;
   --clr-success-900: 143, 70%, 9%;
+}
+
+@media (min-width: 800px) {
+  :root {
+    --sidebar-size-closed: 3.5rem;
+  }
 }
 
 html,

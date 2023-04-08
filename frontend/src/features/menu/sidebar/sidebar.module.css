@@ -53,12 +53,12 @@
 }
 
 .close-button {
-  --size: 2.5rem;
+  --size: 2rem;
 
   position: absolute;
+  z-index: 100;
   top: 0.5rem;
   right: 0.5rem;
-  z-index: 100;
 
   width: var(--size);
   height: var(--size);
@@ -68,7 +68,6 @@
   align-items: center;
 
   border-radius: 0.5rem;
-
   border: none;
 
   cursor: pointer;
@@ -83,13 +82,19 @@
 }
 
 .close-button svg {
-  --size: 1.5rem;
+  --size: 1.25rem;
   width: var(--size);
   height: var(--size);
 }
 
-@media (min-width: 600px) {
+@media (min-width: 800px) {
   .main {
     position: relative;
+  }
+  .close-button {
+    --size: 2.5rem;
+  }
+  .close-button svg {
+    --size: 1.5rem;
   }
 }

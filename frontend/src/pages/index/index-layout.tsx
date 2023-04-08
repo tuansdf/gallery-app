@@ -6,7 +6,9 @@ const IndexLayout = () => {
   return (
     <div className={styles.main}>
       <Sidebar />
-      <Outlet />
+      <div className={styles.container}>
+        <Outlet />
+      </div>
     </div>
   );
 };
