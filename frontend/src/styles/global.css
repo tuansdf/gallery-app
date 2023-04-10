@@ -60,6 +60,9 @@ body {
 }
 
 *:focus {
+  outline: none;
+}
+*:focus-visible {
   outline-offset: 0.125rem;
   outline-width: 0.125rem;
   outline-style: solid;
@@ -77,4 +80,10 @@ body {
 
 a {
   color: hsl(var(--clr-primary-400));
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 }

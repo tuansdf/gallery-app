@@ -25,11 +25,7 @@ const ChangePasswordForm = ({ email }: Props) => {
   const [isError, setIsError] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormInput>({
+  const { register, handleSubmit, reset } = useForm<FormInput>({
     values: initialValues,
   });
 
@@ -41,6 +37,7 @@ const ChangePasswordForm = ({ email }: Props) => {
     try {
       await changePassword({ ...data, email }).unwrap();
       setIsSuccess(true);
+      reset();
     } catch (error) {
       console.error(error);
       setIsError(true);

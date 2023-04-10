@@ -16,5 +16,6 @@ const baseQuery = fetchBaseQuery({
 
 export const apiSlice = createApi({
   baseQuery,
+  tagTypes: ["Album", "User"],
   endpoints: () => ({}),
 });

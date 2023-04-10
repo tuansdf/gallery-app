@@ -70,6 +70,8 @@
   border-radius: 0.5rem;
   border: none;
 
+  background-color: white;
+
   cursor: pointer;
 
   transition-property: background-color;

@@ -2,9 +2,47 @@
   width: 100%;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  margin-bottom: 1.5rem;
+}
+
+.header > button {
+  --size: 2.5rem;
+  width: var(--size);
+  height: var(--size);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 9999px;
+
+  font-size: 2rem;
+
+  transition: background-color 100ms ease;
+}
+.header > button:hover {
+  background-color: hsl(var(--clr-neutral-200));
+}
+.header > button > svg {
+  --size: 1.75rem;
+  width: var(--size);
+  height: var(--size);
+}
+
 .heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.modal-heading {
+  margin-top: 0.5rem;
   margin-bottom: 1.5rem;
 
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   font-weight: bold;
 }
