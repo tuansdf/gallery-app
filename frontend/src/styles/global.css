@@ -1,5 +1,7 @@
 :root {
+  --sidebar-size: 18rem;
   --sidebar-size-closed: 3rem;
+  --sidebar-translate-closed: -15rem;
 
   --clr-primary-100: 214, 95%, 93%;
   --clr-primary-200: 213, 97%, 87%;
@@ -45,6 +47,7 @@
 @media (min-width: 800px) {
   :root {
     --sidebar-size-closed: 3.5rem;
+    --sidebar-translate-closed: -14.5rem;
   }
 }
 
