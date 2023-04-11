@@ -1,5 +1,5 @@
 .main {
-  position: absolute;
+  position: fixed;
   max-width: var(--sidebar-size);
   width: 100%;
   height: 100%;
