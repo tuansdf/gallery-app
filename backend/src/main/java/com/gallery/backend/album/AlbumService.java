@@ -17,7 +17,7 @@ public class AlbumService {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return repository.findByUser(user);
     }
-    
+
     public Album createAlbum(CreateAlbumRequest request) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Album album = new Album(request.getName(), user);

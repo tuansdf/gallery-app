@@ -25,11 +25,13 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue
     private UUID id;
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
-
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
+    @Column(nullable = false)
     private String password;
     private boolean enabled = false;
 

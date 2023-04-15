@@ -2,7 +2,10 @@ package com.gallery.backend.album;
 
 import com.gallery.backend.user.User;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -20,7 +23,7 @@ public class Album {
     private String name;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    
+
     @ManyToOne
     @JoinColumn(nullable = false)
     private User user;

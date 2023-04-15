@@ -26,7 +26,7 @@ public class AuthController {
     ) {
         return new ResponseEntity<>(service.login(request), HttpStatus.OK);
     }
-    
+
     @PatchMapping("/password")
     public ResponseEntity<Void> changePassword(
             @RequestBody ChangePasswordRequest request

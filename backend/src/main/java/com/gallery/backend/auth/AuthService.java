@@ -4,12 +4,12 @@ import com.gallery.backend.auth.dto.*;
 import com.gallery.backend.confirmationToken.ConfirmationToken;
 import com.gallery.backend.confirmationToken.ConfirmationTokenService;
 import com.gallery.backend.email.EmailService;
+import com.gallery.backend.shared.exception.UnauthorizedException;
 import com.gallery.backend.user.User;
 import com.gallery.backend.user.UserRepository;
 import com.gallery.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,17 +46,17 @@ public class AuthService {
 
         sendVerificationEmail(savedUser);
     }
-    
+
     public void changePassword(ChangePasswordRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new AccessDeniedException(""));
+                .orElseThrow(() -> new UnauthorizedException(""));
         System.out.println("THiS");
-        
+
         boolean isPasswordCorrect = passwordEncoder.matches(request.getOldPassword(), user.getPassword());
         if (!isPasswordCorrect) {
-            throw new AccessDeniedException("");
+            throw new UnauthorizedException("");
         }
-        
+
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
     }
@@ -121,16 +121,16 @@ public class AuthService {
     @Transactional
     public void verifyConfirmationToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService.findByToken(token)
-                .orElseThrow(() -> new AccessDeniedException("Access Denied"));
+                .orElseThrow(() -> new UnauthorizedException("Access Denied"));
 
         boolean isTokenConfirmed = confirmationToken.getConfirmedAt() != null;
         if (isTokenConfirmed) {
-            throw new AccessDeniedException("Access Denied");
+            throw new UnauthorizedException("Access Denied");
         }
 
         boolean isTokenExpired = confirmationToken.getExpiresAt().isBefore(LocalDateTime.now());
         if (isTokenExpired) {
-            throw new AccessDeniedException("Access Denied");
+            throw new UnauthorizedException("Access Denied");
         }
 
         confirmationTokenService.confirmToken(confirmationToken);
@@ -141,20 +141,20 @@ public class AuthService {
             ResetPasswordRequest request
     ) {
         ConfirmationToken confirmationToken = confirmationTokenService.findByToken(request.getToken())
-                .orElseThrow(() -> new AccessDeniedException("Access Denied"));
+                .orElseThrow(() -> new UnauthorizedException("Access Denied"));
 
         boolean isTokenConfirmed = confirmationToken.getConfirmedAt() != null;
         if (isTokenConfirmed) {
-            throw new AccessDeniedException("Access Denied");
+            throw new UnauthorizedException("Access Denied");
         }
 
         boolean isTokenExpired = confirmationToken.getExpiresAt().isBefore(LocalDateTime.now());
         if (isTokenExpired) {
-            throw new AccessDeniedException("Access Denied");
+            throw new UnauthorizedException("Access Denied");
         }
 
         User user = userRepository.findByEmail(confirmationToken.getUser().getEmail())
-                .orElseThrow(() -> new AccessDeniedException("Access Denied"));
+                .orElseThrow(() -> new UnauthorizedException("Access Denied"));
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
 
