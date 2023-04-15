@@ -1,13 +1,9 @@
 package com.gallery.backend.auth.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.lang.NonNull;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class ForgotPasswordRequest {
-    private String email;
-
+public record ForgotPasswordRequest(
+        @NonNull
+        String email
+) {
 }

@@ -1,14 +1,13 @@
 package com.gallery.backend.auth.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.lang.NonNull;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class ChangePasswordRequest {
-    private String email;
-    private String oldPassword;
-    private String newPassword;
+public record ChangePasswordRequest(
+        @NonNull
+        String email,
+        @NonNull
+        String oldPassword,
+        @NonNull
+        String newPassword
+) {
 }

@@ -1,15 +1,15 @@
 package com.gallery.backend.auth.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.lang.NonNull;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class AuthResponse {
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String token;
+public record AuthResponse(
+        @NonNull
+        String firstName,
+        @NonNull
+        String lastName,
+        @NonNull
+        String email,
+        @NonNull
+        String token
+) {
 }

@@ -1,13 +1,11 @@
 package com.gallery.backend.auth.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.lang.NonNull;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class LoginRequest {
-    private String email;
-    private String password;
+public record LoginRequest(
+        @NonNull
+        String email,
+        @NonNull
+        String password
+) {
 }

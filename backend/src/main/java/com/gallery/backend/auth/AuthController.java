@@ -39,7 +39,7 @@ public class AuthController {
     public ResponseEntity<Void> forgotPassword(
             @RequestBody ForgotPasswordRequest request
     ) {
-        service.findUserAndSendForgotPasswordEmail(request.getEmail());
+        service.findUserAndSendForgotPasswordEmail(request.email());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

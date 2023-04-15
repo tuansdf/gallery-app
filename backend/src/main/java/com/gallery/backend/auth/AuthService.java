@@ -37,10 +37,10 @@ public class AuthService {
 
     public void register(RegisterRequest request) {
         User user = new User(
-                request.getFirstName(),
-                request.getLastName(),
-                request.getEmail(),
-                passwordEncoder.encode(request.getPassword())
+                request.firstName(),
+                request.lastName(),
+                request.email(),
+                passwordEncoder.encode(request.password())
         );
         User savedUser = userRepository.save(user);
 
@@ -48,16 +48,16 @@ public class AuthService {
     }
 
     public void changePassword(ChangePasswordRequest request) {
-        User user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new UnauthorizedException(""));
         System.out.println("THiS");
 
-        boolean isPasswordCorrect = passwordEncoder.matches(request.getOldPassword(), user.getPassword());
+        boolean isPasswordCorrect = passwordEncoder.matches(request.oldPassword(), user.getPassword());
         if (!isPasswordCorrect) {
             throw new UnauthorizedException("");
         }
 
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setPassword(passwordEncoder.encode(request.newPassword()));
         userRepository.save(user);
     }
 
@@ -102,12 +102,12 @@ public class AuthService {
     public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
+                        request.email(),
+                        request.password()
                 )
         );
 
-        User user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findByEmail(request.email())
                 .orElseThrow();
         String jwtToken = jwtUtils.generateToken(user);
         return new AuthResponse(
@@ -140,7 +140,7 @@ public class AuthService {
     public void resetPassword(
             ResetPasswordRequest request
     ) {
-        ConfirmationToken confirmationToken = confirmationTokenService.findByToken(request.getToken())
+        ConfirmationToken confirmationToken = confirmationTokenService.findByToken(request.token())
                 .orElseThrow(() -> new UnauthorizedException("Access Denied"));
 
         boolean isTokenConfirmed = confirmationToken.getConfirmedAt() != null;
@@ -155,7 +155,7 @@ public class AuthService {
 
         User user = userRepository.findByEmail(confirmationToken.getUser().getEmail())
                 .orElseThrow(() -> new UnauthorizedException("Access Denied"));
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setPassword(passwordEncoder.encode(request.password()));
         userRepository.save(user);
 
         confirmationTokenService.confirmToken(confirmationToken);

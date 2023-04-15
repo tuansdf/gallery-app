@@ -20,7 +20,7 @@ public class AlbumService {
 
     public Album createAlbum(CreateAlbumRequest request) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Album album = new Album(request.getName(), user);
+        Album album = new Album(request.name(), user);
         Album savedAlbum = repository.save(album);
         return savedAlbum;
     }

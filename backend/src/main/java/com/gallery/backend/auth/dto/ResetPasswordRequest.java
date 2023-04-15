@@ -1,13 +1,11 @@
 package com.gallery.backend.auth.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.lang.NonNull;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class ResetPasswordRequest {
-    private String password;
-    private String token;
+public record ResetPasswordRequest(
+        @NonNull
+        String password,
+        @NonNull
+        String token
+) {
 }

@@ -1,3 +1,5 @@
+### Login
+
 POST {{base-url}}/auth/login
 Content-Type: application/json
 
@@ -6,7 +8,7 @@ Content-Type: application/json
   "password": "{{password}}"
 }
 
-###
+### Register
 
 POST {{base-url}}/auth/register
 Content-Type: application/json
@@ -14,11 +16,10 @@ Content-Type: application/json
 {
   "firstName": "{{first-name}}",
   "lastName": "{{last-name}}",
-  "email": "{{email}}",
   "password": "{{password}}"
 }
 
-###
+### Change password
 
 PATCH {{base-url}}/auth/password
 Content-Type: application/json
@@ -29,12 +30,12 @@ Content-Type: application/json
   "newPassword": "{{new-password}}"
 }
 
-###
+### Verify email
 
 GET {{base-url}}/auth/confirm?token={{confirmation-token}}
 Content-Type: application/json
 
-###
+### Forgot password
 
 POST {{base-url}}/auth/forgot-password
 Content-Type: application/json
