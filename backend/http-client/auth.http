@@ -32,7 +32,7 @@ Content-Type: application/json
 
 ### Verify email
 
-GET {{base-url}}/auth/confirm?token={{confirmation-token}}
+GET {{base-url}}/auth/verify-email?token={{confirmation-token}}
 Content-Type: application/json
 
 ### Forgot password

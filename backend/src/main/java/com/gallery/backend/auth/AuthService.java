@@ -50,7 +50,6 @@ public class AuthService {
     public void changePassword(ChangePasswordRequest request) {
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new UnauthorizedException(""));
-        System.out.println("THiS");
 
         boolean isPasswordCorrect = passwordEncoder.matches(request.oldPassword(), user.getPassword());
         if (!isPasswordCorrect) {
@@ -119,18 +118,18 @@ public class AuthService {
     }
 
     @Transactional
-    public void verifyConfirmationToken(String token) {
+    public void verifyEmail(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService.findByToken(token)
-                .orElseThrow(() -> new UnauthorizedException("Access Denied"));
+                .orElseThrow(() -> new UnauthorizedException("Invalid credentials"));
 
         boolean isTokenConfirmed = confirmationToken.getConfirmedAt() != null;
         if (isTokenConfirmed) {
-            throw new UnauthorizedException("Access Denied");
+            throw new UnauthorizedException("Invalid credentials");
         }
 
         boolean isTokenExpired = confirmationToken.getExpiresAt().isBefore(LocalDateTime.now());
         if (isTokenExpired) {
-            throw new UnauthorizedException("Access Denied");
+            throw new UnauthorizedException("Invalid credentials");
         }
 
         confirmationTokenService.confirmToken(confirmationToken);
@@ -141,20 +140,20 @@ public class AuthService {
             ResetPasswordRequest request
     ) {
         ConfirmationToken confirmationToken = confirmationTokenService.findByToken(request.token())
-                .orElseThrow(() -> new UnauthorizedException("Access Denied"));
+                .orElseThrow(() -> new UnauthorizedException("Invalid credentials"));
 
         boolean isTokenConfirmed = confirmationToken.getConfirmedAt() != null;
         if (isTokenConfirmed) {
-            throw new UnauthorizedException("Access Denied");
+            throw new UnauthorizedException("Invalid credentials");
         }
 
         boolean isTokenExpired = confirmationToken.getExpiresAt().isBefore(LocalDateTime.now());
         if (isTokenExpired) {
-            throw new UnauthorizedException("Access Denied");
+            throw new UnauthorizedException("Invalid credentials");
         }
 
         User user = userRepository.findByEmail(confirmationToken.getUser().getEmail())
-                .orElseThrow(() -> new UnauthorizedException("Access Denied"));
+                .orElseThrow(() -> new UnauthorizedException("Invalid credentials"));
         user.setPassword(passwordEncoder.encode(request.password()));
         userRepository.save(user);
 

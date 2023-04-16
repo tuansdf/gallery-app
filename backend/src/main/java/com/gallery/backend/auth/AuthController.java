@@ -51,11 +51,11 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/confirm")
-    public ResponseEntity<Void> confirm(
+    @GetMapping("/verify-email")
+    public ResponseEntity<Void> verifyEmail(
             @RequestParam String token
     ) {
-        service.verifyConfirmationToken(token);
+        service.verifyEmail(token);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
