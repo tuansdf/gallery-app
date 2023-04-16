@@ -36,5 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-src/main/resources/application.properties
+src/main/resources/.env
+src/main/resources/.env.*
 http-client/http-client.private.env.json
