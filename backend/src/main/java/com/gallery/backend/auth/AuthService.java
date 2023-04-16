@@ -3,13 +3,13 @@ package com.gallery.backend.auth;
 import com.gallery.backend.auth.dto.*;
 import com.gallery.backend.confirmationToken.ConfirmationToken;
 import com.gallery.backend.confirmationToken.ConfirmationTokenService;
-import com.gallery.backend.email.EmailService;
+import com.gallery.backend.email.ForgotPasswordEmailSender;
+import com.gallery.backend.email.VerifyEmailSender;
 import com.gallery.backend.shared.exception.UnauthorizedException;
 import com.gallery.backend.user.User;
 import com.gallery.backend.user.UserRepository;
 import com.gallery.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,12 +28,8 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final ConfirmationTokenService confirmationTokenService;
     private final UserService userService;
-    private final EmailService emailService;
-
-    @Value(value = "${email.url-prefix.email-verification}")
-    private String EMAIL_VERIFICATION_URL_PREFIX;
-    @Value(value = "${email.url-prefix.forgot-password}")
-    private String FORGOT_PASSWORD_URL_PREFIX;
+    private final VerifyEmailSender verifyEmailSender;
+    private final ForgotPasswordEmailSender forgotPasswordEmailSender;
 
     public void register(RegisterRequest request) {
         User user = new User(
@@ -63,16 +59,11 @@ public class AuthService {
     private void sendVerificationEmail(User user) {
         ConfirmationToken confirmationToken = confirmationTokenService.generateConfirmationToken(user);
 
-        String emailContent = String.format("""
-                        Hi %s,
+        String emailContent = verifyEmailSender.buildContent(
+                user.getFirstName(), confirmationToken.getToken()
+        );
 
-                        Please follow this link to activate your account:
-                        %s%s
-
-                        Best regards.""",
-                user.getFirstName(), EMAIL_VERIFICATION_URL_PREFIX, confirmationToken.getToken());
-
-        emailService.send(user.getEmail(), "Confirm your email", emailContent);
+        verifyEmailSender.send(user.getEmail(), emailContent);
     }
 
     public void findUserAndSendForgotPasswordEmail(String email) {
@@ -86,16 +77,11 @@ public class AuthService {
     private void sendForgotPasswordEmail(User user) {
         ConfirmationToken confirmationToken = confirmationTokenService.generateConfirmationToken(user);
 
-        String emailContent = String.format("""
-                        Hi %s,
+        String emailContent = forgotPasswordEmailSender.buildContent(
+                user.getFirstName(), confirmationToken.getToken()
+        );
 
-                        Please follow this link to reset your password:
-                        %s%s
-
-                        Best regards.""",
-                user.getFirstName(), FORGOT_PASSWORD_URL_PREFIX, confirmationToken.getToken());
-
-        emailService.send(user.getEmail(), "Reset your password", emailContent);
+        forgotPasswordEmailSender.send(user.getEmail(), emailContent);
     }
 
     public AuthResponse login(LoginRequest request) {
