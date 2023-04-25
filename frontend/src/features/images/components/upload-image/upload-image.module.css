@@ -1,0 +1,28 @@
+.create-btn {
+  --size: 2.5rem;
+  width: var(--size);
+  height: var(--size);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 9999px;
+
+  font-size: 2rem;
+
+  cursor: pointer;
+
+  transition: background-color 100ms ease;
+}
+.create-btn:hover {
+  background-color: hsl(var(--clr-neutral-200));
+}
+.create-btn > svg {
+  --size: 1.75rem;
+  width: var(--size);
+  height: var(--size);
+}
+.hidden {
+  display: none;
+}

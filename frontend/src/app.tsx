@@ -1,10 +1,11 @@
 import { Provider } from "react-redux";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 
 import { persistor, store } from "/src/app/store";
 import RequireAuth from "/src/features/authentication/components/require-auth";
 import RequireNotAuth from "/src/features/authentication/components/require-not-auth";
+import AlbumPage from "/src/pages/album/album-page";
 import IndexLayout from "/src/pages/index/index-layout";
 import IndexPage from "/src/pages/index/index-page";
 import NotFoundPage from "/src/pages/not-found/not-found-page";
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
           {
             path: "/settings",
             element: <SettingsPage />,
+          },
+          {
+            path: "/albums/:albumId",
+            element: <AlbumPage />,
           },
         ],
       },

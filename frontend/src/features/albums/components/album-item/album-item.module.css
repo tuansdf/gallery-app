@@ -1,6 +1,10 @@
 .container {
   width: 100%;
   text-align: center;
+
+  transition-property: opacity;
+  transition-duration: 100ms;
+  transition-timing-function: ease-in-out;
 }
 
 .card {
@@ -12,4 +16,13 @@
   background-color: hsl(var(--clr-neutral-300));
 
   border-radius: 0.5rem;
+}
+
+.container:hover {
+  opacity: 90%;
+}
+
+.link {
+  text-decoration: none;
+  color: var(--clr-neutral-800);
 }

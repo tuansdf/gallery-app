@@ -90,3 +90,9 @@ button {
   background-color: transparent;
   cursor: pointer;
 }
+
+img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}

@@ -3,22 +3,29 @@ import { Album, CreateAlbumRequest } from "/src/features/albums/types";
 
 export const albumsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getAllAlbums: builder.query<Album[], void>({
+    getAlbums: builder.query<Album[], void>({
       query: () => ({
-        url: "/albums/",
+        url: "/albums",
         method: "GET",
       }),
       providesTags: ["Album"],
     }),
     createAlbum: builder.mutation<Album, CreateAlbumRequest>({
-      query: (data: CreateAlbumRequest) => ({
-        url: "/albums/",
+      query: (data) => ({
+        url: "/albums",
         method: "POST",
         body: data,
       }),
       invalidatesTags: ["Album"],
     }),
+    getAlbum: builder.query<Album, String>({
+      query: (albumId) => ({
+        url: `/albums/${albumId}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetAllAlbumsQuery, useCreateAlbumMutation } = albumsApiSlice;
+export const { useGetAlbumsQuery, useGetAlbumQuery, useCreateAlbumMutation } =
+  albumsApiSlice;

@@ -2,14 +2,14 @@ import { useState } from "react";
 import styles from "./index-page.module.css";
 import AlbumGrid from "/src/features/albums/components/album-grid/album-grid";
 import CreateAlbumForm from "/src/features/albums/components/create-album-form/create-album-form";
-import { useGetAllAlbumsQuery } from "/src/features/albums/stores/albums-api-slice";
+import { useGetAlbumsQuery } from "/src/features/albums/stores/albums-api-slice";
 import Alert from "/src/features/ui/alert/alert";
 import Modal from "/src/features/ui/modal/modal";
 
 const IndexPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data, isLoading, isError } = useGetAllAlbumsQuery();
+  const { data, isLoading, isError } = useGetAlbumsQuery();
 
   if (isLoading) return <Alert variant="info">Loading...</Alert>;
   if (!data || isError)

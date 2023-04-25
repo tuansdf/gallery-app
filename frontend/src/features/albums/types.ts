@@ -6,5 +6,5 @@ export type Album = {
 };
 
 export type CreateAlbumRequest = {
-  name: string
-}
+  name: string;
+};

@@ -10,7 +10,11 @@ const AlbumGrid = ({ albums }: Props) => {
   return (
     <div className={styles.main}>
       {albums.map((album) => (
-        <AlbumItem key={album.id} name={album.name} />
+        <AlbumItem
+          key={album.id}
+          name={album.name}
+          href={`/albums/${album.id}`}
+        />
       ))}
     </div>
   );

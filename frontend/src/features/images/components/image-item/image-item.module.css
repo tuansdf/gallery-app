@@ -1,0 +1,11 @@
+.main {
+  aspect-ratio: 5 / 3;
+
+  cursor: pointer;
+
+  transition: opacity 100ms ease-in-out;
+}
+
+.main:hover {
+  opacity: 90%;
+}
