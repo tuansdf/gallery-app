@@ -89,7 +89,7 @@ const AlbumPage = () => {
 
       {imagesByMonth?.map((byMonth) => {
         return (
-          <div>
+          <div className={styles.section}>
             <div className={styles["section-title"]}>{byMonth.groupName}</div>
             <ImageGrid images={byMonth.data} />
           </div>

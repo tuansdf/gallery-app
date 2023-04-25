@@ -13,6 +13,7 @@ const AlbumGrid = ({ albums }: Props) => {
         <AlbumItem
           key={album.id}
           name={album.name}
+          imageUrl={album.imageUrl}
           href={`/albums/${album.id}`}
         />
       ))}

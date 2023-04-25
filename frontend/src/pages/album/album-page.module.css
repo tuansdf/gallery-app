@@ -20,3 +20,7 @@
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
 }
+
+.section + .section {
+  margin-top: 2rem;
+}

@@ -4,13 +4,14 @@ import styles from "./album-item.module.css";
 interface Props {
   name: string;
   href: string;
+  imageUrl: string;
 }
 
-const AlbumItem = ({ name, href }: Props) => {
+const AlbumItem = ({ name, href, imageUrl }: Props) => {
   return (
     <Link className={styles.link} to={href}>
       <div className={styles.container}>
-        <div className={styles.card}></div>
+        <img src={imageUrl} className={styles.card}></img>
 
         <span>{name}</span>
       </div>
