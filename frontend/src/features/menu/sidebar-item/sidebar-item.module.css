@@ -10,7 +10,7 @@
 
   background-color: transparent;
 
-  color: hsl(var(--clr-neutral-900));
+  color: hsl(var(--clr-neutral-100));
   font-size: 1rem;
   text-decoration: none;
 
@@ -22,9 +22,9 @@
 }
 
 .main.active {
-  background-color: hsl(var(--clr-primary-200));
+  background-color: hsl(var(--clr-neutral-700));
 }
 
 .main:hover {
-  background-color: hsl(var(--clr-primary-100));
+  background-color: hsl(var(--clr-neutral-700));
 }

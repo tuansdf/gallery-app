@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 
+import dayjs from "dayjs";
 import styles from "./image-detail-overlay.module.css";
 import { Image } from "/src/features/images/image-types";
 import {
@@ -88,7 +89,11 @@ const ImageDetailOverlay = ({ images }: Props) => {
         </section>
         <section className={styles["info-section"]}>
           <div className={styles["info-title"]}>Uploaded</div>
-          <div>{currentImage.album.createdAt.toString()}</div>
+          <div>
+            {dayjs(currentImage.album.createdAt.toString()).format(
+              "MMM DD, YYYY, h:mm:ss A"
+            )}
+          </div>
         </section>
       </div>
     </div>

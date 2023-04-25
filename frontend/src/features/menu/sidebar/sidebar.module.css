@@ -4,7 +4,8 @@
   width: 100%;
   height: 100%;
 
-  background-color: hsl(var(--clr-primary-300));
+  background-color: hsl(var(--clr-neutral-800));
+  color: white;
 
   transition-property: margin-left;
   transition-duration: 400ms;
@@ -43,7 +44,7 @@
 
   border-radius: 9999px;
 
-  background-color: hsl(var(--clr-primary-100));
+  background-color: hsl(var(--clr-neutral-300));
 }
 
 .name {
@@ -81,7 +82,7 @@
 }
 
 .close-button:hover {
-  background-color: hsl(var(--clr-primary-200));
+  background-color: hsl(var(--clr-neutral-200));
 }
 
 .close-button svg {

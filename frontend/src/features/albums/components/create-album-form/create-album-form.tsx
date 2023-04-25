@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./create-album-form.module.css";
 import { useCreateAlbumMutation } from "/src/features/albums/stores/albums-api-slice";
@@ -18,7 +19,7 @@ interface Props {
 }
 
 const CreateAlbumForm = ({ onSuccess }: Props) => {
-  const { register, handleSubmit, reset } = useForm<FormInputs>({
+  const { register, handleSubmit, reset, setFocus } = useForm<FormInputs>({
     values: initialValues,
   });
 
@@ -33,6 +34,10 @@ const CreateAlbumForm = ({ onSuccess }: Props) => {
       console.error(e);
     }
   };
+
+  useEffect(() => {
+    setFocus("name");
+  }, [setFocus]);
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
