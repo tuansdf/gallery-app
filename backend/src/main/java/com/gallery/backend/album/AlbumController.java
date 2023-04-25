@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/v1/albums")
@@ -14,12 +15,19 @@ import java.util.List;
 public class AlbumController {
     private final AlbumService service;
 
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<List<Album>> getAlbums() {
         return new ResponseEntity<>(service.getAllAlbums(), HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @GetMapping("/{albumId}")
+    public ResponseEntity<Album> getAlbum(
+            @PathVariable("albumId") UUID albumId
+    ) {
+        return new ResponseEntity<>(service.getAlbum(albumId), HttpStatus.OK);
+    }
+
+    @PostMapping()
     public ResponseEntity<Album> createAlbum(
             @RequestBody CreateAlbumRequest request
     ) {
