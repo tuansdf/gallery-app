@@ -9,6 +9,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ImageRepository extends JpaRepository<Image, UUID> {
-    List<Image> findByUserAndAlbum(User user, Album album);
+    List<Image> findByUserAndAlbumOrderByCreatedAtDesc(User user, Album album);
     Optional<Image> findOneByIdAndUser(UUID id, User user);
 }

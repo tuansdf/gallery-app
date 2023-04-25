@@ -24,13 +24,12 @@ public class AlbumService {
 
     public List<Album> getAllAlbums() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return repository.findByUser(user);
+        return repository.findByUserOrderByCreatedAtDesc(user);
     }
 
     public Album createAlbum(CreateAlbumRequest request) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Album album = new Album(request.name(), user);
-        Album savedAlbum = repository.save(album);
-        return savedAlbum;
+        return repository.save(album);
     }
 }

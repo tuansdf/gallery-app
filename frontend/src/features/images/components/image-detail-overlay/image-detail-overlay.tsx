@@ -90,7 +90,7 @@ const ImageDetailOverlay = ({ images }: Props) => {
         <section className={styles["info-section"]}>
           <div className={styles["info-title"]}>Uploaded</div>
           <div>
-            {dayjs(currentImage.album.createdAt.toString()).format(
+            {dayjs(currentImage.createdAt.toString()).format(
               "MMM DD, YYYY, h:mm:ss A"
             )}
           </div>

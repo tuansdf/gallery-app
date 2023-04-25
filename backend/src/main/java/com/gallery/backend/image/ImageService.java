@@ -64,7 +64,7 @@ public class ImageService {
     public List<Image> getImagesByAlbum(UUID albumId) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Album album = albumService.getAlbum(albumId);
-        return repository.findByUserAndAlbum(user, album);
+        return repository.findByUserAndAlbumOrderByCreatedAtDesc(user, album);
     }
 
     public Image getImage(UUID imageId) {
