@@ -1,5 +1,6 @@
 package com.gallery.backend.album;
 
+import com.gallery.backend.album.dto.AlbumResponse;
 import com.gallery.backend.album.dto.CreateAlbumRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ public class AlbumController {
     private final AlbumService service;
 
     @GetMapping()
-    public ResponseEntity<List<Album>> getAlbums() {
+    public ResponseEntity<List<AlbumResponse>> getAlbums() {
         return new ResponseEntity<>(service.getAllAlbums(), HttpStatus.OK);
     }
 

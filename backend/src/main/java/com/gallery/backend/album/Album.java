@@ -21,12 +21,13 @@ public class Album {
     private UUID id;
     @Column(nullable = false)
     private String name;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(nullable = false)
     private User user;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public Album(String name, User user) {
         this.name = name;
