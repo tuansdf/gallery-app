@@ -20,6 +20,7 @@ const ImageGrid = ({ images }: Props) => {
       {images.map((image, i) => (
         <ImageItem
           imageUrl={image.imageUrl}
+          imageName={image.name}
           onClick={() => handleClick(i)}
           key={image.id}
           loading="lazy"

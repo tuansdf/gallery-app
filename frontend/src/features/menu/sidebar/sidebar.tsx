@@ -10,7 +10,7 @@ import {
 import SidebarItem from "/src/features/menu/sidebar-item/sidebar-item";
 
 const Sidebar = () => {
-  const [isSidebarClosed, setIsSidebarClosed] = useState(true);
+  const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const user = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
 
