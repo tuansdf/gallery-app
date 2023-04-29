@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
 import styles from "./verify-email-page.module.css";
-import { useVerifyEmailQuery } from "/src/features/authentication/stores/auth-api-slice";
+import { useVerifyEmailQuery } from "@/features/authentication/stores/auth-api-slice";
 
 const VerifyEmailPage = () => {
   const [searchParams] = useSearchParams();

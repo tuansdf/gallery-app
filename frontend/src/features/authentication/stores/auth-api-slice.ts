@@ -1,4 +1,4 @@
-import { apiSlice } from "/src/app/api-slice";
+import { apiSlice } from "@/app/api-slice";
 import {
   ChangePasswordRequest,
   ForgotPasswordRequest,
@@ -7,7 +7,7 @@ import {
   RegisterRequest,
   ResetPasswordRequest,
   VerifyEmailRequest,
-} from "/src/features/authentication/types";
+} from "@/features/authentication/types";
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

@@ -1,5 +1,5 @@
-import { Album } from "/src/features/albums/types";
-import { UserLogin } from "/src/features/authentication/types";
+import { Album } from "@/features/albums/types";
+import { UserLogin } from "@/features/authentication/types";
 
 export type Image = {
   id: string;

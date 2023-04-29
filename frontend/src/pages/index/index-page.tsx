@@ -1,10 +1,10 @@
 import { useState } from "react";
 import styles from "./index-page.module.css";
-import AlbumGrid from "/src/features/albums/components/album-grid/album-grid";
-import CreateAlbumForm from "/src/features/albums/components/create-album-form/create-album-form";
-import { useGetAlbumsQuery } from "/src/features/albums/stores/albums-api-slice";
-import Alert from "/src/features/ui/alert/alert";
-import Modal from "/src/features/ui/modal/modal";
+import AlbumGrid from "@/features/albums/components/album-grid/album-grid";
+import CreateAlbumForm from "@/features/albums/components/create-album-form/create-album-form";
+import { useGetAlbumsQuery } from "@/features/albums/stores/albums-api-slice";
+import Alert from "@/features/ui/alert/alert";
+import Modal from "@/features/ui/modal/modal";
 
 const IndexPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

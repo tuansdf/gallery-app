@@ -2,10 +2,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { useState } from "react";
 import styles from "./change-password-form.module.css";
-import { useChangePasswordMutation } from "/src/features/authentication/stores/auth-api-slice";
-import Alert from "/src/features/ui/alert/alert";
-import Button from "/src/features/ui/button/button";
-import TextField from "/src/features/ui/text-field/text-field";
+import { useChangePasswordMutation } from "@/features/authentication/stores/auth-api-slice";
+import Alert from "@/features/ui/alert/alert";
+import Button from "@/features/ui/button/button";
+import TextField from "@/features/ui/text-field/text-field";
 
 interface FormInput {
   oldPassword: string;

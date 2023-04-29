@@ -2,13 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 import dayjs from "dayjs";
 import styles from "./image-detail-overlay.module.css";
-import { Image } from "/src/features/images/image-types";
+import { Image } from "@/features/images/image-types";
 import {
   onCloseImage,
   onNextImage,
   onPrevImage,
   selectImageDetailIndex,
-} from "/src/features/images/stores/images-slice";
+} from "@/features/images/stores/images-slice";
 
 interface Props {
   images: Image[];

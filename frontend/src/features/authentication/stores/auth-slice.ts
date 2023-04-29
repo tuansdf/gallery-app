@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "/src/app/store";
-import { UserLogin } from "/src/features/authentication/types";
+import { RootState } from "@/app/store";
+import { UserLogin, UserLoginWithToken } from "@/features/authentication/types";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: SliceState = {
   user: null,
@@ -16,12 +16,12 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setCredentials: (state, action) => {
+    setCredentials: (state, action: PayloadAction<UserLoginWithToken>) => {
       const { token, ...user } = action.payload;
       state.user = user;
       state.token = token;
     },
-    logout: (state, action) => {
+    logout: (state) => {
       state.user = null;
       state.token = null;
     },

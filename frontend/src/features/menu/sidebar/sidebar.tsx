@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 
-import clsx from "clsx";
-import { useState } from "react";
-import styles from "./sidebar.module.css";
 import {
   logout,
   selectCurrentUser,
-} from "/src/features/authentication/stores/auth-slice";
-import SidebarItem from "/src/features/menu/sidebar-item/sidebar-item";
+} from "@/features/authentication/stores/auth-slice";
+import SidebarItem from "@/features/menu/sidebar-item/sidebar-item";
+import clsx from "clsx";
+import { useState } from "react";
+import styles from "./sidebar.module.css";
 
 const Sidebar = () => {
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
@@ -21,7 +21,7 @@ const Sidebar = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logout(""));
+    dispatch(logout());
   };
 
   return (

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./sign-up-page.module.css";
-import SignUpForm from "/src/features/authentication/components/sign-up-form/sign-up-form";
+import SignUpForm from "@/features/authentication/components/sign-up-form/sign-up-form";
 
 const SignUpPage = () => {
   return (

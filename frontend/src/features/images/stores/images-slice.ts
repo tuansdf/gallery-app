@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "/src/app/store";
+import { RootState } from "@/app/store";
 
 const initialState: SliceState = {
   isImageDetailOpening: false,

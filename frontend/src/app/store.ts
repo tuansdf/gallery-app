@@ -10,9 +10,9 @@ import {
   persistStore,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { apiSlice } from "/src/app/api-slice";
-import authReducer from "/src/features/authentication/stores/auth-slice";
-import imageReducer from "/src/features/images/stores/images-slice";
+import { apiSlice } from "@/app/api-slice";
+import authReducer from "@/features/authentication/stores/auth-slice";
+import imageReducer from "@/features/images/stores/images-slice";
 
 const persistConfig = {
   key: "root",

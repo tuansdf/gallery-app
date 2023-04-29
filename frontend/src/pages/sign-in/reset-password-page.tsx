@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
 import styles from "./sign-in-page.module.css";
-import ResetPasswordForm from "/src/features/authentication/components/sign-in-form/reset-password-form";
+import ResetPasswordForm from "@/features/authentication/components/sign-in-form/reset-password-form";
 
 const ResetPasswordPage = () => {
   const [searchParams] = useSearchParams();

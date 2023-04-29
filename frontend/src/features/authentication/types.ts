@@ -19,6 +19,10 @@ export type UserLogin = {
   lastName: string;
   email: string;
 };
+export type WithToken = {
+  token: string;
+};
+export type UserLoginWithToken = UserLogin & WithToken;
 
 export type ForgotPasswordRequest = {
   email: string;

@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
 import styles from "./image-grid.module.css";
-import ImageItem from "/src/features/images/components/image-item/image-item";
-import { Image } from "/src/features/images/image-types";
-import { onImageClick } from "/src/features/images/stores/images-slice";
+import ImageItem from "@/features/images/components/image-item/image-item";
+import { Image } from "@/features/images/image-types";
+import { onImageClick } from "@/features/images/stores/images-slice";
 
 interface Props {
   images: Image[];

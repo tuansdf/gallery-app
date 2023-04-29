@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./sign-in-form.module.css";
-import { useResetPasswordMutation } from "/src/features/authentication/stores/auth-api-slice";
-import Button from "/src/features/ui/button/button";
-import TextField from "/src/features/ui/text-field/text-field";
+import { useResetPasswordMutation } from "@/features/authentication/stores/auth-api-slice";
+import Button from "@/features/ui/button/button";
+import TextField from "@/features/ui/text-field/text-field";
 
 interface FormInput {
   password: string;

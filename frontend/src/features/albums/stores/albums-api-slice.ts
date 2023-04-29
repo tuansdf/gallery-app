@@ -1,5 +1,5 @@
-import { apiSlice } from "/src/app/api-slice";
-import { Album, CreateAlbumRequest } from "/src/features/albums/types";
+import { apiSlice } from "@/app/api-slice";
+import { Album, CreateAlbumRequest } from "@/features/albums/types";
 
 export const albumsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

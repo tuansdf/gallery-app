@@ -1,8 +1,8 @@
 import { ChangeEvent, useId } from "react";
 
 import styles from "./upload-image.module.css";
-import { CreateImageRequest } from "/src/features/images/image-types";
-import { useCreateImageMutation } from "/src/features/images/stores/images-api-slice";
+import { CreateImageRequest } from "@/features/images/image-types";
+import { useCreateImageMutation } from "@/features/images/stores/images-api-slice";
 
 interface Props {
   albumId: string;

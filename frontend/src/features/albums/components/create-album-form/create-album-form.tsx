@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./create-album-form.module.css";
-import { useCreateAlbumMutation } from "/src/features/albums/stores/albums-api-slice";
-import Alert from "/src/features/ui/alert/alert";
-import Button from "/src/features/ui/button/button";
-import TextField from "/src/features/ui/text-field/text-field";
+import { useCreateAlbumMutation } from "@/features/albums/stores/albums-api-slice";
+import Alert from "@/features/ui/alert/alert";
+import Button from "@/features/ui/button/button";
+import TextField from "@/features/ui/text-field/text-field";
 
 type FormInputs = {
   name: string;

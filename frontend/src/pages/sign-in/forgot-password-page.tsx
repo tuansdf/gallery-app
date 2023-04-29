@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./sign-in-page.module.css";
-import ForgotPasswordForm from "/src/features/authentication/components/sign-in-form/forgot-password-form";
+import ForgotPasswordForm from "@/features/authentication/components/sign-in-form/forgot-password-form";
 
 const ForgotPasswordPage = () => {
   return (

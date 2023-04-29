@@ -4,17 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import styles from "./album-page.module.css";
-import { useGetAlbumQuery } from "/src/features/albums/stores/albums-api-slice";
-import ImageDetailOverlay from "/src/features/images/components/image-detail-overlay/image-detail-overlay";
-import ImageGrid from "/src/features/images/components/image-grid/image-grid";
-import UploadImage from "/src/features/images/components/upload-image/upload-image";
-import { Image } from "/src/features/images/image-types";
-import { useGetImagesQuery } from "/src/features/images/stores/images-api-slice";
+import { useGetAlbumQuery } from "@/features/albums/stores/albums-api-slice";
+import ImageDetailOverlay from "@/features/images/components/image-detail-overlay/image-detail-overlay";
+import ImageGrid from "@/features/images/components/image-grid/image-grid";
+import UploadImage from "@/features/images/components/upload-image/upload-image";
+import { Image } from "@/features/images/image-types";
+import { useGetImagesQuery } from "@/features/images/stores/images-api-slice";
 import {
   onFetchImagesSuccess,
   selectIsImageDetailOpening,
-} from "/src/features/images/stores/images-slice";
-import Alert from "/src/features/ui/alert/alert";
+} from "@/features/images/stores/images-slice";
+import Alert from "@/features/ui/alert/alert";
 
 type ImagesByMonth = {
   groupName: string;

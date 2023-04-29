@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import styles from "./settings-page.module.css";
-import ChangePasswordForm from "/src/features/authentication/components/change-password-form/change-password-form";
-import { selectCurrentUser } from "/src/features/authentication/stores/auth-slice";
+import ChangePasswordForm from "@/features/authentication/components/change-password-form/change-password-form";
+import { selectCurrentUser } from "@/features/authentication/stores/auth-slice";
 
 const SettingsPage = () => {
   const user = useSelector(selectCurrentUser);

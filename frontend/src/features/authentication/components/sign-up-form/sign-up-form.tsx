@@ -2,11 +2,11 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { useState } from "react";
 import styles from "./sign-up-form.module.css";
-import { useRegisterMutation } from "/src/features/authentication/stores/auth-api-slice";
-import { ErrorMessage } from "/src/features/authentication/utils/constants";
-import { FormRegex } from "/src/features/authentication/utils/validators";
-import Button from "/src/features/ui/button/button";
-import TextField from "/src/features/ui/text-field/text-field";
+import { useRegisterMutation } from "@/features/authentication/stores/auth-api-slice";
+import { ErrorMessage } from "@/features/authentication/utils/constants";
+import { FormRegex } from "@/features/authentication/utils/validators";
+import Button from "@/features/ui/button/button";
+import TextField from "@/features/ui/text-field/text-field";
 
 const initialValues = {
   email: "",

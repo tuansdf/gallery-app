@@ -2,20 +2,20 @@ import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 
-import { persistor, store } from "/src/app/store";
-import RequireAuth from "/src/features/authentication/components/require-auth";
-import RequireNotAuth from "/src/features/authentication/components/require-not-auth";
-import AlbumPage from "/src/pages/album/album-page";
-import IndexLayout from "/src/pages/index/index-layout";
-import IndexPage from "/src/pages/index/index-page";
-import NotFoundPage from "/src/pages/not-found/not-found-page";
-import SettingsPage from "/src/pages/settings/settings-page";
-import ForgotPasswordPage from "/src/pages/sign-in/forgot-password-page";
-import ResetPasswordPage from "/src/pages/sign-in/reset-password-page";
-import SignInLayout from "/src/pages/sign-in/sign-in-layout";
-import SignInPage from "/src/pages/sign-in/sign-in-page";
-import SignUpPage from "/src/pages/sign-up/sign-up-page";
-import VerifyEmailPage from "/src/pages/verify-email/verify-email-page";
+import { persistor, store } from "@/app/store";
+import RequireAuth from "@/features/authentication/components/require-auth";
+import RequireNotAuth from "@/features/authentication/components/require-not-auth";
+import AlbumPage from "@/pages/album/album-page";
+import IndexLayout from "@/pages/index/index-layout";
+import IndexPage from "@/pages/index/index-page";
+import NotFoundPage from "@/pages/not-found/not-found-page";
+import SettingsPage from "@/pages/settings/settings-page";
+import ForgotPasswordPage from "@/pages/sign-in/forgot-password-page";
+import ResetPasswordPage from "@/pages/sign-in/reset-password-page";
+import SignInLayout from "@/pages/sign-in/sign-in-layout";
+import SignInPage from "@/pages/sign-in/sign-in-page";
+import SignUpPage from "@/pages/sign-up/sign-up-page";
+import VerifyEmailPage from "@/pages/verify-email/verify-email-page";
 
 const router = createBrowserRouter([
   {

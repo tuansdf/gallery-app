@@ -1,6 +1,6 @@
 import styles from "./album-grid.module.css";
-import AlbumItem from "/src/features/albums/components/album-item/album-item";
-import { Album } from "/src/features/albums/types";
+import AlbumItem from "@/features/albums/components/album-item/album-item";
+import { Album } from "@/features/albums/types";
 
 interface Props {
   albums: Album[];
