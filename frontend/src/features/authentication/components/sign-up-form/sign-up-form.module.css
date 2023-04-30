@@ -1,37 +1,15 @@
 .form {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   width: 100%;
 }
-
-.form > input + input {
+.form > .text-field + .text-field {
   margin-top: 0.75rem;
 }
-
 .form > button {
   margin-top: 1.75rem;
-}
-
-.error-container {
-  width: 100%;
-  margin-top: 0.85rem;
-  padding: 1rem;
-
-  border-radius: 0.4rem;
-
-  background-color: hsl(var(--clr-danger-400));
-}
-.error {
-  font-size: 0.9rem;
-  color: hsl(var(--clr-neutral-800));
-  white-space: pre-wrap;
-}
-.error::before {
-  content: "- ";
-}
-.error + .error {
-  margin-top: 0.5rem;
 }
 
 .success {

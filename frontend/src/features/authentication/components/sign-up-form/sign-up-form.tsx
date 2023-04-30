@@ -1,12 +1,12 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { useState } from "react";
-import styles from "./sign-up-form.module.css";
 import { useRegisterMutation } from "@/features/authentication/stores/auth-api-slice";
 import { ErrorMessage } from "@/features/authentication/utils/constants";
 import { FormRegex } from "@/features/authentication/utils/validators";
 import Button from "@/features/ui/button/button";
 import TextField from "@/features/ui/text-field/text-field";
+import { useState } from "react";
+import classes from "./sign-up-form.module.css";
 
 const initialValues = {
   email: "",
@@ -60,13 +60,14 @@ const SignUpForm = () => {
     }
   };
 
-  const isAnyFieldError = Object.keys(errors).length !== 0 || requestError;
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+    <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
       <TextField
         type="text"
-        placeholder="First Name"
+        label="First Name"
+        error={!!errors.firstName?.message}
+        helperText={errors.firstName?.message}
+        containerClassName={classes["text-field"]}
         {...register("firstName", {
           required: {
             value: true,
@@ -76,7 +77,10 @@ const SignUpForm = () => {
       />
       <TextField
         type="text"
-        placeholder="Last Name"
+        label="Last Name"
+        error={!!errors.lastName?.message}
+        helperText={errors.lastName?.message}
+        containerClassName={classes["text-field"]}
         {...register("lastName", {
           required: {
             value: true,
@@ -86,7 +90,10 @@ const SignUpForm = () => {
       />
       <TextField
         type="email"
-        placeholder="Email"
+        label="Email"
+        error={!!errors.email?.message}
+        helperText={errors.email?.message}
+        containerClassName={classes["text-field"]}
         {...register("email", {
           required: {
             value: true,
@@ -100,7 +107,10 @@ const SignUpForm = () => {
       />
       <TextField
         type="password"
-        placeholder="Password"
+        label="Password"
+        error={!!errors.password?.message}
+        helperText={errors.password?.message}
+        containerClassName={classes["text-field"]}
         {...register("password", {
           required: {
             value: true,
@@ -113,28 +123,8 @@ const SignUpForm = () => {
         })}
       />
 
-      {isAnyFieldError ? (
-        <ul className={styles["error-container"]}>
-          {errors.firstName?.message ? (
-            <li className={styles.error}>{errors.firstName.message}</li>
-          ) : null}
-          {errors.lastName?.message ? (
-            <li className={styles.error}>{errors.lastName.message}</li>
-          ) : null}
-          {errors.email?.message ? (
-            <li className={styles.error}>{errors.email.message}</li>
-          ) : null}
-          {errors.password?.message ? (
-            <li className={styles.error}>{errors.password.message}</li>
-          ) : null}
-          {requestError ? (
-            <li className={styles.error}>{requestError}</li>
-          ) : null}
-        </ul>
-      ) : null}
-
       {successMessage ? (
-        <div className={styles.success}>{successMessage}</div>
+        <div className={classes.success}>{successMessage}</div>
       ) : null}
 
       <Button isLoading={isLoading}>Sign Up</Button>

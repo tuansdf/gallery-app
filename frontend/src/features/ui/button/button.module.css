@@ -6,7 +6,7 @@
 
   background-color: hsl(var(--clr-primary-600));
 
-  border-radius: 0.4rem;
+  border-radius: var(--border-radius);
   border: none;
 
   cursor: pointer;
@@ -17,4 +17,7 @@
 
 .button:hover {
   background-color: hsl(var(--clr-primary-700));
+}
+.button:focus-visible {
+  --outline-color: hsl(var(--clr-primary-700));
 }

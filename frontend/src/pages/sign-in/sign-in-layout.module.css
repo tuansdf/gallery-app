@@ -1,0 +1,43 @@
+.main {
+  background: url("/bg-auth.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.main * {
+  z-index: 1;
+}
+
+.backdrop {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+
+  background-color: hsl(var(--clr-neutral-900), 50%);
+}
+
+.contribution {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+
+  font-size: 0.9rem;
+  color: hsl(var(--clr-neutral-100));
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 24rem;
+  width: 100%;
+}

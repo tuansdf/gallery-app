@@ -3,37 +3,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   width: 100%;
 }
-.form > input + input {
-  margin-top: 0.875rem;
+.form > .text-field + .text-field {
+  margin-top: 0.75rem;
 }
 .form > button {
   margin-top: 1.75rem;
-}
-
-.error-container {
-  width: 100%;
-  margin-top: 1rem;
-  padding: 1rem;
-
-  background-color: hsl(var(--clr-danger-400));
-
-  border-radius: 0.4rem;
-}
-.error {
-  font-size: 0.9rem;
-  color: hsl(var(--clr-neutral-800));
-  white-space: pre-wrap;
-
-  transition: opacity 200ms ease-in-out;
-}
-.error::before {
-  content: "- ";
-}
-.error + .error {
-  margin-top: 0.5rem;
 }
 
 .success {

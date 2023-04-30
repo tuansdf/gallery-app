@@ -1,9 +1,47 @@
+.input-container {
+  width: 100%;
+}
+
 .input {
+  --border-color: hsl(var(--clr-neutral-500));
+
   width: 100%;
   padding: 0.8rem 1rem;
 
+  background-color: transparent;
+
   font-size: 1rem;
 
-  border-radius: 0.4rem;
-  border: 1.5px solid rgb(190, 190, 190);
+  border-radius: var(--border-radius);
+  border: 0.1rem solid var(--border-color);
+}
+.is-error .input {
+  --border-color: hsl(var(--clr-danger-500));
+}
+.is-error .input::placeholder {
+  color: hsl(var(--clr-danger-500));
+}
+.is-error .input:focus-visible {
+  --outline-color: hsl(var(--clr-danger-400));
+}
+
+.label {
+  display: inline-block;
+  padding-inline: 0.5rem;
+  margin-bottom: 0.25rem;
+
+  font-size: 0.875rem;
+}
+.is-error .label {
+  color: hsl(var(--clr-danger-500));
+}
+
+.helper-text {
+  margin-top: 0.25rem;
+  padding-inline: 0.5rem;
+
+  font-size: 0.75rem;
+}
+.is-error .helper-text {
+  color: hsl(var(--clr-danger-500));
 }

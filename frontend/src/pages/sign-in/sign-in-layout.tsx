@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
-import styles from "./sign-in-page.module.css";
+import classes from "./sign-in-layout.module.css";
 
 const SignInLayout = () => {
   return (
-    <main className={styles.main}>
-      <div className={styles.backdrop}></div>
-      <div className={styles.contribution}>
+    <main className={classes.main}>
+      <div className={classes.backdrop}></div>
+      <div className={classes.contribution}>
         Photo by{" "}
         <a href="https://unsplash.com/@davidmarcu?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">
           David Marcu
@@ -16,7 +16,7 @@ const SignInLayout = () => {
         </a>
       </div>
 
-      <div className={styles["form-container"]}>
+      <div className={classes["form-container"]}>
         <Outlet />
       </div>
     </main>

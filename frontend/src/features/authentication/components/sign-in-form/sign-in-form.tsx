@@ -3,13 +3,13 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import styles from "./sign-in-form.module.css";
 import { useLoginMutation } from "@/features/authentication/stores/auth-api-slice";
 import { setCredentials } from "@/features/authentication/stores/auth-slice";
 import { ErrorMessage } from "@/features/authentication/utils/constants";
 import { FormRegex } from "@/features/authentication/utils/validators";
 import Button from "@/features/ui/button/button";
 import TextField from "@/features/ui/text-field/text-field";
+import classes from "./sign-in-form.module.css";
 
 const initialValues = {
   email: "",
@@ -56,13 +56,14 @@ export default function SignInForm() {
     }
   };
 
-  const isAnyFieldError = Object.keys(errors).length !== 0 || requestError;
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+    <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
       <TextField
-        type="text"
-        placeholder="Email"
+        type="email"
+        label="Email"
+        error={!!errors.email?.message}
+        helperText={errors.email?.message}
+        containerClassName={classes["text-field"]}
         {...register("email", {
           required: {
             value: true,
@@ -76,7 +77,10 @@ export default function SignInForm() {
       />
       <TextField
         type="password"
-        placeholder="Password"
+        label="Password"
+        error={!!errors.password?.message}
+        helperText={errors.password?.message}
+        containerClassName={classes["text-field"]}
         {...register("password", {
           required: {
             value: true,
@@ -88,19 +92,6 @@ export default function SignInForm() {
           },
         })}
       />
-      {isAnyFieldError ? (
-        <ul className={styles["error-container"]}>
-          {errors.email?.message ? (
-            <li className={styles.error}>{errors.email.message}</li>
-          ) : null}
-          {errors.password?.message ? (
-            <li className={styles.error}>{errors.password.message}</li>
-          ) : null}
-          {requestError ? (
-            <li className={styles.error}>{requestError}</li>
-          ) : null}
-        </ul>
-      ) : null}
       <Button isLoading={isLoading}>Sign In</Button>
     </form>
   );
