@@ -12,12 +12,12 @@ import Button from "@/features/ui/button/button";
 import TextField from "@/features/ui/text-field/text-field";
 import classes from "./sign-in-form.module.css";
 
-const initialValues = {
+const initialValues: FormValues = {
   email: "",
   password: "",
 };
 
-interface FormInput {
+interface FormValues {
   email: string;
   password: string;
 }
@@ -32,12 +32,12 @@ export default function SignInForm() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormInput>({ values: initialValues });
+  } = useForm<FormValues>({ values: initialValues });
 
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
 
-  const onSubmit: SubmitHandler<FormInput> = async (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setRequestError("");
 
     const { email, password } = data;
@@ -100,7 +100,9 @@ export default function SignInForm() {
         </Alert>
       ) : null}
 
-      <Button loading={isLoading}>Sign In</Button>
+      <Button loading={isLoading} disabled={isLoading}>
+        Sign In
+      </Button>
     </form>
   );
 }

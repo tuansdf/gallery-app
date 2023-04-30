@@ -1,5 +1,15 @@
 .main {
+  --max-item-width: 12rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(var(--max-item-width), 100%), 1fr)
+  );
   gap: 1rem;
+}
+
+@media (min-width: 1000px) {
+  .main {
+    --max-item-width: 18rem;
+  }
 }

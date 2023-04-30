@@ -9,7 +9,7 @@ import Button from "@/features/ui/button/button";
 import TextField from "@/features/ui/text-field/text-field";
 import classes from "./sign-up-form.module.css";
 
-const initialValues = {
+const initialValues: FormValues = {
   email: "",
   password: "",
   confirmPassword: "",
@@ -17,7 +17,7 @@ const initialValues = {
   lastName: "",
 };
 
-interface FormInput {
+interface FormValues {
   email: string;
   password: string;
   confirmPassword: string;
@@ -35,11 +35,11 @@ const SignUpForm = () => {
     getValues,
     reset,
     formState: { errors },
-  } = useForm<FormInput>({ values: initialValues });
+  } = useForm<FormValues>({ values: initialValues });
 
   const [registerApi, { isLoading }] = useRegisterMutation();
 
-  const onSubmit: SubmitHandler<FormInput> = async (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setRequestError("");
 
     const { email, password, firstName, lastName } = data;
@@ -130,7 +130,9 @@ const SignUpForm = () => {
         <Alert severity="success">{successMessage}</Alert>
       ) : null}
 
-      <Button loading={isLoading}>Sign Up</Button>
+      <Button loading={isLoading} disabled={isLoading}>
+        Sign Up
+      </Button>
     </form>
   );
 };

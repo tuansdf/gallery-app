@@ -12,7 +12,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 
 const TextField = forwardRef<HTMLInputElement, Props>(
   (
-    { label, helperText, error, className, containerClassName, ...rest },
+    { label, helperText, error, className, containerClassName, ...restProps },
     ref
   ) => {
     const inputId = useId();
@@ -33,7 +33,7 @@ const TextField = forwardRef<HTMLInputElement, Props>(
         <input
           id={inputId}
           className={clsx(classes["input"], className)}
-          {...rest}
+          {...restProps}
           ref={ref}
         />
         {helperText ? (

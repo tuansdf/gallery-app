@@ -7,11 +7,11 @@ import Button from "@/features/ui/button/button";
 import TextField from "@/features/ui/text-field/text-field";
 import classes from "./sign-in-form.module.css";
 
-interface FormInput {
+interface FormValues {
   email: string;
 }
 
-const initialValues: FormInput = {
+const initialValues: FormValues = {
   email: "",
 };
 
@@ -23,13 +23,13 @@ const ForgotPasswordForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormInput>({
+  } = useForm<FormValues>({
     values: initialValues,
   });
 
   const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
 
-  const onSubmit: SubmitHandler<FormInput> = async (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setErrorMessage("");
     setSuccessMessage("");
     try {
@@ -63,7 +63,9 @@ const ForgotPasswordForm = () => {
         </Alert>
       ) : null}
 
-      <Button loading={isLoading}>Send password reset email</Button>
+      <Button loading={isLoading} disabled={isLoading}>
+        Send password reset email
+      </Button>
     </form>
   );
 };

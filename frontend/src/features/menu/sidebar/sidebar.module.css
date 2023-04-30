@@ -1,4 +1,5 @@
 .main {
+  flex: none;
   position: fixed;
   max-width: var(--sidebar-size);
   width: 100%;

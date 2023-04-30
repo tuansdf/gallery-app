@@ -7,11 +7,11 @@ import Button from "@/features/ui/button/button";
 import TextField from "@/features/ui/text-field/text-field";
 import classes from "./sign-in-form.module.css";
 
-interface FormInput {
+interface FormValues {
   password: string;
 }
 
-const initialValues: FormInput = {
+const initialValues: FormValues = {
   password: "",
 };
 
@@ -27,13 +27,13 @@ const ResetPasswordForm = ({ resetToken }: Props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormInput>({
+  } = useForm<FormValues>({
     values: initialValues,
   });
 
   const [resetPassword, { isLoading }] = useResetPasswordMutation();
 
-  const onSubmit: SubmitHandler<FormInput> = async ({ password }) => {
+  const onSubmit: SubmitHandler<FormValues> = async ({ password }) => {
     setSuccessMessage("");
     setErrorMessage("");
     try {
@@ -68,7 +68,9 @@ const ResetPasswordForm = ({ resetToken }: Props) => {
         </Alert>
       ) : null}
 
-      <Button loading={isLoading}>Reset your password</Button>
+      <Button loading={isLoading} disabled={isLoading}>
+        Reset your password
+      </Button>
     </form>
   );
 };

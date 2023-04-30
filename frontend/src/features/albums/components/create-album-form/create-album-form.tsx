@@ -1,16 +1,17 @@
+import { useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+
 import { useCreateAlbumMutation } from "@/features/albums/stores/albums-api-slice";
 import Alert from "@/features/ui/alert/alert";
 import Button from "@/features/ui/button/button";
 import TextField from "@/features/ui/text-field/text-field";
-import { useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./create-album-form.module.css";
 
-type FormInputs = {
+type FormValues = {
   name: string;
 };
 
-const initialValues: FormInputs = {
+const initialValues: FormValues = {
   name: "",
 };
 
@@ -19,13 +20,13 @@ interface Props {
 }
 
 const CreateAlbumForm = ({ onSuccess }: Props) => {
-  const { register, handleSubmit, reset, setFocus } = useForm<FormInputs>({
+  const { register, handleSubmit, reset, setFocus } = useForm<FormValues>({
     values: initialValues,
   });
 
   const [createAlbum, { isLoading, isError }] = useCreateAlbumMutation();
 
-  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
       await createAlbum(data).unwrap();
       reset();

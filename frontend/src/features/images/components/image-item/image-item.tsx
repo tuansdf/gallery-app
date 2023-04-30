@@ -7,14 +7,14 @@ interface Props extends ImgHTMLAttributes<HTMLImageElement> {
   imageName: string;
 }
 
-const ImageItem = ({ imageUrl, imageName, ...rest }: Props) => {
+const ImageItem = ({ imageUrl, imageName, ...restProps }: Props) => {
   return (
     <img
       src={imageUrl}
       loading="lazy"
       alt={imageName}
       className={styles.main}
-      {...rest}
+      {...restProps}
     />
   );
 };
