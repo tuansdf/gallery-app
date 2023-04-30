@@ -1,6 +1,6 @@
 import { ImgHTMLAttributes } from "react";
 
-import styles from "./image-item.module.css";
+import classes from "./image-item.module.css";
 
 interface Props extends ImgHTMLAttributes<HTMLImageElement> {
   imageUrl: string;
@@ -13,7 +13,7 @@ const ImageItem = ({ imageUrl, imageName, ...restProps }: Props) => {
       src={imageUrl}
       loading="lazy"
       alt={imageName}
-      className={styles.main}
+      className={classes["img"]}
       {...restProps}
     />
   );

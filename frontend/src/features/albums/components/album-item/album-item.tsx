@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import styles from "./album-item.module.css";
+
+import classes from "./album-item.module.css";
 
 interface Props {
   name: string;
@@ -9,19 +10,19 @@ interface Props {
 
 const AlbumItem = ({ name, href, imageUrl }: Props) => {
   return (
-    <Link className={styles.link} to={href}>
-      <div className={styles.container}>
+    <Link className={classes["link"]} to={href}>
+      <div className={classes["card"]}>
         {imageUrl ? (
           <img
             src={imageUrl}
-            className={styles.card}
+            className={classes["img"]}
             loading="lazy"
             alt={`Cover image of album ${name}`}
           ></img>
         ) : (
-          <div className={styles.card}></div>
+          <div className={classes["img"]}></div>
         )}
-        <span>{name}</span>
+        <div className={classes["name"]}>{name}</div>
       </div>
     </Link>
   );

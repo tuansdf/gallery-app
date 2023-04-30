@@ -1,6 +1,6 @@
-import styles from "./album-grid.module.css";
 import AlbumItem from "@/features/albums/components/album-item/album-item";
 import { Album } from "@/features/albums/types";
+import classes from "./album-grid.module.css";
 
 interface Props {
   albums: Album[];
@@ -8,7 +8,7 @@ interface Props {
 
 const AlbumGrid = ({ albums }: Props) => {
   return (
-    <div className={styles.main}>
+    <div className={classes.main}>
       {albums.map((album) => (
         <AlbumItem
           key={album.id}

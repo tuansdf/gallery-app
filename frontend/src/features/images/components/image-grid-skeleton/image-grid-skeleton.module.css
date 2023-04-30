@@ -1,4 +1,4 @@
-.main {
+.image-grid-skeleton {
   --max-item-width: 12rem;
   display: grid;
   grid-template-columns: repeat(
@@ -9,7 +9,7 @@
 }
 
 @media (min-width: 800px) {
-  .main {
+  .image-grid-skeleton {
     --max-item-width: 18rem;
   }
 }

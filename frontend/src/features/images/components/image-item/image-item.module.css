@@ -1,11 +1,13 @@
-.main {
+.img {
   aspect-ratio: 5 / 3;
+
+  border-radius: var(--border-radius-sm);
 
   cursor: pointer;
 
   transition: opacity 100ms ease-in-out;
 }
 
-.main:hover {
+.img:hover {
   opacity: 90%;
 }

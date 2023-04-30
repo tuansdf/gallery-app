@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import AlbumGridSkeleton from "@/features/albums/components/album-grid-skeleton/album-grid-skeleton";
 import AlbumGrid from "@/features/albums/components/album-grid/album-grid";
 import CreateAlbumForm from "@/features/albums/components/create-album-form/create-album-form";
 import { useGetAlbumsQuery } from "@/features/albums/stores/albums-api-slice";
@@ -11,10 +12,6 @@ const IndexPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data, isLoading, isError } = useGetAlbumsQuery();
-
-  if (isLoading) return <Alert severity="info">Loading...</Alert>;
-  if (!data || isError)
-    return <Alert severity="error">Something went wrong!</Alert>;
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -33,7 +30,15 @@ const IndexPage = () => {
           </svg>
         </button>
       </div>
-      <AlbumGrid albums={data} />
+
+      {isLoading ? (
+        <AlbumGridSkeleton />
+      ) : isError ? (
+        <Alert severity="error">Something went wrong!</Alert>
+      ) : data ? (
+        <AlbumGrid albums={data} />
+      ) : null}
+
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <h2 className={classes["modal-heading"]}>Create new album</h2>
         <CreateAlbumForm onSuccess={closeModal} />

@@ -1,5 +1,6 @@
-.main {
-  --max-item-width: 12rem;
+.album-grid-skeleton {
+  --max-item-width: 10rem;
+
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
@@ -9,7 +10,9 @@
 }
 
 @media (min-width: 800px) {
-  .main {
-    --max-item-width: 18rem;
+  .album-grid-skeleton {
+    --max-item-width: 14rem;
+
+    gap: 1.25rem;
   }
 }

@@ -1,0 +1,24 @@
+.album-skeleton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-skeleton {
+  width: 100%;
+  aspect-ratio: 5/3;
+
+  border-radius: var(--border-radius-sm);
+}
+
+.text-skeleton {
+  width: 66%;
+  height: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 800px) {
+  .text-skeleton {
+    height: 1rem;
+  }
+}

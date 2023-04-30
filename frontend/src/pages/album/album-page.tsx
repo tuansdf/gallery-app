@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 
 import { useGetAlbumQuery } from "@/features/albums/stores/albums-api-slice";
 import ImageDetailOverlay from "@/features/images/components/image-detail-overlay/image-detail-overlay";
+import ImageGridSkeleton from "@/features/images/components/image-grid-skeleton/image-grid-skeleton";
 import ImageGrid from "@/features/images/components/image-grid/image-grid";
 import UploadImage from "@/features/images/components/upload-image/upload-image";
 import { Image } from "@/features/images/image-types";
@@ -14,6 +15,7 @@ import {
   selectIsImageDetailOpening,
 } from "@/features/images/stores/images-slice";
 import Alert from "@/features/ui/alert/alert";
+import Skeleton from "@/features/ui/skeleton/skeleton";
 import classes from "./album-page.module.css";
 
 type ImagesByMonth = {
@@ -75,28 +77,48 @@ const AlbumPage = () => {
     return convertToImagesByMonth(imagesData);
   }, [imagesData]);
 
-  if (albumIsLoading || imagesIsLoading)
-    return <Alert severity="info">Loading...</Alert>;
-  if (!albumData || !imagesData || albumIsError || imagesIsError)
-    return <Alert severity="error">Something went wrong!</Alert>;
-
   return (
     <main className={classes["main"]}>
-      <div className={classes["header"]}>
-        <h1 className={classes["heading"]}>{albumData.name}</h1>
-        <UploadImage albumId={albumId} />
-      </div>
+      {albumIsLoading ? (
+        <Skeleton className={classes["album-name-skeleton"]} />
+      ) : albumIsError ? (
+        <Alert severity="error">Something went wrong!</Alert>
+      ) : albumData ? (
+        <div className={classes["header"]}>
+          <h1 className={classes["heading"]}>{albumData.name}</h1>
+          <UploadImage albumId={albumId} />
+        </div>
+      ) : null}
 
-      {imagesByMonth?.map((byMonth) => {
-        return (
-          <div className={classes["section"]}>
-            <div className={classes["section-title"]}>{byMonth.groupName}</div>
-            <ImageGrid images={byMonth.data} />
+      {imagesIsLoading ? (
+        <>
+          <div className={classes["section-skeleton"]}>
+            <Skeleton className={classes["month-name-skeleton"]} />
+            <ImageGridSkeleton />
           </div>
-        );
-      })}
+          <div className={classes["section-skeleton"]}>
+            <Skeleton className={classes["month-name-skeleton"]} />
+            <ImageGridSkeleton />
+          </div>
+        </>
+      ) : imagesIsError ? (
+        <Alert severity="error">Something went wrong!</Alert>
+      ) : imagesByMonth?.length ? (
+        imagesByMonth?.map((byMonth) => {
+          return (
+            <div className={classes["section"]}>
+              <div className={classes["section-title"]}>
+                {byMonth.groupName}
+              </div>
+              <ImageGrid images={byMonth.data} />
+            </div>
+          );
+        })
+      ) : null}
 
-      {isImageDetailOpening ? <ImageDetailOverlay images={imagesData} /> : null}
+      {isImageDetailOpening && imagesData ? (
+        <ImageDetailOverlay images={imagesData} />
+      ) : null}
     </main>
   );
 };
