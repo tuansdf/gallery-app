@@ -1,21 +1,30 @@
 import clsx from "clsx";
 import { ButtonHTMLAttributes } from "react";
 
-import styles from "./button.module.css";
+import LoadingIcon from "@/features/icons/loading-icon";
+import classes from "./button.module.css";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  isLoading?: boolean;
+  loading?: boolean;
 }
 
 export default function Button({
   children,
   className,
-  isLoading,
-  ...rest
+  loading,
+  ...restProps
 }: Props) {
   return (
-    <button className={clsx(styles.button, className)} {...rest}>
-      {isLoading ? "Loading..." : children}
+    <button
+      className={clsx(
+        classes["button"],
+        { [classes["is-loading"]]: loading },
+        className
+      )}
+      {...restProps}
+    >
+      {loading ? <LoadingIcon className={classes["icon"]} /> : null}
+      {children}
     </button>
   );
 }

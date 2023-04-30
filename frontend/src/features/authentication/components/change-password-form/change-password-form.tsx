@@ -1,11 +1,11 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { useState } from "react";
-import styles from "./change-password-form.module.css";
 import { useChangePasswordMutation } from "@/features/authentication/stores/auth-api-slice";
 import Alert from "@/features/ui/alert/alert";
 import Button from "@/features/ui/button/button";
 import TextField from "@/features/ui/text-field/text-field";
+import { useState } from "react";
+import styles from "./change-password-form.module.css";
 
 interface FormInput {
   oldPassword: string;
@@ -62,15 +62,15 @@ const ChangePasswordForm = ({ email }: Props) => {
       {isError || isSuccess ? (
         <div className={styles["alert-container"]}>
           {isError ? (
-            <Alert variant="danger">Something went wrong.</Alert>
+            <Alert severity="error">Something went wrong.</Alert>
           ) : null}
           {isSuccess ? (
-            <Alert variant="success">Password changed successfully</Alert>
+            <Alert severity="success">Password changed successfully</Alert>
           ) : null}
         </div>
       ) : null}
 
-      <Button isLoading={isLoading}>Save</Button>
+      <Button loading={isLoading}>Save</Button>
     </form>
   );
 };

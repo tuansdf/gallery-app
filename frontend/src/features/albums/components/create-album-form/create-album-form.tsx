@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import styles from "./create-album-form.module.css";
 import { useCreateAlbumMutation } from "@/features/albums/stores/albums-api-slice";
 import Alert from "@/features/ui/alert/alert";
 import Button from "@/features/ui/button/button";
 import TextField from "@/features/ui/text-field/text-field";
+import { useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import styles from "./create-album-form.module.css";
 
 type FormInputs = {
   name: string;
@@ -46,8 +46,8 @@ const CreateAlbumForm = ({ onSuccess }: Props) => {
         placeholder="Name"
         {...register("name", { required: true })}
       />
-      {isError ? <Alert variant="danger">Something went wrong!</Alert> : null}
-      <Button isLoading={isLoading}>Create</Button>
+      {isError ? <Alert severity="error">Something went wrong!</Alert> : null}
+      <Button loading={isLoading}>Create</Button>
     </form>
   );
 };

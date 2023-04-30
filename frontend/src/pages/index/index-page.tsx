@@ -1,27 +1,28 @@
 import { useState } from "react";
-import styles from "./index-page.module.css";
+
 import AlbumGrid from "@/features/albums/components/album-grid/album-grid";
 import CreateAlbumForm from "@/features/albums/components/create-album-form/create-album-form";
 import { useGetAlbumsQuery } from "@/features/albums/stores/albums-api-slice";
 import Alert from "@/features/ui/alert/alert";
 import Modal from "@/features/ui/modal/modal";
+import classes from "./index-page.module.css";
 
 const IndexPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data, isLoading, isError } = useGetAlbumsQuery();
 
-  if (isLoading) return <Alert variant="info">Loading...</Alert>;
+  if (isLoading) return <Alert severity="info">Loading...</Alert>;
   if (!data || isError)
-    return <Alert variant="danger">Something went wrong!</Alert>;
+    return <Alert severity="error">Something went wrong!</Alert>;
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <main className={styles.main}>
-      <div className={styles.header}>
-        <h1 className={styles.heading}>All Albums</h1>
+    <main className={classes["main"]}>
+      <div className={classes["header"]}>
+        <h1 className={classes["heading"]}>All Albums</h1>
         <button onClick={openModal}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +35,7 @@ const IndexPage = () => {
       </div>
       <AlbumGrid albums={data} />
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <h2 className={styles["modal-heading"]}>Create new album</h2>
+        <h2 className={classes["modal-heading"]}>Create new album</h2>
         <CreateAlbumForm onSuccess={closeModal} />
       </Modal>
     </main>

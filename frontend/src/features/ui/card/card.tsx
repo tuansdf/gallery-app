@@ -7,7 +7,7 @@ interface Props extends PropsWithChildren, HTMLAttributes<HTMLDivElement> {}
 
 const Card = ({ children, className, ...restProps }: Props) => {
   return (
-    <div className={clsx(classes.card, className)} {...restProps}>
+    <div className={clsx(classes["card"], className)} {...restProps}>
       {children}
     </div>
   );

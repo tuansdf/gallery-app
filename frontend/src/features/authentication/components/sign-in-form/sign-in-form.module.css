@@ -12,15 +12,6 @@
   margin-top: 1.75rem;
 }
 
-.success {
-  width: 100%;
-  margin-top: 0.85rem;
-  padding: 1rem;
-
-  border-radius: 0.4rem;
-
-  font-size: 0.9rem;
-  color: hsl(var(--clr-neutral-800));
-
-  background-color: hsl(var(--clr-success-400));
+.alert {
+  margin-top: 0.75rem;
 }

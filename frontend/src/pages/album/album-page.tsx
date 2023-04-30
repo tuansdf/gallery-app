@@ -3,7 +3,6 @@ import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import styles from "./album-page.module.css";
 import { useGetAlbumQuery } from "@/features/albums/stores/albums-api-slice";
 import ImageDetailOverlay from "@/features/images/components/image-detail-overlay/image-detail-overlay";
 import ImageGrid from "@/features/images/components/image-grid/image-grid";
@@ -15,6 +14,7 @@ import {
   selectIsImageDetailOpening,
 } from "@/features/images/stores/images-slice";
 import Alert from "@/features/ui/alert/alert";
+import classes from "./album-page.module.css";
 
 type ImagesByMonth = {
   groupName: string;
@@ -27,7 +27,7 @@ const AlbumPage = () => {
   const isImageDetailOpening = useSelector(selectIsImageDetailOpening);
   const dispatch = useDispatch();
 
-  if (!albumId) return <Alert variant="info">Something went wrong!</Alert>;
+  if (!albumId) return <Alert severity="info">Something went wrong!</Alert>;
 
   const {
     data: albumData,
@@ -76,21 +76,21 @@ const AlbumPage = () => {
   }, [imagesData]);
 
   if (albumIsLoading || imagesIsLoading)
-    return <Alert variant="info">Loading...</Alert>;
+    return <Alert severity="info">Loading...</Alert>;
   if (!albumData || !imagesData || albumIsError || imagesIsError)
-    return <Alert variant="danger">Something went wrong!</Alert>;
+    return <Alert severity="error">Something went wrong!</Alert>;
 
   return (
-    <main className={styles.main}>
-      <div className={styles.header}>
-        <h1 className={styles.heading}>{albumData.name}</h1>
+    <main className={classes["main"]}>
+      <div className={classes["header"]}>
+        <h1 className={classes["heading"]}>{albumData.name}</h1>
         <UploadImage albumId={albumId} />
       </div>
 
       {imagesByMonth?.map((byMonth) => {
         return (
-          <div className={styles.section}>
-            <div className={styles["section-title"]}>{byMonth.groupName}</div>
+          <div className={classes["section"]}>
+            <div className={classes["section-title"]}>{byMonth.groupName}</div>
             <ImageGrid images={byMonth.data} />
           </div>
         );

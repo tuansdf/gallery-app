@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import styles from "./sign-in-form.module.css";
+
 import { useResetPasswordMutation } from "@/features/authentication/stores/auth-api-slice";
+import Alert from "@/features/ui/alert/alert";
 import Button from "@/features/ui/button/button";
 import TextField from "@/features/ui/text-field/text-field";
+import classes from "./sign-in-form.module.css";
 
 interface FormInput {
   password: string;
@@ -44,30 +46,29 @@ const ResetPasswordForm = ({ resetToken }: Props) => {
     }
   };
 
-  const isError = errors.root?.message || errorMessage;
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+    <form onSubmit={handleSubmit(onSubmit)} className={classes["form"]}>
       <TextField
         type="password"
         placeholder="Password"
+        error={!!errors.password?.message}
+        helperText={errors.password?.message}
         {...register("password", { required: true })}
       />
-      {successMessage ? (
-        <div className={styles.success}>{successMessage}</div>
-      ) : null}
-      {isError ? (
-        <div className={styles["error-container"]}>
-          {errors.password?.message ? (
-            <div className={styles.error}>{errors.password.message}</div>
-          ) : null}
 
-          {errorMessage ? (
-            <div className={styles.error}>{errorMessage}</div>
-          ) : null}
-        </div>
+      {successMessage ? (
+        <Alert severity="success" className={classes["alert"]}>
+          {successMessage}
+        </Alert>
       ) : null}
-      <Button isLoading={isLoading}>Reset your password</Button>
+
+      {successMessage ? (
+        <Alert severity="error" className={classes["alert"]}>
+          {errorMessage}
+        </Alert>
+      ) : null}
+
+      <Button loading={isLoading}>Reset your password</Button>
     </form>
   );
 };

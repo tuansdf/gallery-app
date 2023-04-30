@@ -7,6 +7,7 @@ import { useLoginMutation } from "@/features/authentication/stores/auth-api-slic
 import { setCredentials } from "@/features/authentication/stores/auth-slice";
 import { ErrorMessage } from "@/features/authentication/utils/constants";
 import { FormRegex } from "@/features/authentication/utils/validators";
+import Alert from "@/features/ui/alert/alert";
 import Button from "@/features/ui/button/button";
 import TextField from "@/features/ui/text-field/text-field";
 import classes from "./sign-in-form.module.css";
@@ -57,7 +58,7 @@ export default function SignInForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
+    <form onSubmit={handleSubmit(onSubmit)} className={classes["form"]}>
       <TextField
         type="email"
         label="Email"
@@ -92,7 +93,14 @@ export default function SignInForm() {
           },
         })}
       />
-      <Button isLoading={isLoading}>Sign In</Button>
+
+      {requestError ? (
+        <Alert severity="error" className={classes["alert"]}>
+          {requestError}
+        </Alert>
+      ) : null}
+
+      <Button loading={isLoading}>Sign In</Button>
     </form>
   );
 }

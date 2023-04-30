@@ -1,11 +1,12 @@
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { useRegisterMutation } from "@/features/authentication/stores/auth-api-slice";
 import { ErrorMessage } from "@/features/authentication/utils/constants";
 import { FormRegex } from "@/features/authentication/utils/validators";
+import Alert from "@/features/ui/alert/alert";
 import Button from "@/features/ui/button/button";
 import TextField from "@/features/ui/text-field/text-field";
-import { useState } from "react";
 import classes from "./sign-up-form.module.css";
 
 const initialValues = {
@@ -61,7 +62,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
+    <form onSubmit={handleSubmit(onSubmit)} className={classes["form"]}>
       <TextField
         type="text"
         label="First Name"
@@ -123,11 +124,13 @@ const SignUpForm = () => {
         })}
       />
 
+      {requestError ? <Alert severity="error">{requestError}</Alert> : null}
+
       {successMessage ? (
-        <div className={classes.success}>{successMessage}</div>
+        <Alert severity="success">{successMessage}</Alert>
       ) : null}
 
-      <Button isLoading={isLoading}>Sign Up</Button>
+      <Button loading={isLoading}>Sign Up</Button>
     </form>
   );
 };

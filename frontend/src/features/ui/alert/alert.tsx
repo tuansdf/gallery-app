@@ -1,14 +1,27 @@
 import clsx from "clsx";
-import { PropsWithChildren } from "react";
-import styles from "./alert.module.css";
+import { HTMLAttributes, PropsWithChildren } from "react";
 
-interface Props extends PropsWithChildren {
-  variant: "danger" | "success" | "info";
+import CheckCircleIcon from "@/features/icons/check-circle-icon";
+import ExclamationCircleIcon from "@/features/icons/exclamation-circle-icon";
+import classes from "./alert.module.css";
+
+interface Props extends PropsWithChildren, HTMLAttributes<HTMLDivElement> {
+  severity: "error" | "success" | "info";
 }
 
-const Alert = ({ variant, children }: Props) => {
+const Alert = ({ severity, className, children }: Props) => {
   return (
-    <div className={clsx(styles.main, styles[`is-${variant}`])}>{children}</div>
+    <div
+      className={clsx(classes["alert"], classes[`is-${severity}`], className)}
+    >
+      {severity === "error" || severity === "info" ? (
+        <ExclamationCircleIcon className={classes["icon"]} />
+      ) : null}
+      {severity === "success" ? (
+        <CheckCircleIcon className={classes["icon"]} />
+      ) : null}
+      <span>{children}</span>
+    </div>
   );
 };
 

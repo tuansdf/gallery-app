@@ -1,8 +1,11 @@
-.main {
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   width: 100%;
-  padding: 1rem;
+  padding: 0.75rem;
 
-  border-radius: 0.4rem;
+  border-radius: var(--border-radius);
 
   font-size: 0.9rem;
 }
@@ -10,17 +13,23 @@
 .is-success {
   background-color: hsl(var(--clr-success-400));
 
-  color: hsl(var(--clr-neutral-800));
+  color: hsl(var(--clr-success-800));
 }
 
-.is-danger {
+.is-error {
   background-color: hsl(var(--clr-danger-400));
 
-  color: hsl(var(--clr-neutral-800));
+  color: hsl(var(--clr-danger-900));
 }
 
 .is-info {
   background-color: hsl(var(--clr-neutral-100));
 
   color: hsl(var(--clr-neutral-800));
+}
+
+.icon {
+  --size: 1.5rem;
+  width: var(--size);
+  height: var(--size);
 }

@@ -3,9 +3,9 @@ import classes from "./sign-in-layout.module.css";
 
 const SignInLayout = () => {
   return (
-    <main className={classes.main}>
-      <div className={classes.backdrop}></div>
-      <div className={classes.contribution}>
+    <main className={classes["main"]}>
+      <div className={classes["backdrop"]}></div>
+      <div className={classes["contribution"]}>
         Photo by{" "}
         <a href="https://unsplash.com/@davidmarcu?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">
           David Marcu
