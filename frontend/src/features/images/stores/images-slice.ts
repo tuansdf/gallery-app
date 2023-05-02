@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "@/app/store";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: SliceState = {
   isImageDetailOpening: false,
@@ -14,7 +14,7 @@ export type SliceState = {
 };
 
 const imageSlice = createSlice({
-  name: "auth",
+  name: "images",
   initialState,
   reducers: {
     onImageClick: (state, action) => {

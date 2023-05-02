@@ -1,0 +1,7 @@
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-modal-backdrop);
+
+  background-color: hsla(var(--clr-neutral-800), 0.8);
+}

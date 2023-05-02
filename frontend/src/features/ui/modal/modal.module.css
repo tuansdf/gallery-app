@@ -4,7 +4,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: var(--z-modal);
 
   display: flex;
   flex-direction: column;
@@ -12,22 +12,9 @@
   align-items: center;
 }
 
-.backdrop {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 900;
-
-  background-color: hsl(var(--clr-neutral-800), 0.8);
-
-  cursor: pointer;
-}
-
 .content {
   position: relative;
-  z-index: 2000;
+  z-index: var(--z-modal-content);
 
   max-width: 30rem;
   width: 100%;
@@ -37,6 +24,12 @@
   border-radius: 0.3rem;
 
   background-color: white;
+}
+
+.backdrop {
+  z-index: var(--z-modal-backdrop);
+
+  cursor: pointer;
 }
 
 @media (min-width: 800px) {

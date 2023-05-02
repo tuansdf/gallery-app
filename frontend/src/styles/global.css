@@ -1,7 +1,11 @@
 :root {
-  --sidebar-size: 18rem;
-  --sidebar-size-closed: 3rem;
-  --sidebar-translate-closed: -15rem;
+  --z-app-bar: 1000;
+  --z-sidebar-backdrop: 2000;
+  --z-sidebar: 2100;
+  --z-modal: 3000;
+  --z-modal-backdrop: 3100;
+  --z-modal-content: 3200;
+  --z-toast: 4000;
 
   --border-radius-sm: 0.25rem;
   --border-radius: 0.5rem;
@@ -48,13 +52,6 @@
   --clr-success-700: 142, 71%, 27%;
   --clr-success-800: 142, 70%, 18%;
   --clr-success-900: 143, 70%, 9%;
-}
-
-@media (min-width: 800px) {
-  :root {
-    --sidebar-size-closed: 3.5rem;
-    --sidebar-translate-closed: -14.5rem;
-  }
 }
 
 html,

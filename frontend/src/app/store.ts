@@ -10,9 +10,11 @@ import {
   persistStore,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+
 import { apiSlice } from "@/app/api-slice";
 import authReducer from "@/features/authentication/stores/auth-slice";
 import imageReducer from "@/features/images/stores/images-slice";
+import menuReducer from "@/features/menu/menu-store";
 
 const persistConfig = {
   key: "root",
@@ -24,6 +26,7 @@ const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
   auth: authReducer,
   image: imageReducer,
+  menu: menuReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

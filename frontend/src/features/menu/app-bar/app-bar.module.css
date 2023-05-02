@@ -1,0 +1,18 @@
+.app-bar {
+  position: sticky;
+  width: 100%;
+  padding: 0.25rem;
+  box-shadow: 0 0 0.2rem 0 hsl(var(--clr-neutral-400));
+}
+
+.menu-icon {
+  --size: 1.5rem;
+  width: var(--size);
+  height: var(--size);
+}
+
+@media (min-width: 600px) {
+  .app-bar {
+    padding: 0.5rem;
+  }
+}

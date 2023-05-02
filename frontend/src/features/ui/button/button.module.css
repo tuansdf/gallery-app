@@ -68,15 +68,15 @@
   --text-color: hsl(var(--clr-primary-700));
 }
 .button.is-variant-text.is-color-primary:hover {
-  --background-color: hsl(var(--clr-primary-500));
-  --text-color: hsl(var(--clr-primary-100));
+  --background-color: hsla(var(--clr-primary-100), 0.5);
+  --text-color: hsl(var(--clr-primary-700));
 }
 .button.is-variant-text.is-color-secondary {
   --text-color: hsl(var(--clr-neutral-700));
 }
 .button.is-variant-text.is-color-secondary:hover {
-  --background-color: hsl(var(--clr-neutral-500));
-  --text-color: hsl(var(--clr-neutral-100));
+  --background-color: hsla(var(--clr-neutral-100), 0.5);
+  --text-color: hsl(var(--clr-neutral-900));
 }
 
 .button.is-variant-contained.is-color-primary {
