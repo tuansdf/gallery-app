@@ -106,7 +106,7 @@ const AlbumPage = () => {
       ) : imagesByMonth?.length ? (
         imagesByMonth?.map((byMonth) => {
           return (
-            <div className={classes["section"]}>
+            <div className={classes["section"]} key={byMonth.groupName}>
               <div className={classes["section-title"]}>
                 {byMonth.groupName}
               </div>

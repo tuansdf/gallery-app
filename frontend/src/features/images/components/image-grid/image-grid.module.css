@@ -8,8 +8,8 @@
   gap: 1rem;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 900px) {
   .main {
-    --max-item-width: 18rem;
+    --max-item-width: 15rem;
   }
 }

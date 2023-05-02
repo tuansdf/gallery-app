@@ -1,5 +1,6 @@
+import Card from "@/features/ui/card/card";
 import { PropsWithChildren } from "react";
-import styles from "./modal.module.css";
+import classes from "./modal.module.css";
 
 interface Props extends PropsWithChildren {
   isOpen: boolean;
@@ -10,11 +11,11 @@ const Modal = ({ children, isOpen, onClose }: Props) => {
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modal}>
+    <div className={classes["modal"]}>
       {/* backdrop */}
-      <div className={styles.backdrop} onClick={onClose}></div>
+      <div className={classes["backdrop"]} onClick={onClose}></div>
       {/* content */}
-      <div className={styles.content}>{children}</div>
+      <Card className={classes["content"]}>{children}</Card>
     </div>
   );
 };

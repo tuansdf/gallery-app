@@ -5,7 +5,7 @@ import { useCreateAlbumMutation } from "@/features/albums/stores/albums-api-slic
 import Alert from "@/features/ui/alert/alert";
 import Button from "@/features/ui/button/button";
 import TextField from "@/features/ui/text-field/text-field";
-import styles from "./create-album-form.module.css";
+import classes from "./create-album-form.module.css";
 
 type FormValues = {
   name: string;
@@ -41,14 +41,16 @@ const CreateAlbumForm = ({ onSuccess }: Props) => {
   }, [setFocus]);
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+    <form className={classes["form"]} onSubmit={handleSubmit(onSubmit)}>
       <TextField
         type="text"
         placeholder="Name"
         {...register("name", { required: true })}
       />
       {isError ? <Alert severity="error">Something went wrong!</Alert> : null}
-      <Button loading={isLoading}>Create</Button>
+      <Button color="primary" loading={isLoading}>
+        Create
+      </Button>
     </form>
   );
 };

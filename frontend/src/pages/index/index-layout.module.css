@@ -1,16 +1,18 @@
 .main {
   display: flex;
   height: 100%;
+  align-items: stretch;
 }
 
 .main > * + * {
-  margin-left: var(--sidebar-size-closed);
+  padding-left: var(--sidebar-size-closed);
 }
 
 .container {
   flex: 1;
   height: 100%;
   padding: 1rem;
+  overflow: auto;
 }
 
 @media (min-width: 800px) {

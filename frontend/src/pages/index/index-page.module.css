@@ -10,7 +10,7 @@
   margin-bottom: 1.5rem;
 }
 
-.header > button {
+.header > .close-button {
   --size: 2.5rem;
   width: var(--size);
   height: var(--size);
@@ -21,14 +21,14 @@
 
   border-radius: 9999px;
 
-  font-size: 2rem;
+  font-size: 1.2rem;
 
   transition: background-color 100ms ease;
 }
-.header > button:hover {
+.header > .close-button:hover {
   background-color: hsl(var(--clr-neutral-200));
 }
-.header > button > svg {
+.header > .close-button > svg {
   --size: 1.75rem;
   width: var(--size);
   height: var(--size);
@@ -39,10 +39,18 @@
   font-weight: bold;
 }
 
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
 .modal-heading {
-  margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
-
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
+}
+.modal-close-icon {
+  --size: 1.25rem;
+  width: var(--size);
+  height: var(--size);
 }

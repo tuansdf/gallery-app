@@ -3,26 +3,104 @@
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
 
-  border-radius: var(--border-radius);
   border: none;
 
-  background-color: hsl(var(--clr-primary-600));
-
-  color: white;
-  font-size: 1rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-size: var(--font-size);
 
   cursor: pointer;
-  transition-duration: 100ms;
-  transition-property: background-color;
+  transition-duration: 150ms;
+  transition-property: background-color color;
   transition-timing-function: ease-in-out;
 }
-.button:hover {
-  background-color: hsl(var(--clr-primary-700));
+
+.button.is-shape-rectangle {
+  padding: var(--py) var(--px);
+
+  border-radius: var(--border-radius);
 }
-.button:focus-visible {
+.button.is-shape-circle {
+  width: var(--size);
+  height: var(--size);
+
+  border-radius: 9999px;
+}
+
+.button.is-size-small {
+  --font-size: 0.875rem;
+}
+.button.is-size-medium {
+  --font-size: 1rem;
+}
+.button.is-size-large {
+  --font-size: 1.125rem;
+}
+
+.button.is-shape-rectangle.is-size-small {
+  --py: 0.5rem;
+  --px: 0.85rem;
+}
+.button.is-shape-rectangle.is-size-medium {
+  --py: 0.75rem;
+  --px: 1.25rem;
+}
+.button.is-shape-rectangle.is-size-large {
+  --py: 1rem;
+  --px: 1.5rem;
+}
+
+.button.is-shape-circle.is-size-small {
+  --size: 2.25rem;
+}
+.button.is-shape-circle.is-size-medium {
+  --size: 2.75rem;
+}
+.button.is-shape-circle.is-size-large {
+  --size: 3.25rem;
+}
+
+.button.is-variant-text {
+  --background-color: transparent;
+}
+.button.is-variant-text.is-color-primary {
+  --text-color: hsl(var(--clr-primary-700));
+}
+.button.is-variant-text.is-color-primary:hover {
+  --background-color: hsl(var(--clr-primary-500));
+  --text-color: hsl(var(--clr-primary-100));
+}
+.button.is-variant-text.is-color-secondary {
+  --text-color: hsl(var(--clr-neutral-700));
+}
+.button.is-variant-text.is-color-secondary:hover {
+  --background-color: hsl(var(--clr-neutral-500));
+  --text-color: hsl(var(--clr-neutral-100));
+}
+
+.button.is-variant-contained.is-color-primary {
+  --background-color: hsl(var(--clr-primary-600));
+  --text-color: white;
+}
+.button.is-variant-contained.is-color-primary:hover {
+  --background-color: hsl(var(--clr-primary-700));
+}
+.button.is-variant-contained.is-color-secondary {
+  --background-color: hsl(var(--clr-neutral-600));
+  --text-color: white;
+}
+.button.is-variant-contained.is-color-secondary:hover {
+  --background-color: hsl(var(--clr-neutral-500));
+}
+
+.button.is-variant-contained.is-color-primary:focus-visible,
+.button.is-variant-text.is-color-primary:focus-visible {
   --outline-color: hsl(var(--clr-primary-700));
+}
+.button.is-variant-contained.is-color-neutral:focus-visible,
+.button.is-variant-text.is-color-neutral:focus-visible {
+  --outline-color: hsl(var(--clr-neutral-700));
 }
 
 .icon {

@@ -78,7 +78,6 @@ body {
   outline-style: solid;
   outline-color: var(--outline-color);
 }
-
 *,
 ::before,
 ::after {

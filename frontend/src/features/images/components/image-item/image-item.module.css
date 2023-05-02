@@ -3,6 +3,13 @@
 
   border-radius: var(--border-radius-sm);
 
+  background-image: linear-gradient(
+    to right bottom,
+    hsl(var(--clr-neutral-200)),
+    hsl(var(--clr-neutral-100)),
+    hsl(var(--clr-neutral-100))
+  );
+
   cursor: pointer;
 
   transition: opacity 100ms ease-in-out;

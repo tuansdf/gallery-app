@@ -1,8 +1,8 @@
-import { useDispatch } from "react-redux";
-import styles from "./image-grid.module.css";
 import ImageItem from "@/features/images/components/image-item/image-item";
 import { Image } from "@/features/images/image-types";
 import { onImageClick } from "@/features/images/stores/images-slice";
+import { useDispatch } from "react-redux";
+import classes from "./image-grid.module.css";
 
 interface Props {
   images: Image[];
@@ -16,7 +16,7 @@ const ImageGrid = ({ images }: Props) => {
   };
 
   return (
-    <div className={styles["main"]}>
+    <div className={classes["main"]}>
       {images.map((image, i) => (
         <ImageItem
           imageUrl={image.imageUrl}
