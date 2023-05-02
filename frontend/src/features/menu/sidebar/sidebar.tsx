@@ -66,13 +66,12 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {isSidebarOpen ? (
-        <Backdrop
-          className={classes["backdrop"]}
-          onClick={handleClose}
-          role="button"
-        />
-      ) : null}
+      <Backdrop
+        className={classes["backdrop"]}
+        onClick={handleClose}
+        role="button"
+        show={isSidebarOpen}
+      />
     </>
   );
 };

@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { PropsWithChildren } from "react";
 
 import Backdrop from "@/features/ui/backdrop/backdrop";
@@ -10,17 +11,22 @@ interface Props extends PropsWithChildren {
 }
 
 const Modal = ({ children, isOpen, onClose }: Props) => {
-  if (!isOpen) return null;
-
   return (
-    <>
-      <div className={classes["modal"]}>
-        {/* backdrop */}
-        <Backdrop onClick={onClose} className={classes["backdrop"]} />
-        {/* content */}
-        <Card className={classes["content"]}>{children}</Card>
-      </div>
-    </>
+    <AnimatePresence>
+      {isOpen ? (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className={classes["modal"]}
+        >
+          {/* backdrop */}
+          <Backdrop onClick={onClose} className={classes["backdrop"]} />
+          {/* content */}
+          <Card className={classes["content"]}>{children}</Card>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
   );
 };
 

@@ -44,9 +44,11 @@
   padding-bottom: var(--py);
   width: 100%;
 
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
   border-bottom: 1px solid hsla(var(--clr-neutral-700), 0.7);
 
-  background-color: hsl(var(--clr-neutral-800));
+  background-color: hsl(var(--clr-primary-700));
 }
 
 .info-avatar {
@@ -57,7 +59,7 @@
 
   border-radius: 9999px;
 
-  background-color: hsl(var(--clr-neutral-300));
+  background-color: hsla(var(--clr-neutral-200), 0.3);
 }
 
 .info-name {
