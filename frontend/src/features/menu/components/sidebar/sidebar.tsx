@@ -8,8 +8,11 @@ import {
 import BookIcon from "@/features/icons/book-icon";
 import LogOutIcon from "@/features/icons/log-out-icon.tsx";
 import SettingIcon from "@/features/icons/setting-icon.tsx";
-import { closeSidebar, selectIsSidebarOpen } from "@/features/menu/menu-store";
-import SidebarItem from "@/features/menu/sidebar-item/sidebar-item";
+import SidebarItem from "@/features/menu/components/sidebar-item/sidebar-item";
+import {
+  closeSidebar,
+  selectIsSidebarOpen,
+} from "@/features/menu/stores/menu-store";
 import Backdrop from "@/features/ui/backdrop/backdrop";
 import classes from "./sidebar.module.css";
 
@@ -49,7 +52,7 @@ const Sidebar = () => {
             <SidebarItem
               leading={<BookIcon className={classes["sidebar-icon"]} />}
               to="/"
-              text="All Albums"
+              text="All albums"
             />
             <SidebarItem
               leading={<SettingIcon className={classes["sidebar-icon"]} />}

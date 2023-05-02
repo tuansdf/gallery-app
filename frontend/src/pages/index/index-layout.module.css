@@ -16,17 +16,20 @@
   flex: 1;
   height: 100%;
   padding: 0.5rem;
+  padding-top: 0.75rem;
   overflow: auto;
 }
 
 @media (min-width: 600px) {
   .right-inner-container {
     padding: 1rem;
+    padding-top: 1.25rem;
   }
 }
 
 @media (min-width: 800px) {
   .right-inner-container {
     padding: 1.25rem;
+    padding-top: 1.5rem;
   }
 }

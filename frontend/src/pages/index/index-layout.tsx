@@ -1,7 +1,8 @@
 import { Outlet } from "react-router-dom";
 
-import AppBar from "@/features/menu/app-bar/app-bar";
-import Sidebar from "@/features/menu/sidebar/sidebar";
+import AppBar from "@/features/menu/components/app-bar/app-bar";
+import Sidebar from "@/features/menu/components/sidebar/sidebar";
+import AppBarProvider from "@/features/menu/context/app-bar-provider";
 import classes from "./index-layout.module.css";
 
 const IndexLayout = () => {
@@ -9,10 +10,12 @@ const IndexLayout = () => {
     <div className={classes["main-layout"]}>
       <Sidebar />
       <div className={classes["right-outer-container"]}>
-        <AppBar />
-        <div className={classes["right-inner-container"]}>
-          <Outlet />
-        </div>
+        <AppBarProvider>
+          <AppBar />
+          <div className={classes["right-inner-container"]}>
+            <Outlet />
+          </div>
+        </AppBarProvider>
       </div>
     </div>
   );

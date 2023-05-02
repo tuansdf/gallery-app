@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -14,6 +14,8 @@ import {
   onFetchImagesSuccess,
   selectIsImageDetailOpening,
 } from "@/features/images/stores/images-slice";
+import { AppBarContext } from "@/features/menu/context/app-bar-provider";
+import { setTitle } from "@/features/menu/stores/app-bar-store";
 import Alert from "@/features/ui/alert/alert";
 import Skeleton from "@/features/ui/skeleton/skeleton";
 import classes from "./album-page.module.css";
@@ -24,6 +26,8 @@ type ImagesByMonth = {
 };
 
 const AlbumPage = () => {
+  const { setTrailing } = useContext(AppBarContext);
+
   const { albumId } = useParams();
 
   const isImageDetailOpening = useSelector(selectIsImageDetailOpening);
@@ -77,19 +81,15 @@ const AlbumPage = () => {
     return convertToImagesByMonth(imagesData);
   }, [imagesData]);
 
+  useEffect(() => {
+    if (albumData?.name) {
+      dispatch(setTitle(albumData.name));
+    }
+    setTrailing(<UploadImage albumId={albumId} />);
+  }, [albumData]);
+
   return (
     <main className={classes["main"]}>
-      {albumIsLoading ? (
-        <Skeleton className={classes["album-name-skeleton"]} />
-      ) : albumIsError ? (
-        <Alert severity="error">Something went wrong!</Alert>
-      ) : albumData ? (
-        <div className={classes["header"]}>
-          <h1 className={classes["heading"]}>{albumData.name}</h1>
-          <UploadImage albumId={albumId} />
-        </div>
-      ) : null}
-
       {imagesIsLoading ? (
         <>
           <div className={classes["section-skeleton"]}>

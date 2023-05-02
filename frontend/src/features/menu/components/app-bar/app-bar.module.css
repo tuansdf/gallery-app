@@ -1,7 +1,11 @@
 .app-bar {
   position: sticky;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   width: 100%;
   padding: 0.25rem;
+
   box-shadow: 0 0 0.2rem 0 hsl(var(--clr-neutral-400));
 }
 
@@ -11,8 +15,20 @@
   height: var(--size);
 }
 
+.title {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.trailing {
+  margin-left: auto;
+}
+
 @media (min-width: 600px) {
   .app-bar {
     padding: 0.5rem;
+  }
+  .title {
+    font-size: 1.25rem;
   }
 }

@@ -2,9 +2,15 @@
   max-width: 25rem;
 }
 
-.heading {
-  margin-bottom: 1.5rem;
+.section-title {
+  margin-bottom: 0.75rem;
 
-  font-size: 2.5rem;
-  font-weight: bold;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+@media (min-width: 600px) {
+  .section-title {
+    font-size: 1.5rem;
+  }
 }

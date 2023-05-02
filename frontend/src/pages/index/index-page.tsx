@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import AlbumGridSkeleton from "@/features/albums/components/album-grid-skeleton/album-grid-skeleton";
 import AlbumGrid from "@/features/albums/components/album-grid/album-grid";
@@ -6,34 +6,47 @@ import CreateAlbumForm from "@/features/albums/components/create-album-form/crea
 import { useGetAlbumsQuery } from "@/features/albums/stores/albums-api-slice";
 import PlusIcon from "@/features/icons/plus-icon";
 import XMarkIcon from "@/features/icons/x-mark-icon";
+import { AppBarContext } from "@/features/menu/context/app-bar-provider";
+import { setTitle } from "@/features/menu/stores/app-bar-store";
 import Alert from "@/features/ui/alert/alert";
 import Button from "@/features/ui/button/button";
 import Modal from "@/features/ui/modal/modal";
+import { useDispatch } from "react-redux";
 import classes from "./index-page.module.css";
 
 const IndexPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { setTrailing } = useContext(AppBarContext);
+
+  const dispatch = useDispatch();
 
   const { data, isLoading, isError } = useGetAlbumsQuery();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  useEffect(() => {
+    dispatch(setTitle("All albums"));
+    setTrailing(
+      <Button
+        variant="text"
+        shape="circle"
+        color="secondary"
+        onClick={openModal}
+        className={classes["add-button"]}
+      >
+        <PlusIcon className={classes["add-icon"]} />
+      </Button>
+    );
+
+    return () => {
+      dispatch(setTitle(""));
+      setTrailing(null);
+    };
+  }, []);
+
   return (
     <main className={classes["main"]}>
-      <div className={classes["header"]}>
-        <h1 className={classes["heading"]}>All Albums</h1>
-        <Button
-          variant="text"
-          shape="circle"
-          color="secondary"
-          onClick={openModal}
-          className={classes["add-button"]}
-        >
-          <PlusIcon className={classes["add-icon"]} />
-        </Button>
-      </div>
-
       {isLoading ? (
         <AlbumGridSkeleton />
       ) : isError ? (

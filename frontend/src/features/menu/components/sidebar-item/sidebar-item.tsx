@@ -1,10 +1,10 @@
 import clsx from "clsx";
+import { ReactNode } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 
-import { closeSidebar } from "@/features/menu/menu-store";
+import { closeSidebar } from "@/features/menu/stores/menu-store";
 import useMediaQuery from "@/hooks/use-media-query";
-import { ReactNode } from "react";
 import classes from "./sidebar-item.module.css";
 
 interface Props {
