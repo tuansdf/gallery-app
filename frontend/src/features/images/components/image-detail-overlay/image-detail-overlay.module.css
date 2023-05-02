@@ -60,7 +60,7 @@
   margin-top: 2rem;
 }
 
-.change-image-btn {
+.change-image-button {
   z-index: 999999;
   width: 5rem;
   height: 80%;
@@ -75,17 +75,17 @@
   transition: background-color 100ms ease-in;
 }
 
-.change-image-btn > svg {
+.change-image-icon {
   --size: 1.75rem;
   width: var(--size);
   height: var(--size);
 }
 
-.change-image-btn:hover {
+.change-image-button:hover {
   background-color: hsla(var(--clr-neutral-900), 0.3);
 }
 
-.close-btn {
+.close-button {
   --size: 3.25rem;
   position: absolute;
   top: 1rem;
@@ -99,7 +99,11 @@
 
   color: white;
 }
-
-.close-btn:hover {
+.close-button:hover {
   background-color: hsla(var(--clr-neutral-900), 0.3);
+}
+.close-icon {
+  --size: 1.5rem;
+  width: var(--size);
+  height: var(--size);
 }

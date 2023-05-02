@@ -1,4 +1,4 @@
-.create-btn {
+.upload-button {
   --size: 2.5rem;
   width: var(--size);
   height: var(--size);
@@ -15,14 +15,19 @@
 
   transition: background-color 100ms ease;
 }
-.create-btn:hover {
+.upload-button:hover {
   background-color: hsl(var(--clr-neutral-200));
 }
-.create-btn > svg {
-  --size: 1.75rem;
+.upload-icon {
+  --size: 1.25rem;
   width: var(--size);
   height: var(--size);
 }
 .hidden {
   display: none;
+}
+@media (min-width: 600px) {
+  .upload-icon {
+    --size: 1.5rem;
+  }
 }

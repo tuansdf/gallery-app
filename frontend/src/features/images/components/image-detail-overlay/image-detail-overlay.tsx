@@ -1,6 +1,9 @@
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 
+import ChevronLeftIcon from "@/features/icons/chevron-left-icon";
+import ChevronRightIcon from "@/features/icons/chevron-right-icon";
+import XMarkIcon from "@/features/icons/x-mark-icon";
 import { Image } from "@/features/images/image-types";
 import {
   onCloseImage,
@@ -34,51 +37,15 @@ const ImageDetailOverlay = ({ images }: Props) => {
       <div className={classes["backdrop"]}></div>
       {/* content */}
       <div className={classes["content"]}>
-        <button className={classes["change-image-btn"]} onClick={onPrev}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 19.5L8.25 12l7.5-7.5"
-            />
-          </svg>
+        <button className={classes["change-image-button"]} onClick={onPrev}>
+          <ChevronLeftIcon className={classes["change-image-icon"]} />
         </button>
         <img src={currentImage.imageUrl} className={classes["image"]} />
-        <button className={classes["close-btn"]} onClick={onClose}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+        <button className={classes["close-button"]} onClick={onClose}>
+          <XMarkIcon className={classes["close-icon"]} />
         </button>
-        <button className={classes["change-image-btn"]} onClick={onNext}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M8.25 4.5l7.5 7.5-7.5 7.5"
-            />
-          </svg>
+        <button className={classes["change-image-button"]} onClick={onNext}>
+          <ChevronRightIcon className={classes["change-image-icon"]} />
         </button>
       </div>
       <div className={classes["info"]}>

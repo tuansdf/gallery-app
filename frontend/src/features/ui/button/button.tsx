@@ -1,18 +1,31 @@
 import clsx from "clsx";
-import { ButtonHTMLAttributes } from "react";
+import {
+  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  HTMLAttributes,
+} from "react";
 
 import LoadingIcon from "@/features/icons/loading-icon";
 import classes from "./button.module.css";
 
-interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+type ButtonComponent = "button" | "div" | "a";
+
+type HTMLProps<T extends ButtonComponent> = T extends "button"
+  ? ButtonHTMLAttributes<HTMLButtonElement>
+  : T extends "div"
+  ? HTMLAttributes<HTMLDivElement>
+  : AnchorHTMLAttributes<HTMLAnchorElement>;
+
+type Props<T extends ButtonComponent> = {
   loading?: boolean;
   variant?: "text" | "contained";
   color?: "primary" | "secondary";
   size?: "small" | "medium" | "large";
   shape?: "circle" | "rectangle";
-}
+  component?: T;
+} & HTMLProps<T>;
 
-export default function Button({
+const Button = <T extends ButtonComponent>({
   children,
   className,
   loading,
@@ -20,10 +33,14 @@ export default function Button({
   color = "primary",
   size = "medium",
   shape = "rectangle",
+  component = "button" as T,
   ...restProps
-}: Props) {
+}: Props<T>) => {
+  const Component = component;
+
   return (
-    <button
+    // @ts-ignore
+    <Component
       className={clsx(
         classes["button"],
         classes[`is-shape-${shape}`],
@@ -36,6 +53,8 @@ export default function Button({
     >
       {loading ? <LoadingIcon className={classes["icon"]} /> : null}
       {children}
-    </button>
+    </Component>
   );
-}
+};
+
+export default Button;
