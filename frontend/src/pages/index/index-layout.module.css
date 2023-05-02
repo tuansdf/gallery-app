@@ -5,14 +5,20 @@
 }
 
 .main > * + * {
-  padding-left: var(--sidebar-size-closed);
+  margin-left: var(--sidebar-size-closed);
 }
 
 .container {
   flex: 1;
   height: 100%;
-  padding: 1rem;
+  padding: 0.5rem;
   overflow: auto;
+}
+
+@media (min-width: 600px) {
+  .container {
+    padding: 1rem;
+  }
 }
 
 @media (min-width: 800px) {

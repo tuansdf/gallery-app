@@ -17,7 +17,7 @@
   }
 }
 
-@media (min-width: 950px) {
+@media (min-width: 960px) {
   .image-grid-skeleton {
     --max-item-width: 12rem;
   }
