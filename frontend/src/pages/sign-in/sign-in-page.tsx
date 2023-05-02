@@ -10,7 +10,7 @@ export default function SignInPage() {
       <h1 className={classes["heading"]}>Welcome back</h1>
       <SignInForm />
 
-      <div className={classes["notice-group"]}>
+      <div className={classes["notice-container"]}>
         <div className={classes["notice"]}>
           Don't have an account? <Link to="/sign-up">Sign Up</Link>
         </div>

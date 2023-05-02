@@ -15,7 +15,7 @@
 .month-name-skeleton {
   width: 14rem;
   height: 1.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .section-skeleton + .section-skeleton {

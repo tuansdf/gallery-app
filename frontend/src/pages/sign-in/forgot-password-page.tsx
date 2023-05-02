@@ -9,9 +9,11 @@ const ForgotPasswordPage = () => {
     <Card className={classes["card"]}>
       <h1 className={classes["heading"]}>Reset your password</h1>
       <ForgotPasswordForm />
-      <div className={classes["notice-group"]}>
+      <div className={classes["notice-container"]}>
         <span className={classes["notice"]}>Go back to</span>{" "}
-        <Link to="/sign-in">Sign In</Link>
+        <Link to="/sign-in" className={classes["notice-link"]}>
+          Sign In
+        </Link>
       </div>
     </Card>
   );

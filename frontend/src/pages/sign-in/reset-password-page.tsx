@@ -17,9 +17,9 @@ const ResetPasswordPage = () => {
     <Card className={classes["card"]}>
       <h1 className={classes["heading"]}>Enter your new password</h1>
       <ResetPasswordForm resetToken={token} />
-      <div className={classes["notice-group"]}>
+      <div className={classes["notice-container"]}>
         <span className={classes["notice"]}>Back to</span>{" "}
-        <Link to="/sign-in">login</Link>
+        <Link to="/sign-in">Sign In</Link>
       </div>
     </Card>
   );

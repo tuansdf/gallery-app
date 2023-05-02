@@ -7,19 +7,20 @@
 }
 
 .heading {
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.5rem;
 
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: bold;
   white-space: nowrap;
 }
 
-.notice-group {
+.notice-container {
   margin-top: 1.75rem;
 
   text-align: center;
 }
 
+.notice-link,
 .notice {
   font-size: 0.875rem;
 }

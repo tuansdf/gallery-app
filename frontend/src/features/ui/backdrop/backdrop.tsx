@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
+import { AnimatePresence, HTMLMotionProps, m } from "framer-motion";
 
 import classes from "./backdrop.module.css";
 
@@ -11,13 +11,13 @@ const Backdrop = ({ show = true, className, ...restProps }: Props) => {
   return (
     <AnimatePresence>
       {show ? (
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           exit={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className={clsx(classes["backdrop"], className)}
           {...restProps}
-        ></motion.div>
+        ></m.div>
       ) : null}
     </AnimatePresence>
   );
