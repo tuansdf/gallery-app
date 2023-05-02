@@ -87,10 +87,6 @@ export default function SignInForm() {
             value: true,
             message: "Please enter your password",
           },
-          pattern: {
-            value: FormRegex.PASSWORD,
-            message: ErrorMessage.PASSWORD,
-          },
         })}
       />
 

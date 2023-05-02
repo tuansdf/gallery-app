@@ -32,21 +32,30 @@ const Sidebar = () => {
         })}
       >
         <div className={classes["container"]}>
-          {/* avatar */}
-          <div className={classes["avatar"]}></div>
-          {/* name */}
-          <div
-            className={classes["name"]}
-          >{`${user.firstName} ${user.lastName}`}</div>
+          {/* info */}
+          <div className={classes["info"]}>
+            {/* avatar */}
+            <div className={classes["info-avatar"]}></div>
+            {/* name */}
+            <div
+              className={classes["info-name"]}
+            >{`${user.firstName} ${user.lastName}`}</div>
+          </div>
 
-          <SidebarItem to="/" text="All Albums" />
-          <SidebarItem to="/settings" text="Settings" />
-          <SidebarItem type="button" onClick={handleLogout} text="Log out" />
+          <div className={classes["sidebar-items"]}>
+            <SidebarItem to="/" text="All Albums" />
+            <SidebarItem to="/settings" text="Settings" />
+            <SidebarItem type="button" onClick={handleLogout} text="Log out" />
+          </div>
         </div>
       </div>
 
       {isSidebarOpen ? (
-        <Backdrop className={classes["backdrop"]} onClick={handleClose} />
+        <Backdrop
+          className={classes["backdrop"]}
+          onClick={handleClose}
+          role="button"
+        />
       ) : null}
     </>
   );

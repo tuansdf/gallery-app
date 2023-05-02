@@ -7,7 +7,7 @@ export type SliceState = {
 };
 
 const initialState: SliceState = {
-  isSidebarOpen: true,
+  isSidebarOpen: false,
 };
 
 const menuSlice = createSlice({

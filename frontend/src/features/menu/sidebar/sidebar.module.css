@@ -10,7 +10,9 @@
   height: 100%;
   z-index: var(--z-sidebar);
 
-  background-color: hsl(var(--clr-neutral-800));
+  border-right: 1px solid hsla(var(--clr-neutral-700), 0.7);
+
+  background-color: hsl(var(--clr-neutral-900));
   color: white;
 
   transition-property: margin-left;
@@ -25,12 +27,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  padding: 4rem 0;
-
-  transition-property: opacity translate;
-  transition-duration: 400ms;
-  transition-timing-function: easeInOutQuad;
 }
 
 .closed {
@@ -38,8 +34,23 @@
   overflow: hidden;
 }
 
-.avatar {
-  --size: 8rem;
+.info {
+  --py: 3rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: var(--py);
+  padding-bottom: var(--py);
+  width: 100%;
+
+  border-bottom: 1px solid hsla(var(--clr-neutral-700), 0.7);
+
+  background-color: hsl(var(--clr-neutral-800));
+}
+
+.info-avatar {
+  --size: 6rem;
   width: var(--size);
   height: var(--size);
   margin-bottom: 1.5rem;
@@ -49,11 +60,13 @@
   background-color: hsl(var(--clr-neutral-300));
 }
 
-.name {
-  margin-bottom: 4rem;
-
-  font-size: 1.1rem;
+.info-name {
   font-weight: 500;
+}
+
+.sidebar-items {
+  width: 100%;
+  margin-top: 1rem;
 }
 
 .backdrop {
@@ -62,7 +75,7 @@
   cursor: pointer;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 1000px) {
   .sidebar {
     position: relative;
   }
