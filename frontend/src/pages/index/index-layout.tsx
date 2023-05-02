@@ -1,12 +1,13 @@
 import { Outlet } from "react-router-dom";
-import styles from "./index-layout.module.css";
+
 import Sidebar from "@/features/menu/sidebar/sidebar";
+import classes from "./index-layout.module.css";
 
 const IndexLayout = () => {
   return (
-    <div className={styles.main}>
+    <div className={classes["main"]}>
       <Sidebar />
-      <div className={styles.container}>
+      <div className={classes["container"]}>
         <Outlet />
       </div>
     </div>

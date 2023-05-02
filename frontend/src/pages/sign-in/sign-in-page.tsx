@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
+
 import SignInForm from "@/features/authentication/components/sign-in-form/sign-in-form";
 import Card from "@/features/ui/card/card";
-import { Link } from "react-router-dom";
 import classes from "./sign-in-page.module.css";
 
 export default function SignInPage() {

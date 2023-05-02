@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import styles from "./not-found-page.module.css";
+
+import classes from "./not-found-page.module.css";
 
 const NotFoundPage = () => {
   return (
-    <main className={styles.main}>
-      <h1 className={styles.heading}>Page not found</h1>
-      <div className={styles.navigation}>
+    <main className={classes["main"]}>
+      <h1 className={classes["heading"]}>Page not found</h1>
+      <div className={classes["navigation"]}>
         Back to <Link to="/">home</Link>.
       </div>
     </main>

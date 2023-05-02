@@ -1,5 +1,6 @@
-import Card from "@/features/ui/card/card";
 import { PropsWithChildren } from "react";
+
+import Card from "@/features/ui/card/card";
 import classes from "./modal.module.css";
 
 interface Props extends PropsWithChildren {

@@ -1,8 +1,8 @@
 import { ChangeEvent, useId } from "react";
 
-import styles from "./upload-image.module.css";
 import { CreateImageRequest } from "@/features/images/image-types";
 import { useCreateImageMutation } from "@/features/images/stores/images-api-slice";
+import classes from "./upload-image.module.css";
 
 interface Props {
   albumId: string;
@@ -30,14 +30,14 @@ const UploadImage = ({ albumId }: Props) => {
   return (
     <form>
       <input
-        className={styles.hidden}
+        className={classes["hidden"]}
         id={inputId}
         type="file"
         accept="image/png,image/jpeg,image/webp"
         onChange={handleChange}
         disabled={isUploading}
       />
-      <label htmlFor={inputId} className={styles["create-btn"]}>
+      <label htmlFor={inputId} className={classes["create-btn"]}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

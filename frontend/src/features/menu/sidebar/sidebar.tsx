@@ -1,3 +1,5 @@
+import clsx from "clsx";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -5,9 +7,7 @@ import {
   selectCurrentUser,
 } from "@/features/authentication/stores/auth-slice";
 import SidebarItem from "@/features/menu/sidebar-item/sidebar-item";
-import clsx from "clsx";
-import { useState } from "react";
-import styles from "./sidebar.module.css";
+import classes from "./sidebar.module.css";
 
 const Sidebar = () => {
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
@@ -25,8 +25,12 @@ const Sidebar = () => {
   };
 
   return (
-    <div className={clsx(styles.main, { [styles.closed]: isSidebarClosed })}>
-      <button onClick={toggleSidebar} className={styles["close-button"]}>
+    <div
+      className={clsx(classes["main"], {
+        [classes["closed"]]: isSidebarClosed,
+      })}
+    >
+      <button onClick={toggleSidebar} className={classes["close-button"]}>
         {isSidebarClosed ? (
           // open
           <svg
@@ -55,12 +59,12 @@ const Sidebar = () => {
           </svg>
         )}
       </button>
-      <div className={styles.container}>
+      <div className={classes["container"]}>
         {/* avatar */}
-        <div className={styles.avatar}></div>
+        <div className={classes["avatar"]}></div>
         {/* name */}
         <div
-          className={styles.name}
+          className={classes["name"]}
         >{`${user.firstName} ${user.lastName}`}</div>
 
         <SidebarItem to="/" text="All Albums" />

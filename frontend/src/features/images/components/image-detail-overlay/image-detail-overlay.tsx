@@ -1,7 +1,6 @@
+import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 
-import dayjs from "dayjs";
-import styles from "./image-detail-overlay.module.css";
 import { Image } from "@/features/images/image-types";
 import {
   onCloseImage,
@@ -9,6 +8,7 @@ import {
   onPrevImage,
   selectImageDetailIndex,
 } from "@/features/images/stores/images-slice";
+import classes from "./image-detail-overlay.module.css";
 
 interface Props {
   images: Image[];
@@ -30,11 +30,11 @@ const ImageDetailOverlay = ({ images }: Props) => {
   };
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.backdrop}></div>
+    <div className={classes["overlay"]}>
+      <div className={classes["backdrop"]}></div>
       {/* content */}
-      <div className={styles.content}>
-        <button className={styles["change-image-btn"]} onClick={onPrev}>
+      <div className={classes["content"]}>
+        <button className={classes["change-image-btn"]} onClick={onPrev}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -49,8 +49,8 @@ const ImageDetailOverlay = ({ images }: Props) => {
             />
           </svg>
         </button>
-        <img src={currentImage.imageUrl} className={styles.image} />
-        <button className={styles["close-btn"]} onClick={onClose}>
+        <img src={currentImage.imageUrl} className={classes["image"]} />
+        <button className={classes["close-btn"]} onClick={onClose}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -65,7 +65,7 @@ const ImageDetailOverlay = ({ images }: Props) => {
             />
           </svg>
         </button>
-        <button className={styles["change-image-btn"]} onClick={onNext}>
+        <button className={classes["change-image-btn"]} onClick={onNext}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -81,14 +81,14 @@ const ImageDetailOverlay = ({ images }: Props) => {
           </svg>
         </button>
       </div>
-      <div className={styles.info}>
-        <h2 className={styles["info-name"]}>{currentImage.name}</h2>
-        <section className={styles["info-section"]}>
-          <div className={styles["info-title"]}>Album</div>
+      <div className={classes["info"]}>
+        <h2 className={classes["info-name"]}>{currentImage.name}</h2>
+        <section className={classes["info-section"]}>
+          <div className={classes["info-title"]}>Album</div>
           <div>{currentImage.album.name}</div>
         </section>
-        <section className={styles["info-section"]}>
-          <div className={styles["info-title"]}>Uploaded</div>
+        <section className={classes["info-section"]}>
+          <div className={classes["info-title"]}>Uploaded</div>
           <div>
             {dayjs(currentImage.createdAt.toString()).format(
               "MMM DD, YYYY, h:mm:ss A"

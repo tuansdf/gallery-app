@@ -1,7 +1,8 @@
+import { Link, useSearchParams } from "react-router-dom";
+
 import ResetPasswordForm from "@/features/authentication/components/sign-in-form/reset-password-form";
 import Alert from "@/features/ui/alert/alert";
 import Card from "@/features/ui/card/card";
-import { Link, useSearchParams } from "react-router-dom";
 import classes from "./sign-in-page.module.css";
 
 const ResetPasswordPage = () => {

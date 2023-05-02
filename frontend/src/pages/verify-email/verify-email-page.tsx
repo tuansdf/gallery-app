@@ -1,6 +1,8 @@
 import { Link, useSearchParams } from "react-router-dom";
-import styles from "./verify-email-page.module.css";
+
 import { useVerifyEmailQuery } from "@/features/authentication/stores/auth-api-slice";
+import Alert from "@/features/ui/alert/alert";
+import classes from "./verify-email-page.module.css";
 
 const VerifyEmailPage = () => {
   const [searchParams] = useSearchParams();
@@ -8,16 +10,16 @@ const VerifyEmailPage = () => {
 
   const { isLoading, isError } = useVerifyEmailQuery({ token });
 
-  if (isLoading) return <div className={styles.loading}>Loading...</div>;
+  if (isLoading) return <div className={classes["loading"]}>Loading...</div>;
 
   return (
-    <div className={styles.main}>
+    <div className={classes["main"]}>
       {isError ? (
-        <div className={styles.error}>Link is invalid</div>
+        <Alert severity="error">Link is invalid</Alert>
       ) : (
-        <div className={styles.success}>Your account has been verified.</div>
+        <Alert severity="success">Your account has been verified.</Alert>
       )}
-      <div className={styles.info}>
+      <div className={classes["info"]}>
         Go back to <Link to="/sign-in">Sign In</Link>
       </div>
     </div>

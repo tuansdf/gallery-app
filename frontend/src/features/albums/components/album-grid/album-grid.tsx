@@ -8,7 +8,7 @@ interface Props {
 
 const AlbumGrid = ({ albums }: Props) => {
   return (
-    <div className={classes.main}>
+    <div className={classes["main"]}>
       {albums.map((album) => (
         <AlbumItem
           key={album.id}

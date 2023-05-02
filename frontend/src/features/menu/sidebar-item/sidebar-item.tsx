@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { NavLink } from "react-router-dom";
-import styles from "./sidebar-item.module.css";
+
+import classes from "./sidebar-item.module.css";
 
 interface Props {
   text: string;
@@ -12,7 +13,7 @@ interface Props {
 const SidebarItem = ({ text, to, type = "link", onClick }: Props) => {
   if (type === "button") {
     return (
-      <button onClick={onClick} className={styles.main}>
+      <button onClick={onClick} className={classes["main"]}>
         {text}
       </button>
     );
@@ -21,7 +22,7 @@ const SidebarItem = ({ text, to, type = "link", onClick }: Props) => {
     <NavLink
       to={to || "/"}
       className={({ isActive }) =>
-        clsx(styles.main, { [styles.active]: isActive })
+        clsx(classes["main"], { [classes["active"]]: isActive })
       }
     >
       {text}

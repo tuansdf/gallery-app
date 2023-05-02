@@ -1,6 +1,6 @@
+import clsx from "clsx";
 import { HTMLAttributes, PropsWithChildren } from "react";
 
-import clsx from "clsx";
 import classes from "./card.module.css";
 
 interface Props extends PropsWithChildren, HTMLAttributes<HTMLDivElement> {}
