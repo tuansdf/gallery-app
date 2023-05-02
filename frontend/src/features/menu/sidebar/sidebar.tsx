@@ -5,6 +5,9 @@ import {
   logout,
   selectCurrentUser,
 } from "@/features/authentication/stores/auth-slice";
+import BookIcon from "@/features/icons/book-icon";
+import LogOutIcon from "@/features/icons/log-out-icon.tsx";
+import SettingIcon from "@/features/icons/setting-icon.tsx";
 import { closeSidebar, selectIsSidebarOpen } from "@/features/menu/menu-store";
 import SidebarItem from "@/features/menu/sidebar-item/sidebar-item";
 import Backdrop from "@/features/ui/backdrop/backdrop";
@@ -43,9 +46,22 @@ const Sidebar = () => {
           </div>
 
           <div className={classes["sidebar-items"]}>
-            <SidebarItem to="/" text="All Albums" />
-            <SidebarItem to="/settings" text="Settings" />
-            <SidebarItem type="button" onClick={handleLogout} text="Log out" />
+            <SidebarItem
+              leading={<BookIcon className={classes["sidebar-icon"]} />}
+              to="/"
+              text="All Albums"
+            />
+            <SidebarItem
+              leading={<SettingIcon className={classes["sidebar-icon"]} />}
+              to="/settings"
+              text="Settings"
+            />
+            <SidebarItem
+              leading={<LogOutIcon className={classes["sidebar-icon"]} />}
+              type="button"
+              onClick={handleLogout}
+              text="Log out"
+            />
           </div>
         </div>
       </div>

@@ -4,16 +4,18 @@ import { NavLink } from "react-router-dom";
 
 import { closeSidebar } from "@/features/menu/menu-store";
 import useMediaQuery from "@/hooks/use-media-query";
+import { ReactNode } from "react";
 import classes from "./sidebar-item.module.css";
 
 interface Props {
   text: string;
   type?: "link" | "button";
   to?: string;
+  leading?: ReactNode;
   onClick?: () => void;
 }
 
-const SidebarItem = ({ text, to, type = "link", onClick }: Props) => {
+const SidebarItem = ({ text, to, type = "link", leading, onClick }: Props) => {
   const matches = useMediaQuery("(min-width: 1000px)");
 
   const dispatch = useDispatch();
@@ -26,7 +28,8 @@ const SidebarItem = ({ text, to, type = "link", onClick }: Props) => {
   if (type === "button") {
     return (
       <button onClick={onClick} className={classes["item"]}>
-        {text}
+        {leading}
+        <span>{text}</span>
       </button>
     );
   }
@@ -38,7 +41,8 @@ const SidebarItem = ({ text, to, type = "link", onClick }: Props) => {
       }
       onClick={handleLinkClick}
     >
-      {text}
+      {leading}
+      <span>{text}</span>
     </NavLink>
   );
 };

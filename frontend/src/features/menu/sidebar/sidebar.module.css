@@ -1,11 +1,11 @@
 .sidebar {
-  --sidebar-size: 18rem;
+  --sidebar-width: 18rem;
 
   flex: none;
   position: fixed;
   top: 0;
   left: 0;
-  max-width: var(--sidebar-size);
+  max-width: var(--sidebar-width);
   width: 100%;
   height: 100%;
   z-index: var(--z-sidebar);
@@ -30,7 +30,7 @@
 }
 
 .closed {
-  margin-left: calc(-1 * var(--sidebar-size));
+  margin-left: calc(-1 * var(--sidebar-width));
   overflow: hidden;
 }
 
@@ -61,12 +61,23 @@
 }
 
 .info-name {
+  font-size: 1.125rem;
   font-weight: 500;
 }
 
 .sidebar-items {
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
+  padding-inline: 0.5rem;
+}
+.sidebar-items > * + * {
+  margin-top: 0.5rem;
+}
+
+.sidebar-icon {
+  --size: 1.5rem;
+  width: var(--size);
+  height: var(--size);
 }
 
 .backdrop {
@@ -76,10 +87,16 @@
 }
 
 @media (min-width: 1000px) {
+  .info-name {
+    font-size: 1rem;
+  }
   .sidebar {
     position: relative;
   }
   .backdrop {
     display: none;
+  }
+  .sidebar-icon {
+    --size: 1.25rem;
   }
 }
