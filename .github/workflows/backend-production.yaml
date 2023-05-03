@@ -1,0 +1,34 @@
+name: Backend Elastic Beanstalk Production Deployment
+
+on:
+  push:
+    paths:
+      - backend/**
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Build with Gradle
+        run: ./gradlew clean build
+
+      - name: Deploy to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: ${{ secrets.EB_APPLICATION_NAME }}
+          environment_name: ${{ secrets.EB_ENVIRONMENT_NAME}}
+          region: ${{ secrets.EB_REGION}}
+          version_label: ${{ github.sha }}
+          deployment_package: build/libs/${{ secrets.APPLICATION_BUILD_NAME }}.jar
