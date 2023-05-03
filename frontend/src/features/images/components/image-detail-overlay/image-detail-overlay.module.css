@@ -1,49 +1,67 @@
 .overlay {
   position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: 99999;
+  inset: 0;
+  z-index: var(--z-modal);
 
   display: flex;
 }
 
 .backdrop {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: hsla(var(--clr-neutral-900), 0.9);
+  z-index: var(--z-modal-backdrop);
+  cursor: pointer;
 }
 
 .content {
   position: relative;
+  z-index: var(--z-modal-content);
+
   display: flex;
   flex: 1;
   height: 100%;
   align-items: center;
+  padding: 0.5rem;
+
+  background-color: hsla(var(--clr-neutral-900), 0.9);
 }
 
 .image {
   position: relative;
 
-  width: calc(100% - 10rem);
+  width: 100%;
   height: 100%;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
 
   object-fit: contain;
 }
 
 .info {
-  position: relative;
-  top: 0;
-  right: 0;
+  --info-width: 20rem;
 
-  width: 25rem;
+  position: absolute;
+  right: 0;
+  z-index: var(--z-modal-2-content);
+
+  flex: none;
+  width: var(--info-width);
   height: 100%;
-  padding: 5rem 2rem;
+  padding: 1rem;
+  margin-right: calc(-1 * var(--info-width));
+
   background-color: white;
+
+  transition: margin-right 400ms ease-in-out;
+}
+.info-backdrop {
+  z-index: var(--z-modal-2-backdrop);
+
+  cursor: pointer;
+}
+.info.is-open {
+  margin-right: 0;
+}
+
+.info-close-button {
+  margin-left: auto;
+  margin-bottom: 1rem;
 }
 
 .info-name {
@@ -61,36 +79,49 @@
 }
 
 .change-image-button {
-  z-index: 999999;
-  width: 5rem;
-  height: 80%;
+  position: absolute;
+  z-index: var(--z-modal-content);
+
+  width: 4rem;
+  height: 70%;
   flex: none;
 
-  background-color: transparent;
+  background-color: hsla(var(--clr-neutral-900), 0.3);
 
   color: white;
 
   cursor: pointer;
+  opacity: 0;
 
-  transition: background-color 100ms ease-in;
+  transition: opacity 150ms ease-in-out;
+}
+.change-image-button.is-left {
+  left: 0;
+}
+.change-image-button.is-right {
+  right: 0;
 }
 
 .change-image-icon {
   --size: 1.75rem;
+
   width: var(--size);
   height: var(--size);
 }
 
 .change-image-button:hover {
-  background-color: hsla(var(--clr-neutral-900), 0.3);
+  opacity: 1;
 }
 
-.close-button {
+.func-button {
   --size: 3.25rem;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
 
+  position: absolute;
+  top: 0.75rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: var(--size);
   height: var(--size);
   padding: 0.75rem;
@@ -98,11 +129,19 @@
   border-radius: 9999px;
 
   color: white;
+
+  transition: background-color 100ms ease-in-out;
 }
-.close-button:hover {
+.func-button.is-right {
+  right: 0.75rem;
+}
+.func-button.is-left {
+  left: 0.75rem;
+}
+.func-button:hover {
   background-color: hsla(var(--clr-neutral-900), 0.3);
 }
-.close-icon {
+.func-icon {
   --size: 1.5rem;
   width: var(--size);
   height: var(--size);

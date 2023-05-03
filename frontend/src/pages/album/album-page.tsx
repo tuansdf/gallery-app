@@ -11,7 +11,11 @@ import UploadImage from "@/features/images/components/upload-image/upload-image"
 import { Image } from "@/features/images/image-types";
 import { useGetImagesQuery } from "@/features/images/stores/images-api-slice";
 import {
+  onCloseImage,
   onFetchImagesSuccess,
+  onNextImage,
+  onPrevImage,
+  selectImageDetailIndex,
   selectIsImageDetailOpening,
 } from "@/features/images/stores/images-slice";
 import { AppBarContext } from "@/features/menu/context/app-bar-provider";
@@ -31,6 +35,7 @@ const AlbumPage = () => {
   const { albumId } = useParams();
 
   const isImageDetailOpening = useSelector(selectIsImageDetailOpening);
+  const currentImageIndex = useSelector(selectImageDetailIndex);
   const dispatch = useDispatch();
 
   if (!albumId) return <Alert severity="info">Something went wrong!</Alert>;
@@ -46,12 +51,6 @@ const AlbumPage = () => {
     isError: imagesIsError,
     isSuccess: imagesIsSuccess,
   } = useGetImagesQuery(albumId || "");
-
-  useEffect(() => {
-    if (imagesData?.length) {
-      dispatch(onFetchImagesSuccess(imagesData.length - 1));
-    }
-  }, [imagesData]);
 
   const convertToImagesByMonth = (images: Image[]) => {
     const getMonthYear = (date: Date) => {
@@ -79,6 +78,22 @@ const AlbumPage = () => {
   const imagesByMonth = useMemo(() => {
     if (!imagesData?.length) return [];
     return convertToImagesByMonth(imagesData);
+  }, [imagesData]);
+
+  const handleNextImageClick = () => {
+    dispatch(onPrevImage());
+  };
+  const handlePrevImageClick = () => {
+    dispatch(onNextImage());
+  };
+  const handleCloseImageClick = () => {
+    dispatch(onCloseImage());
+  };
+
+  useEffect(() => {
+    if (imagesData?.length) {
+      dispatch(onFetchImagesSuccess(imagesData.length - 1));
+    }
   }, [imagesData]);
 
   useEffect(() => {
@@ -116,9 +131,14 @@ const AlbumPage = () => {
         })
       ) : null}
 
-      {isImageDetailOpening && imagesData ? (
-        <ImageDetailOverlay images={imagesData} />
-      ) : null}
+      <ImageDetailOverlay
+        show={isImageDetailOpening && !!imagesData}
+        images={imagesData || []}
+        onClose={handleCloseImageClick}
+        onNext={handleNextImageClick}
+        onPrev={handlePrevImageClick}
+        currentIndex={currentImageIndex || 0}
+      />
     </main>
   );
 };

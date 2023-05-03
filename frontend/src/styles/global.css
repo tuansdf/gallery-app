@@ -5,6 +5,9 @@
   --z-modal: 3000;
   --z-modal-backdrop: 3100;
   --z-modal-content: 3200;
+  --z-modal-2: 4000;
+  --z-modal-2-backdrop: 4100;
+  --z-modal-2-content: 4200;
   --z-toast: 4000;
 
   --border-radius-sm: 0.25rem;
