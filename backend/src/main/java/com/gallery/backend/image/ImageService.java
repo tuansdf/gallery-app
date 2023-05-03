@@ -28,9 +28,9 @@ public class ImageService {
     private final AlbumService albumService;
     private final S3Client s3Client;
 
-    @Value("${application.bucket.name}")
+    @Value("${aws.bucket.name}")
     private String bucketName;
-    @Value("${application.bucket.url-prefix}")
+    @Value("${aws.bucket.url-prefix}")
     private String bucketUrlPrefix;
 
     public Image createImage(MultipartFile imageFile, UUID albumId) {
