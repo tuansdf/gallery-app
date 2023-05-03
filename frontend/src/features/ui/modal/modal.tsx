@@ -1,5 +1,6 @@
 import { AnimatePresence, m } from "framer-motion";
 import { PropsWithChildren } from "react";
+import { createPortal } from "react-dom";
 
 import Backdrop from "@/features/ui/backdrop/backdrop";
 import Card from "@/features/ui/card/card";
@@ -11,22 +12,26 @@ interface Props extends PropsWithChildren {
 }
 
 const Modal = ({ children, isOpen, onClose }: Props) => {
-  return (
+  return createPortal(
     <AnimatePresence>
       {isOpen ? (
         <m.div
+          role="dialog"
+          className={classes["modal"]}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className={classes["modal"]}
         >
-          {/* backdrop */}
-          <Backdrop onClick={onClose} className={classes["backdrop"]} />
-          {/* content */}
+          <Backdrop
+            onClick={onClose}
+            className={classes["backdrop"]}
+            role="button"
+          />
           <Card className={classes["content"]}>{children}</Card>
         </m.div>
       ) : null}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
 

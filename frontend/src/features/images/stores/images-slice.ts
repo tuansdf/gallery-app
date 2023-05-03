@@ -1,5 +1,5 @@
 import { RootState } from "@/app/store";
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: SliceState = {
   isImageDetailOpening: false,
@@ -22,25 +22,25 @@ const imageSlice = createSlice({
       state.isImageDetailOpening = true;
       state.imageDetailIndex = imageIndex;
     },
-    onCloseImage: (state, action) => {
+    onCloseImage: (state, _action: PayloadAction<void>) => {
       state.isImageDetailOpening = false;
     },
-    onNextImage: (state, action) => {
+    onNextImage: (state, _action: PayloadAction<void>) => {
       let tmp = (state.imageDetailIndex || 0) + 1;
       if (tmp > state.lastImageIndex) {
         tmp = 0;
       }
       state.imageDetailIndex = tmp;
     },
-    onPrevImage: (state, action) => {
+    onPrevImage: (state, _action: PayloadAction<void>) => {
       let tmp = (state.imageDetailIndex || 0) - 1;
       if (tmp < 0) {
         tmp = state.lastImageIndex;
       }
       state.imageDetailIndex = tmp;
     },
-    onFetchImagesSuccess: (state, action) => {
-      const { lastImageIndex } = action.payload;
+    onFetchImagesSuccess: (state, action: PayloadAction<number>) => {
+      const lastImageIndex = action.payload;
       state.lastImageIndex = lastImageIndex;
     },
   },

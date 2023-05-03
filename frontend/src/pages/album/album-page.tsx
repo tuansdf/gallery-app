@@ -49,7 +49,7 @@ const AlbumPage = () => {
 
   useEffect(() => {
     if (imagesData?.length) {
-      dispatch(onFetchImagesSuccess({ lastImageIndex: imagesData.length - 1 }));
+      dispatch(onFetchImagesSuccess(imagesData.length - 1));
     }
   }, [imagesData]);
 

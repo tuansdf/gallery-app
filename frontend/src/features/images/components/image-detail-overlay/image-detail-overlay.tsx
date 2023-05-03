@@ -23,13 +23,13 @@ const ImageDetailOverlay = ({ images }: Props) => {
 
   const currentImage = images[imageDetailIndex || 0];
   const onNext = () => {
-    dispatch(onNextImage({}));
+    dispatch(onNextImage());
   };
   const onPrev = () => {
-    dispatch(onPrevImage({}));
+    dispatch(onPrevImage());
   };
   const onClose = () => {
-    dispatch(onCloseImage({}));
+    dispatch(onCloseImage());
   };
 
   return (
