@@ -8,15 +8,15 @@ import software.amazon.awssdk.services.s3.S3Client;
 
 @Configuration
 public class StorageConfig {
-    
+
     @Value("${aws.region}")
     private String awsRegion;
-    
+
     @Bean
     public Region getRegion() {
         return Region.of(awsRegion);
     }
-    
+
     @Bean
     public S3Client s3Client(Region region) {
         return S3Client

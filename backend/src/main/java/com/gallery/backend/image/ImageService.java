@@ -6,6 +6,9 @@ import com.gallery.backend.shared.exception.NotFoundException;
 import com.gallery.backend.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -61,10 +64,13 @@ public class ImageService {
         return repository.save(image);
     }
 
-    public List<Image> getImagesByAlbum(UUID albumId) {
+    public List<Image> getImagesByAlbum(UUID albumId, Integer pageNumber, Integer pageSize) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Album album = albumService.getAlbum(albumId);
-        return repository.findByUserAndAlbumOrderByCreatedAtDesc(user, album);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        Page<Image> imagesPageResult = repository.findByUserAndAlbumOrderByCreatedAtDesc(pageable, user, album);
+        return imagesPageResult.getContent();
     }
 
     public Image getImage(UUID imageId) {

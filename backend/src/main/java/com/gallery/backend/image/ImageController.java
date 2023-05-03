@@ -27,9 +27,11 @@ public class ImageController {
 
     @GetMapping()
     public ResponseEntity<List<Image>> getImages(
-            @RequestParam("albumId") UUID albumId
+            @RequestParam UUID albumId,
+            @RequestParam(defaultValue = "0") Integer pageNumber,
+            @RequestParam(defaultValue = "100") Integer pageSize
     ) {
-        return new ResponseEntity<>(service.getImagesByAlbum(albumId), HttpStatus.OK);
+        return new ResponseEntity<>(service.getImagesByAlbum(albumId, pageNumber, pageSize), HttpStatus.OK);
     }
 
     @GetMapping("/{imageId}")
