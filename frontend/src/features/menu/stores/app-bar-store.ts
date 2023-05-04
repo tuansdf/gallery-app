@@ -1,28 +1,23 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { create } from "zustand";
 
-import { RootState } from "@/app/store";
+interface StoreState {
+  appBarTitle: string;
+  actions: {
+    setAppBarTitle: (title: string) => void;
+  };
+}
 
-export type SliceState = {
-  title: string;
-};
-
-const initialState: SliceState = {
-  title: "",
-};
-
-const appBarSlice = createSlice({
-  name: "app-bar",
-  initialState,
-  reducers: {
-    setTitle: (state, action: PayloadAction<string>) => {
-      const title = action.payload;
-      state.title = title;
-    },
+const useAppBarStore = create<StoreState>()((set) => ({
+  appBarTitle: "",
+  actions: {
+    setAppBarTitle: (title) =>
+      set({
+        appBarTitle: title,
+      }),
   },
-});
+}));
 
-export const selectAppBarTitle = (state: RootState) => state.appBar.title;
+export const useAppBarTitle = () =>
+  useAppBarStore((state) => state.appBarTitle);
 
-export const { setTitle } = appBarSlice.actions;
-
-export default appBarSlice.reducer;
+export const useAppBarActions = () => useAppBarStore((state) => state.actions);

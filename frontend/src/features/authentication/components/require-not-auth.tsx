@@ -1,10 +1,9 @@
-import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 
-import { selectCurrentToken } from "@/features/authentication/stores/auth-slice";
+import { useAuthToken } from "@/features/authentication/stores/auth-store";
 
 const RequireNotAuth = () => {
-  const token = useSelector(selectCurrentToken);
+  const token = useAuthToken();
 
   return !token ? <Outlet /> : <Navigate to="/" replace />;
 };

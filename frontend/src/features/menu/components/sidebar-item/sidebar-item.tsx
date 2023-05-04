@@ -1,9 +1,8 @@
 import clsx from "clsx";
 import { ReactNode } from "react";
-import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 
-import { closeSidebar } from "@/features/menu/stores/menu-store";
+import { useSidebarActions } from "@/features/menu/stores/sidebar-store";
 import useMediaQuery from "@/hooks/use-media-query";
 import classes from "./sidebar-item.module.css";
 
@@ -18,11 +17,11 @@ interface Props {
 const SidebarItem = ({ text, to, type = "link", leading, onClick }: Props) => {
   const matches = useMediaQuery("(min-width: 1000px)");
 
-  const dispatch = useDispatch();
+  const { closeSidebar } = useSidebarActions();
 
   const handleLinkClick = () => {
     if (matches) return;
-    dispatch(closeSidebar());
+    closeSidebar();
   };
 
   if (type === "button") {

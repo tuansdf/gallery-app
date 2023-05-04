@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { useLoginMutation } from "@/features/authentication/stores/auth-api-slice";
-import { setCredentials } from "@/features/authentication/stores/auth-slice";
+import { setAuthCredentials } from "@/features/authentication/stores/auth-store";
 import { ErrorMessage } from "@/features/authentication/utils/constants";
 import { FormRegex } from "@/features/authentication/utils/validators";
 import Alert from "@/features/ui/alert/alert";
@@ -35,7 +34,6 @@ export default function SignInForm() {
   } = useForm<FormValues>({ values: initialValues });
 
   const [login, { isLoading }] = useLoginMutation();
-  const dispatch = useDispatch();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setRequestError("");
@@ -47,9 +45,10 @@ export default function SignInForm() {
         password,
       }).unwrap();
 
-      dispatch(setCredentials(data));
+      setAuthCredentials(data);
 
       reset();
+      console.log("Why not here");
       navigate("/", { replace: true });
     } catch (e) {
       setRequestError("Email or password is wrong");

@@ -1,8 +1,6 @@
-import { useDispatch } from "react-redux";
-
 import ImageItem from "@/features/images/components/image-item/image-item";
 import { Image } from "@/features/images/image-types";
-import { onImageClick } from "@/features/images/stores/images-slice";
+import { useImageDetailActions } from "@/features/images/stores/image-detail-store";
 import classes from "./image-grid.module.css";
 
 interface Props {
@@ -10,10 +8,10 @@ interface Props {
 }
 
 const ImageGrid = ({ images }: Props) => {
-  const dispatch = useDispatch();
+  const { openImage } = useImageDetailActions();
 
   const handleClick = (index: number) => {
-    dispatch(onImageClick({ imageIndex: index }));
+    openImage(index);
   };
 
   return (

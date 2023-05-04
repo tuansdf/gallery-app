@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import { useContext, useEffect, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { useGetAlbumQuery } from "@/features/albums/stores/albums-api-slice";
@@ -9,17 +8,14 @@ import ImageGridSkeleton from "@/features/images/components/image-grid-skeleton/
 import ImageGrid from "@/features/images/components/image-grid/image-grid";
 import UploadImage from "@/features/images/components/upload-image/upload-image";
 import { Image } from "@/features/images/image-types";
-import { useGetImagesQuery } from "@/features/images/stores/images-api-slice";
 import {
-  onCloseImage,
-  onFetchImagesSuccess,
-  onNextImage,
-  onPrevImage,
-  selectImageDetailIndex,
-  selectIsImageDetailOpening,
-} from "@/features/images/stores/images-slice";
+  useCurrentOpeningImageIndex,
+  useImageDetailActions,
+  useIsImageDetailOpening,
+} from "@/features/images/stores/image-detail-store";
+import { useGetImagesQuery } from "@/features/images/stores/images-api-slice";
 import { AppBarContext } from "@/features/menu/context/app-bar-provider";
-import { setTitle } from "@/features/menu/stores/app-bar-store";
+import { useAppBarActions } from "@/features/menu/stores/app-bar-store";
 import Alert from "@/features/ui/alert/alert";
 import Skeleton from "@/features/ui/skeleton/skeleton";
 import classes from "./album-page.module.css";
@@ -34,9 +30,11 @@ const AlbumPage = () => {
 
   const { albumId } = useParams();
 
-  const isImageDetailOpening = useSelector(selectIsImageDetailOpening);
-  const currentImageIndex = useSelector(selectImageDetailIndex);
-  const dispatch = useDispatch();
+  const isImageDetailOpening = useIsImageDetailOpening();
+  const currentOpeningImageIndex = useCurrentOpeningImageIndex();
+  const { nextImage, closeImage, previousImage, fetchingImagesSuccessful } =
+    useImageDetailActions();
+  const { setAppBarTitle } = useAppBarActions();
 
   if (!albumId) return <Alert severity="info">Something went wrong!</Alert>;
 
@@ -81,24 +79,24 @@ const AlbumPage = () => {
   }, [imagesData]);
 
   const handleNextImageClick = () => {
-    dispatch(onPrevImage());
+    previousImage();
   };
   const handlePrevImageClick = () => {
-    dispatch(onNextImage());
+    nextImage();
   };
   const handleCloseImageClick = () => {
-    dispatch(onCloseImage());
+    closeImage();
   };
 
   useEffect(() => {
     if (imagesData?.length) {
-      dispatch(onFetchImagesSuccess(imagesData.length - 1));
+      fetchingImagesSuccessful(imagesData.length - 1);
     }
   }, [imagesData]);
 
   useEffect(() => {
     if (albumData?.name) {
-      dispatch(setTitle(albumData.name));
+      setAppBarTitle(albumData.name);
     }
     setTrailing(<UploadImage albumId={albumId} />);
   }, [albumData]);
@@ -137,7 +135,7 @@ const AlbumPage = () => {
         onClose={handleCloseImageClick}
         onNext={handleNextImageClick}
         onPrev={handlePrevImageClick}
-        currentIndex={currentImageIndex || 0}
+        currentIndex={currentOpeningImageIndex || 0}
       />
     </main>
   );

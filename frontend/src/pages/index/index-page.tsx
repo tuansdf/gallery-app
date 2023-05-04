@@ -7,18 +7,18 @@ import { useGetAlbumsQuery } from "@/features/albums/stores/albums-api-slice";
 import PlusIcon from "@/features/icons/plus-icon";
 import XMarkIcon from "@/features/icons/x-mark-icon";
 import { AppBarContext } from "@/features/menu/context/app-bar-provider";
-import { setTitle } from "@/features/menu/stores/app-bar-store";
+import { useAppBarActions } from "@/features/menu/stores/app-bar-store";
 import Alert from "@/features/ui/alert/alert";
 import Button from "@/features/ui/button/button";
 import Modal from "@/features/ui/modal/modal";
-import { useDispatch } from "react-redux";
 import classes from "./index-page.module.css";
 
 const IndexPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { setTrailing } = useContext(AppBarContext);
 
-  const dispatch = useDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { setAppBarTitle } = useAppBarActions();
 
   const { data, isLoading, isError } = useGetAlbumsQuery();
 
@@ -26,7 +26,7 @@ const IndexPage = () => {
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
-    dispatch(setTitle("All albums"));
+    setAppBarTitle("All album");
     setTrailing(
       <Button
         variant="text"
@@ -40,7 +40,7 @@ const IndexPage = () => {
     );
 
     return () => {
-      dispatch(setTitle(""));
+      setAppBarTitle("");
       setTrailing(null);
     };
   }, []);

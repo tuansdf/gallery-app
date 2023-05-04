@@ -7,7 +7,7 @@ import {
   RegisterRequest,
   ResetPasswordRequest,
   VerifyEmailRequest,
-} from "@/features/authentication/types";
+} from "@/features/authentication/types/auth-types";
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

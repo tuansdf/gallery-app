@@ -1,26 +1,25 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 import ChangePasswordForm from "@/features/authentication/components/change-password-form/change-password-form";
-import { selectCurrentUser } from "@/features/authentication/stores/auth-slice";
-import { setTitle } from "@/features/menu/stores/app-bar-store";
+import { useAuthUser } from "@/features/authentication/stores/auth-store";
+import { useAppBarActions } from "@/features/menu/stores/app-bar-store";
 import classes from "./settings-page.module.css";
 
 const SettingsPage = () => {
-  const user = useSelector(selectCurrentUser);
-  const dispatch = useDispatch();
+  const authUser = useAuthUser();
+  const { setAppBarTitle } = useAppBarActions();
 
-  const email = user?.email || "";
+  const userEmail = authUser?.email || "";
 
   useEffect(() => {
-    dispatch(setTitle("Settings"));
+    setAppBarTitle("Settings");
   }, []);
 
   return (
     <main className={classes["main"]}>
       <section>
         <h2 className={classes["section-title"]}>Account</h2>
-        <ChangePasswordForm email={email} />
+        <ChangePasswordForm email={userEmail} />
       </section>
     </main>
   );

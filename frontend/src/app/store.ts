@@ -12,10 +12,6 @@ import {
 import storage from "redux-persist/lib/storage";
 
 import { apiSlice } from "@/app/api-slice";
-import authReducer from "@/features/authentication/stores/auth-slice";
-import imageReducer from "@/features/images/stores/images-slice";
-import appBarReducer from "@/features/menu/stores/app-bar-store";
-import menuReducer from "@/features/menu/stores/menu-store";
 
 const persistConfig = {
   key: "root",
@@ -25,10 +21,6 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
-  auth: authReducer,
-  image: imageReducer,
-  menu: menuReducer,
-  appBar: appBarReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -42,7 +34,6 @@ export const store = configureStore({
       },
     }).concat(apiSlice.middleware);
   },
-  devTools: true,
 });
 
 export const persistor = persistStore(store);

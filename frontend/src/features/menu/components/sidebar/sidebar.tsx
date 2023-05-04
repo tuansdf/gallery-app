@@ -1,38 +1,40 @@
 import clsx from "clsx";
-import { useDispatch, useSelector } from "react-redux";
 
 import {
-  logout,
-  selectCurrentUser,
-} from "@/features/authentication/stores/auth-slice";
+  authLogout,
+  useAuthUser,
+} from "@/features/authentication/stores/auth-store";
 import BookIcon from "@/features/icons/book-icon";
 import LogOutIcon from "@/features/icons/log-out-icon.tsx";
 import SettingIcon from "@/features/icons/setting-icon.tsx";
 import SidebarItem from "@/features/menu/components/sidebar-item/sidebar-item";
 import {
-  closeSidebar,
-  selectIsSidebarOpen,
-} from "@/features/menu/stores/menu-store";
+  useIsSidebarOpen,
+  useSidebarActions,
+} from "@/features/menu/stores/sidebar-store";
 import Backdrop from "@/features/ui/backdrop/backdrop";
 import classes from "./sidebar.module.css";
 
 const Sidebar = () => {
-  const isSidebarOpen = useSelector(selectIsSidebarOpen);
-  const user = useSelector(selectCurrentUser);
-  const dispatch = useDispatch();
+  const isSidebarOpen = useIsSidebarOpen();
+  const { closeSidebar } = useSidebarActions();
 
-  if (!user) return null;
+  const authUser = useAuthUser();
+
+  if (!authUser) return null;
 
   const handleLogout = () => {
-    dispatch(logout());
+    authLogout();
   };
   const handleClose = () => {
-    dispatch(closeSidebar());
+    closeSidebar();
   };
+
+  const userFullName = authUser.firstName + " " + authUser.lastName;
 
   return (
     <>
-      <div
+      <aside
         className={clsx(classes["sidebar"], {
           [classes["closed"]]: !isSidebarOpen,
         })}
@@ -43,9 +45,7 @@ const Sidebar = () => {
             {/* avatar */}
             <div className={classes["info-avatar"]}></div>
             {/* name */}
-            <div
-              className={classes["info-name"]}
-            >{`${user.firstName} ${user.lastName}`}</div>
+            <div className={classes["info-name"]}>{userFullName}</div>
           </div>
 
           <div className={classes["sidebar-items"]}>
@@ -67,7 +67,7 @@ const Sidebar = () => {
             />
           </div>
         </div>
-      </div>
+      </aside>
 
       <Backdrop
         className={classes["backdrop"]}
