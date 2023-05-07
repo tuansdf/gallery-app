@@ -16,6 +16,7 @@ import SignInLayout from "@/pages/sign-in/sign-in-layout";
 import SignInPage from "@/pages/sign-in/sign-in-page";
 import SignUpPage from "@/pages/sign-up/sign-up-page";
 import VerifyEmailPage from "@/pages/verify-email/verify-email-page";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { domAnimation, LazyMotion } from "framer-motion";
 
 const router = createBrowserRouter([
@@ -77,15 +78,25 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+    },
+  },
+});
+
 function App() {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <LazyMotion features={domAnimation}>
-          <RouterProvider router={router}></RouterProvider>
-        </LazyMotion>
-      </PersistGate>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <LazyMotion features={domAnimation}>
+            <RouterProvider router={router}></RouterProvider>
+          </LazyMotion>
+        </PersistGate>
+      </Provider>
+    </QueryClientProvider>
   );
 }
 

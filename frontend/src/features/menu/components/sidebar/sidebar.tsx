@@ -16,10 +16,9 @@ import Backdrop from "@/features/ui/backdrop/backdrop";
 import classes from "./sidebar.module.css";
 
 const Sidebar = () => {
+  const authUser = useAuthUser();
   const isSidebarOpen = useIsSidebarOpen();
   const { closeSidebar } = useSidebarActions();
-
-  const authUser = useAuthUser();
 
   if (!authUser) return null;
 
