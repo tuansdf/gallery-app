@@ -124,10 +124,16 @@ const SignUpForm = () => {
         })}
       />
 
-      {requestError ? <Alert severity="error">{requestError}</Alert> : null}
+      {requestError ? (
+        <Alert severity="error" className={classes["alert"]}>
+          {requestError}
+        </Alert>
+      ) : null}
 
       {successMessage ? (
-        <Alert severity="success">{successMessage}</Alert>
+        <Alert severity="success" className={classes["alert"]}>
+          {successMessage}
+        </Alert>
       ) : null}
 
       <Button loading={isLoading} disabled={isLoading}>

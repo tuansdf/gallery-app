@@ -25,6 +25,10 @@
   background-color: hsl(var(--clr-success-400));
 }
 
+.alert {
+  margin-top: 0.75rem;
+}
+
 @media (min-width: 1200px) {
   .form {
     align-items: start;
