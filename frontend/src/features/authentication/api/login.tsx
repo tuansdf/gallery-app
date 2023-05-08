@@ -1,17 +1,18 @@
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 
 import {
   LoginRequest,
   LoginResponse,
 } from "@/features/authentication/types/auth-types";
+import axiosInstance from "@/lib/axios";
 
-const login = (data: LoginRequest): Promise<LoginResponse> => {
-  return axios.post("/auth/login", data);
+const login = async (request: LoginRequest): Promise<LoginResponse> => {
+  const response = await axiosInstance.post("/auth/login", request);
+  return response.data;
 };
 
 export const useLoginMutation = () => {
   return useMutation({
-    mutationFn: (data: LoginRequest) => login(data),
+    mutationFn: (request: LoginRequest) => login(request),
   });
 };

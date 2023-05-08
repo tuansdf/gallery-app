@@ -25,6 +25,7 @@ export const useAuthStore = create<StoreState>()(
 
 export const setAuthCredentials = (data: UserLoginWithToken) =>
   useAuthStore.setState((_state) => {
+    console.log(data);
     const { token, ...user } = data;
     return { user, token };
   });

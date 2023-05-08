@@ -3,17 +3,17 @@ import { useContext, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import { useGetAlbumQuery } from "@/features/albums/stores/albums-api-slice";
+import { useGetImagesQuery } from "@/features/images/api/get-images";
 import ImageDetailOverlay from "@/features/images/components/image-detail-overlay/image-detail-overlay";
 import ImageGridSkeleton from "@/features/images/components/image-grid-skeleton/image-grid-skeleton";
 import ImageGrid from "@/features/images/components/image-grid/image-grid";
 import UploadImage from "@/features/images/components/upload-image/upload-image";
-import { Image } from "@/features/images/image-types";
 import {
   useCurrentOpeningImageIndex,
   useImageDetailActions,
   useIsImageDetailOpening,
 } from "@/features/images/stores/image-detail-store";
-import { useGetImagesQuery } from "@/features/images/stores/images-api-slice";
+import { Image } from "@/features/images/types/image-types";
 import { AppBarContext } from "@/features/menu/context/app-bar-provider";
 import { useAppBarActions } from "@/features/menu/stores/app-bar-store";
 import Alert from "@/features/ui/alert/alert";
@@ -38,17 +38,12 @@ const AlbumPage = () => {
 
   if (!albumId) return <Alert severity="info">Something went wrong!</Alert>;
 
-  const {
-    data: albumData,
-    isLoading: albumIsLoading,
-    isError: albumIsError,
-  } = useGetAlbumQuery(albumId || "");
+  const { data: albumData } = useGetAlbumQuery(albumId || "");
   const {
     data: imagesData,
     isLoading: imagesIsLoading,
     isError: imagesIsError,
-    isSuccess: imagesIsSuccess,
-  } = useGetImagesQuery(albumId || "");
+  } = useGetImagesQuery(albumId);
 
   const convertToImagesByMonth = (images: Image[]) => {
     const getMonthYear = (date: Date) => {

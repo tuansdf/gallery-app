@@ -1,6 +1,6 @@
 import ImageItem from "@/features/images/components/image-item/image-item";
-import { Image } from "@/features/images/image-types";
 import { useImageDetailActions } from "@/features/images/stores/image-detail-store";
+import { Image } from "@/features/images/types/image-types";
 import classes from "./image-grid.module.css";
 
 interface Props {
