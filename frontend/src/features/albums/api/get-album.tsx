@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { Album } from "@/features/albums/types/album-types";
 import axiosInstance from "@/lib/axios";
-import { useQuery } from "@tanstack/react-query";
 
 export const getAlbum = async (albumId: string | undefined): Promise<Album> => {
   if (!albumId) {

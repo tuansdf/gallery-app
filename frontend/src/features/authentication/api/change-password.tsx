@@ -1,5 +1,6 @@
-import axiosInstance from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
+
+import axiosInstance from "@/lib/axios";
 
 export type ChangePasswordResponse = {
   message: string;

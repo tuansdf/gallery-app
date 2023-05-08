@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Alert from "@/components/alert/alert";
@@ -7,7 +8,6 @@ import { useLoginMutation } from "@/features/authentication/api/login";
 import { setAuthCredentials } from "@/features/authentication/stores/auth-store";
 import { ErrorMessage } from "@/features/authentication/utils/constants";
 import { FormRegex } from "@/features/authentication/utils/validators";
-import { useState } from "react";
 import classes from "./sign-in-form.module.css";
 
 interface FormValues {

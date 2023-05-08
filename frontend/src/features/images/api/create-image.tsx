@@ -1,6 +1,7 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { Image } from "@/features/images/types/image-types";
 import axiosInstance from "@/lib/axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export type CreateImageRequest = {
   albumId: string;

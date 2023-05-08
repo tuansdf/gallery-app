@@ -1,6 +1,7 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { Album } from "@/features/albums/types/album-types";
 import axiosInstance from "@/lib/axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export type CreateAlbumRequest = {
   name: string;
