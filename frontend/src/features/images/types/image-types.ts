@@ -1,12 +1,12 @@
 import { Album } from "@/features/albums/types";
-import { UserLogin } from "@/features/authentication/types/auth-types";
+import { User } from "@/features/authentication/api/login";
 
 export type Image = {
   id: string;
   name: string;
   imageUrl: string;
   album: Album;
-  user: Omit<UserLogin, "token">;
+  user: User;
   createdAt: Date;
   updatedAt: Date;
 };

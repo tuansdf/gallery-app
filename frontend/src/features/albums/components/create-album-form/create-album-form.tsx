@@ -11,7 +11,7 @@ type FormValues = {
   name: string;
 };
 
-const initialValues: FormValues = {
+const defaultValues: FormValues = {
   name: "",
 };
 
@@ -21,7 +21,7 @@ interface Props {
 
 const CreateAlbumForm = ({ onSuccess }: Props) => {
   const { register, handleSubmit, reset, setFocus } = useForm<FormValues>({
-    values: initialValues,
+    defaultValues,
   });
 
   const [createAlbum, { isLoading, isError }] = useCreateAlbumMutation();

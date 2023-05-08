@@ -1,13 +1,10 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import {
-  UserLogin,
-  UserLoginWithToken,
-} from "@/features/authentication/types/auth-types";
+import { LoginResponse, User } from "@/features/authentication/api/login";
 
 interface StoreState {
-  user: UserLogin | null;
+  user: User | null;
   token: string | null;
 }
 
@@ -23,9 +20,8 @@ export const useAuthStore = create<StoreState>()(
   )
 );
 
-export const setAuthCredentials = (data: UserLoginWithToken) =>
+export const setAuthCredentials = (data: LoginResponse) =>
   useAuthStore.setState((_state) => {
-    console.log(data);
     const { token, ...user } = data;
     return { user, token };
   });

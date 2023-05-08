@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { useChangePasswordMutation } from "@/features/authentication/stores/auth-api-slice";
+import { useChangePasswordMutation } from "@/features/authentication/api/change-password";
 import { ErrorMessage } from "@/features/authentication/utils/constants";
 import { FormRegex } from "@/features/authentication/utils/validators";
 import Alert from "@/features/ui/alert/alert";
@@ -14,7 +14,7 @@ interface FormValues {
   newPassword: string;
 }
 
-const initialValues: FormValues = {
+const defaultValues: FormValues = {
   oldPassword: "",
   newPassword: "",
 };
@@ -24,8 +24,8 @@ interface Props {
 }
 
 const ChangePasswordForm = ({ email }: Props) => {
-  const [isError, setIsError] = useState<boolean>(false);
-  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const {
     register,
@@ -33,22 +33,24 @@ const ChangePasswordForm = ({ email }: Props) => {
     reset,
     formState: { errors },
   } = useForm<FormValues>({
-    values: initialValues,
+    defaultValues,
   });
 
-  const [changePassword, { isLoading }] = useChangePasswordMutation();
+  const changePasswordMutation = useChangePasswordMutation();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    setIsError(false);
-    setIsSuccess(false);
-    try {
-      await changePassword({ ...data, email }).unwrap();
-      setIsSuccess(true);
-      reset();
-    } catch (error) {
-      console.error(error);
-      setIsError(true);
-    }
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    changePasswordMutation.mutate(data, {
+      onSuccess: () => {
+        reset();
+        setSuccessMessage("Password changed successfully.");
+      },
+      onError: () => {
+        setErrorMessage("Something went wrong!");
+      },
+    });
   };
 
   return (
@@ -92,20 +94,20 @@ const ChangePasswordForm = ({ email }: Props) => {
         })}
       />
 
-      {isError ? (
+      {errorMessage ? (
         <Alert severity="error" className={classes["alert"]}>
-          Something went wrong.
+          {errorMessage}
         </Alert>
       ) : null}
-      {isSuccess ? (
+      {successMessage ? (
         <Alert severity="success" className={classes["alert"]}>
-          Password changed successfully
+          {successMessage}
         </Alert>
       ) : null}
 
       <Button
-        loading={isLoading}
-        disabled={isLoading}
+        loading={changePasswordMutation.isLoading}
+        disabled={changePasswordMutation.isLoading}
         className={classes["btn"]}
       >
         Save

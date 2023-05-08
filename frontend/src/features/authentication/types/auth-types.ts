@@ -9,29 +9,6 @@ export type RegisterResponse = {
   message: string;
 };
 
-export type LoginRequest = {
-  email: string;
-  password: string;
-};
-
-export type LoginResponse = UserLogin & {
-  token: string;
-};
-
-export type UserLogin = {
-  firstName: string;
-  lastName: string;
-  email: string;
-};
-export type WithToken = {
-  token: string;
-};
-export type UserLoginWithToken = UserLogin & WithToken;
-
-export type ForgotPasswordRequest = {
-  email: string;
-};
-
 export type ResetPasswordRequest = {
   password: string;
   token: string;

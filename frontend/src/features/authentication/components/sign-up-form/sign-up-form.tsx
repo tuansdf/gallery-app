@@ -9,14 +9,6 @@ import Button from "@/features/ui/button/button";
 import TextField from "@/features/ui/text-field/text-field";
 import classes from "./sign-up-form.module.css";
 
-const defaultValues: FormValues = {
-  email: "",
-  password: "",
-  confirmPassword: "",
-  firstName: "",
-  lastName: "",
-};
-
 interface FormValues {
   email: string;
   password: string;
@@ -24,6 +16,14 @@ interface FormValues {
   firstName: string;
   lastName: string;
 }
+
+const defaultValues: FormValues = {
+  email: "",
+  password: "",
+  confirmPassword: "",
+  firstName: "",
+  lastName: "",
+};
 
 const SignUpForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
