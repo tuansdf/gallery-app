@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { useCreateAlbumMutation } from "@/features/albums/stores/albums-api-slice";
+import { useCreateAlbumMutation } from "@/features/albums/api/create-album";
 import Alert from "@/features/ui/alert/alert";
 import Button from "@/features/ui/button/button";
 import TextField from "@/features/ui/text-field/text-field";
@@ -24,16 +24,15 @@ const CreateAlbumForm = ({ onSuccess }: Props) => {
     defaultValues,
   });
 
-  const [createAlbum, { isLoading, isError }] = useCreateAlbumMutation();
+  const createAlbumMutation = useCreateAlbumMutation();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    try {
-      await createAlbum(data).unwrap();
-      reset();
-      onSuccess?.();
-    } catch (e) {
-      console.error(e);
-    }
+    createAlbumMutation.mutate(data, {
+      onSuccess: () => {
+        reset();
+        onSuccess?.();
+      },
+    });
   };
 
   useEffect(() => {
@@ -47,8 +46,10 @@ const CreateAlbumForm = ({ onSuccess }: Props) => {
         placeholder="Name"
         {...register("name", { required: true })}
       />
-      {isError ? <Alert severity="error">Something went wrong!</Alert> : null}
-      <Button color="primary" loading={isLoading}>
+      {createAlbumMutation.isError ? (
+        <Alert severity="error">Something went wrong!</Alert>
+      ) : null}
+      <Button color="primary" loading={createAlbumMutation.isLoading}>
         Create
       </Button>
     </form>

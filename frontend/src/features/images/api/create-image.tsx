@@ -1,18 +1,18 @@
-import { CreateImageRequest, Image } from "@/features/images/types/image-types";
+import { Image } from "@/features/images/types/image-types";
 import axiosInstance from "@/lib/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+export type CreateImageRequest = {
+  albumId: string;
+  image: File;
+};
+
+export type CreateImageResponse = Image;
+
 export const createImage = async (
   request: CreateImageRequest
-): Promise<Image> => {
-  const form = new FormData();
-  form.append("image", request.image);
-  form.append("albumId", request.albumId);
-  const response = await axiosInstance.post(`/images`, form, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+): Promise<CreateImageResponse> => {
+  const response = await axiosInstance.postForm(`/images`, request);
   return response.data;
 };
 

@@ -1,8 +1,7 @@
-import dayjs from "dayjs";
 import { useContext, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
-import { useGetAlbumQuery } from "@/features/albums/stores/albums-api-slice";
+import { useGetAlbumQuery } from "@/features/albums/api/get-album";
 import { useGetImagesQuery } from "@/features/images/api/get-images";
 import ImageDetailOverlay from "@/features/images/components/image-detail-overlay/image-detail-overlay";
 import ImageGridSkeleton from "@/features/images/components/image-grid-skeleton/image-grid-skeleton";
@@ -13,17 +12,12 @@ import {
   useImageDetailActions,
   useIsImageDetailOpening,
 } from "@/features/images/stores/image-detail-store";
-import { Image } from "@/features/images/types/image-types";
+import { makeImagesByMonth } from "@/features/images/utils/make-images-by-month";
 import { AppBarContext } from "@/features/menu/context/app-bar-provider";
 import { useAppBarActions } from "@/features/menu/stores/app-bar-store";
 import Alert from "@/features/ui/alert/alert";
 import Skeleton from "@/features/ui/skeleton/skeleton";
 import classes from "./album-page.module.css";
-
-type ImagesByMonth = {
-  groupName: string;
-  data: Image[];
-};
 
 const AlbumPage = () => {
   const { setTrailing } = useContext(AppBarContext);
@@ -38,40 +32,13 @@ const AlbumPage = () => {
 
   if (!albumId) return <Alert severity="info">Something went wrong!</Alert>;
 
-  const { data: albumData } = useGetAlbumQuery(albumId || "");
-  const {
-    data: imagesData,
-    isLoading: imagesIsLoading,
-    isError: imagesIsError,
-  } = useGetImagesQuery(albumId);
-
-  const convertToImagesByMonth = (images: Image[]) => {
-    const getMonthYear = (date: Date) => {
-      return dayjs(date).format("MMMM YYYY");
-    };
-
-    if (!images.length) return;
-    let currentGroupMonth = getMonthYear(images[0].createdAt);
-
-    const result: ImagesByMonth[] = [];
-    result.push({ groupName: currentGroupMonth, data: [] });
-
-    for (const image of images) {
-      const currentMonth = getMonthYear(image.createdAt);
-      if (currentMonth !== currentGroupMonth) {
-        currentGroupMonth = currentMonth;
-        result.push({ groupName: currentGroupMonth, data: [] });
-      }
-      result[result.length - 1].data.push(image);
-    }
-
-    return result;
-  };
+  const getAlbumQuery = useGetAlbumQuery(albumId);
+  const getImagesQuery = useGetImagesQuery(albumId);
 
   const imagesByMonth = useMemo(() => {
-    if (!imagesData?.length) return [];
-    return convertToImagesByMonth(imagesData);
-  }, [imagesData]);
+    if (!getImagesQuery.data?.length) return [];
+    return makeImagesByMonth(getImagesQuery.data);
+  }, [getImagesQuery.data]);
 
   const handleNextImageClick = () => {
     previousImage();
@@ -84,21 +51,21 @@ const AlbumPage = () => {
   };
 
   useEffect(() => {
-    if (imagesData?.length) {
-      fetchingImagesSuccessful(imagesData.length - 1);
+    if (getImagesQuery.data?.length) {
+      fetchingImagesSuccessful(getImagesQuery.data.length - 1);
     }
-  }, [imagesData]);
+  }, [getImagesQuery.data]);
 
   useEffect(() => {
-    if (albumData?.name) {
-      setAppBarTitle(albumData.name);
+    if (getAlbumQuery.data?.name) {
+      setAppBarTitle(getAlbumQuery.data.name);
     }
     setTrailing(<UploadImage albumId={albumId} />);
-  }, [albumData]);
+  }, [getAlbumQuery.data]);
 
   return (
     <main className={classes["main"]}>
-      {imagesIsLoading ? (
+      {getImagesQuery.isLoading ? (
         <>
           <div className={classes["section-skeleton"]}>
             <Skeleton className={classes["month-name-skeleton"]} />
@@ -109,7 +76,7 @@ const AlbumPage = () => {
             <ImageGridSkeleton />
           </div>
         </>
-      ) : imagesIsError ? (
+      ) : getImagesQuery.error ? (
         <Alert severity="error">Something went wrong!</Alert>
       ) : imagesByMonth?.length ? (
         imagesByMonth?.map((byMonth) => {
@@ -125,8 +92,8 @@ const AlbumPage = () => {
       ) : null}
 
       <ImageDetailOverlay
-        show={isImageDetailOpening && !!imagesData}
-        images={imagesData || []}
+        show={isImageDetailOpening && !!getImagesQuery.data}
+        images={getImagesQuery.data || []}
         onClose={handleCloseImageClick}
         onNext={handleNextImageClick}
         onPrev={handlePrevImageClick}

@@ -1,4 +1,4 @@
-import { Album } from "@/features/albums/types";
+import { Album } from "@/features/albums/types/album-types";
 import { User } from "@/features/authentication/api/login";
 
 export type Image = {
@@ -9,9 +9,4 @@ export type Image = {
   user: User;
   createdAt: Date;
   updatedAt: Date;
-};
-
-export type CreateImageRequest = {
-  albumId: string;
-  image: File;
 };

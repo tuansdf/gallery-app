@@ -5,7 +5,3 @@ export type Album = {
   createdAt: Date;
   updatedAt: Date;
 };
-
-export type CreateAlbumRequest = {
-  name: string;
-};

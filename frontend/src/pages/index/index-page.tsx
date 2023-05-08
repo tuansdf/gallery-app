@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 
+import { useGetAlbumsQuery } from "@/features/albums/api/get-albums";
 import AlbumGridSkeleton from "@/features/albums/components/album-grid-skeleton/album-grid-skeleton";
 import AlbumGrid from "@/features/albums/components/album-grid/album-grid";
 import CreateAlbumForm from "@/features/albums/components/create-album-form/create-album-form";
-import { useGetAlbumsQuery } from "@/features/albums/stores/albums-api-slice";
 import PlusIcon from "@/features/icons/plus-icon";
 import XMarkIcon from "@/features/icons/x-mark-icon";
 import { AppBarContext } from "@/features/menu/context/app-bar-provider";
@@ -20,7 +20,7 @@ const IndexPage = () => {
 
   const { setAppBarTitle } = useAppBarActions();
 
-  const { data, isLoading, isError } = useGetAlbumsQuery();
+  const getAlbumsQuery = useGetAlbumsQuery();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -47,12 +47,12 @@ const IndexPage = () => {
 
   return (
     <main className={classes["main"]}>
-      {isLoading ? (
+      {getAlbumsQuery.isLoading ? (
         <AlbumGridSkeleton />
-      ) : isError ? (
+      ) : getAlbumsQuery.isError ? (
         <Alert severity="error">Something went wrong!</Alert>
-      ) : data ? (
-        <AlbumGrid albums={data} />
+      ) : getAlbumsQuery.data ? (
+        <AlbumGrid albums={getAlbumsQuery.data} />
       ) : null}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>

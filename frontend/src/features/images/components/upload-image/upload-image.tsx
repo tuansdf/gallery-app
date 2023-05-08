@@ -2,7 +2,6 @@ import { ChangeEventHandler, useId } from "react";
 
 import UploadIcon from "@/features/icons/upload-icon";
 import { useCreateImageMutation } from "@/features/images/api/create-image";
-import { CreateImageRequest } from "@/features/images/types/image-types";
 import Button from "@/features/ui/button/button";
 import classes from "./upload-image.module.css";
 
@@ -18,7 +17,7 @@ const UploadImage = ({ albumId }: Props) => {
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     const imageFile = event.target.files?.[0];
     if (!imageFile) return;
-    const data: CreateImageRequest = {
+    const data = {
       image: imageFile,
       albumId,
     };
