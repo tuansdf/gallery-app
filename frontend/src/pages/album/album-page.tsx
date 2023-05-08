@@ -1,6 +1,8 @@
 import { useContext, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
+import Alert from "@/components/alert/alert";
+import Skeleton from "@/components/skeleton/skeleton";
 import { useGetAlbumQuery } from "@/features/albums/api/get-album";
 import { useGetImagesQuery } from "@/features/images/api/get-images";
 import ImageDetailOverlay from "@/features/images/components/image-detail-overlay/image-detail-overlay";
@@ -15,8 +17,6 @@ import {
 import { makeImagesByMonth } from "@/features/images/utils/make-images-by-month";
 import { AppBarContext } from "@/features/menu/context/app-bar-provider";
 import { useAppBarActions } from "@/features/menu/stores/app-bar-store";
-import Alert from "@/features/ui/alert/alert";
-import Skeleton from "@/features/ui/skeleton/skeleton";
 import classes from "./album-page.module.css";
 
 const AlbumPage = () => {

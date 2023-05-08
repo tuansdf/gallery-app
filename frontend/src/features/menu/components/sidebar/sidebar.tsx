@@ -1,5 +1,6 @@
 import clsx from "clsx";
 
+import Backdrop from "@/components/backdrop/backdrop";
 import {
   authLogout,
   useAuthUser,
@@ -12,7 +13,6 @@ import {
   useIsSidebarOpen,
   useSidebarActions,
 } from "@/features/menu/stores/sidebar-store";
-import Backdrop from "@/features/ui/backdrop/backdrop";
 import classes from "./sidebar.module.css";
 
 const Sidebar = () => {

@@ -1,10 +1,10 @@
 import { useContext } from "react";
 
+import Button from "@/components/button/button";
 import HamburgerIcon from "@/features/icons/hamburger-icon";
 import { AppBarContext } from "@/features/menu/context/app-bar-provider";
 import { useAppBarTitle } from "@/features/menu/stores/app-bar-store";
 import { useSidebarActions } from "@/features/menu/stores/sidebar-store";
-import Button from "@/features/ui/button/button";
 import classes from "./app-bar.module.css";
 
 const AppBar = () => {

@@ -3,13 +3,13 @@ import dayjs from "dayjs";
 import { AnimatePresence, m } from "framer-motion";
 import { useState } from "react";
 
+import Backdrop from "@/components/backdrop/backdrop";
+import Button from "@/components/button/button";
 import ChevronLeftIcon from "@/features/icons/chevron-left-icon";
 import ChevronRightIcon from "@/features/icons/chevron-right-icon";
 import ExclamationCircleIcon from "@/features/icons/exclamation-circle-icon";
 import XMarkIcon from "@/features/icons/x-mark-icon";
 import { Image } from "@/features/images/types/image-types";
-import Backdrop from "@/features/ui/backdrop/backdrop";
-import Button from "@/features/ui/button/button";
 import classes from "./image-detail-overlay.module.css";
 
 interface Props {

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
+import Alert from "@/components/alert/alert";
+import Button from "@/components/button/button";
+import TextField from "@/components/text-field/text-field";
 import { useResetPasswordMutation } from "@/features/authentication/api/reset-password";
-import Alert from "@/features/ui/alert/alert";
-import Button from "@/features/ui/button/button";
-import TextField from "@/features/ui/text-field/text-field";
 import classes from "./sign-in-form.module.css";
 
 interface FormValues {

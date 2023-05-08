@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
+import Alert from "@/components/alert/alert";
 import { useVerifyEmailMutation } from "@/features/authentication/api/verify-emaill";
-import Alert from "@/features/ui/alert/alert";
 import classes from "./verify-email-page.module.css";
 
 const VerifyEmailPage = () => {

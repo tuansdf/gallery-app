@@ -1,5 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 
+import Alert from "@/components/alert/alert";
+import Button from "@/components/button/button";
+import Modal from "@/components/modal/modal";
 import { useGetAlbumsQuery } from "@/features/albums/api/get-albums";
 import AlbumGridSkeleton from "@/features/albums/components/album-grid-skeleton/album-grid-skeleton";
 import AlbumGrid from "@/features/albums/components/album-grid/album-grid";
@@ -8,9 +11,6 @@ import PlusIcon from "@/features/icons/plus-icon";
 import XMarkIcon from "@/features/icons/x-mark-icon";
 import { AppBarContext } from "@/features/menu/context/app-bar-provider";
 import { useAppBarActions } from "@/features/menu/stores/app-bar-store";
-import Alert from "@/features/ui/alert/alert";
-import Button from "@/features/ui/button/button";
-import Modal from "@/features/ui/modal/modal";
 import classes from "./index-page.module.css";
 
 const IndexPage = () => {

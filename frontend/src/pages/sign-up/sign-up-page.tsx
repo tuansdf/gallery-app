@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
+import Card from "@/components/card/card";
 import SignUpForm from "@/features/authentication/components/sign-up-form/sign-up-form";
-import Card from "@/features/ui/card/card";
 import classes from "./sign-up-page.module.css";
 
 const SignUpPage = () => {

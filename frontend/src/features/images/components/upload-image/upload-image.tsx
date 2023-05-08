@@ -1,8 +1,8 @@
 import { ChangeEventHandler, useId } from "react";
 
+import Button from "@/components/button/button";
 import UploadIcon from "@/features/icons/upload-icon";
 import { useCreateImageMutation } from "@/features/images/api/create-image";
-import Button from "@/features/ui/button/button";
 import classes from "./upload-image.module.css";
 
 interface Props {

@@ -1,4 +1,4 @@
-import Skeleton from "@/features/ui/skeleton/skeleton";
+import Skeleton from "@/components/skeleton/skeleton";
 import classes from "./album-item-skeleton.module.css";
 
 const EACH_DELAY_LEVEL = 0.15;

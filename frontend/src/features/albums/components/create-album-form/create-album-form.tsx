@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
+import Alert from "@/components/alert/alert";
+import Button from "@/components/button/button";
+import TextField from "@/components/text-field/text-field";
 import { useCreateAlbumMutation } from "@/features/albums/api/create-album";
-import Alert from "@/features/ui/alert/alert";
-import Button from "@/features/ui/button/button";
-import TextField from "@/features/ui/text-field/text-field";
 import classes from "./create-album-form.module.css";
 
 type FormValues = {
