@@ -10,7 +10,10 @@ import { useCreateAlbumMutation } from "@/features/albums/api/create-album";
 import classes from "./create-album-form.module.css";
 
 const formSchema = z.object({
-  name: z.string().min(1, "Please provide a name for the album"),
+  name: z
+    .string()
+    .min(1, "Please provide a name for the album")
+    .max(64, "Name is too long"),
 });
 
 type FormValues = z.infer<typeof formSchema>;

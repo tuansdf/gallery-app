@@ -11,8 +11,14 @@ import { setAuthCredentials } from "@/features/authentication/stores/auth-store"
 import classes from "./sign-in-form.module.css";
 
 const formSchema = z.object({
-  email: z.string().email("Please provide a valid email address"),
-  password: z.string().min(1, "Please provide a password"),
+  email: z
+    .string()
+    .email("Please provide a valid email address")
+    .max(64, "Email is too long"),
+  password: z
+    .string()
+    .min(1, "Please provide a password")
+    .max(64, "Password is too long"),
 });
 
 type FormValues = z.infer<typeof formSchema>;

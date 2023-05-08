@@ -10,7 +10,10 @@ import { useChangePasswordMutation } from "@/features/authentication/api/change-
 import classes from "./change-password-form.module.css";
 
 const formSchema = z.object({
-  oldPassword: z.string().min(1, "Please provide your current password"),
+  oldPassword: z
+    .string()
+    .min(1, "Please provide your current password")
+    .max(64, "Password must have fewer than 64 characters"),
   newPassword: z
     .string()
     .min(8, "Password must have more than 8 characters")

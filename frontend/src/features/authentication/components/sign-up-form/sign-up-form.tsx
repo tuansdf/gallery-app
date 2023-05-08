@@ -10,13 +10,22 @@ import { useRegisterMutation } from "@/features/authentication/api/register";
 import classes from "./sign-up-form.module.css";
 
 const formSchema = z.object({
-  email: z.string().email("Please provide a valid email address"),
+  email: z
+    .string()
+    .email("Please provide a valid email address")
+    .max(64, "Email is too long"),
   password: z
     .string()
     .min(8, "Password must have more than 8 characters")
     .max(64, "Password must have fewer than 64 characters"),
-  lastName: z.string().min(1, "Please provide your last name"),
-  firstName: z.string().min(1, "Please provide your first name"),
+  lastName: z
+    .string()
+    .min(1, "Please provide your last name")
+    .max(64, "Name is too long"),
+  firstName: z
+    .string()
+    .min(1, "Please provide your first name")
+    .max(64, "Name is too long"),
 });
 
 type FormValues = z.infer<typeof formSchema>;

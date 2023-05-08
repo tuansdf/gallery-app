@@ -10,7 +10,10 @@ import { useForgotPasswordMutatioin } from "@/features/authentication/api/forgot
 import classes from "./sign-in-form.module.css";
 
 const formSchema = z.object({
-  email: z.string().email("Please provide your email"),
+  email: z
+    .string()
+    .email("Please provide your email")
+    .max(64, "Email is too long"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
