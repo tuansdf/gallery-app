@@ -6,7 +6,7 @@
   width: 100%;
 }
 .form > .text-field + .text-field {
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
 }
 .form > button {
   margin-top: 1.75rem;
@@ -32,5 +32,8 @@
 @media (min-width: 1200px) {
   .form {
     align-items: start;
+  }
+  .form > .text-field + .text-field {
+    margin-top: 0.75rem;
   }
 }

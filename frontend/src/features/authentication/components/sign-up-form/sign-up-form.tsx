@@ -9,28 +9,21 @@ import TextField from "@/components/text-field/text-field";
 import { useRegisterMutation } from "@/features/authentication/api/register";
 import classes from "./sign-up-form.module.css";
 
-const formSchema = z
-  .object({
-    email: z.string().email("Please provide a valid email address"),
-    password: z
-      .string()
-      .min(8, "Password must have more than 8 characters")
-      .max(64, "Password must have fewer than 64 characters"),
-    confirmPassword: z.string().min(1, "Please retype your password"),
-    lastName: z.string().min(1, "Please provide your last name"),
-    firstName: z.string().min(1, "Please provide your first name"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Confirm password does not match",
-    path: ["confirmPassword"],
-  });
+const formSchema = z.object({
+  email: z.string().email("Please provide a valid email address"),
+  password: z
+    .string()
+    .min(8, "Password must have more than 8 characters")
+    .max(64, "Password must have fewer than 64 characters"),
+  lastName: z.string().min(1, "Please provide your last name"),
+  firstName: z.string().min(1, "Please provide your first name"),
+});
 
 type FormValues = z.infer<typeof formSchema>;
 
 const defaultValues: FormValues = {
   email: "",
   password: "",
-  confirmPassword: "",
   firstName: "",
   lastName: "",
 };
@@ -98,14 +91,6 @@ const SignUpForm = () => {
         helperText={errors.password?.message}
         containerClassName={classes["text-field"]}
         {...register("password")}
-      />
-      <TextField
-        type="password"
-        label="Confirm your password"
-        error={!!errors.confirmPassword?.message}
-        helperText={errors.confirmPassword?.message}
-        containerClassName={classes["text-field"]}
-        {...register("confirmPassword")}
       />
 
       {errorMessage ? <Alert severity="error">{errorMessage}</Alert> : null}

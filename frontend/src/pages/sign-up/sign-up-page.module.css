@@ -33,10 +33,13 @@
 }
 
 .right {
+  --py: 1.75rem;
+  --px: 1.5rem;
+
   position: absolute;
   max-width: 24rem;
   width: 100%;
-  padding: 1.75rem 1.5rem;
+  padding: var(--py) var(--px);
 
   display: flex;
   flex-direction: column;
@@ -47,7 +50,7 @@
 .heading {
   margin-bottom: 1.75rem;
 
-  font-size: 1.8rem;
+  font-size: 1.75rem;
   font-weight: bold;
 }
 
@@ -68,18 +71,10 @@
   }
 
   .right {
+    --px: 2.25rem;
+
     position: relative;
     height: 100%;
     align-items: start;
-    padding: 2rem;
-  }
-
-  .heading {
-    font-size: 2.2rem;
-    color: hsl(var(--clr-neutral-800));
-  }
-
-  .notice {
-    color: hsl(var(--clr-neutral-900));
   }
 }
