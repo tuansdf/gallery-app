@@ -1,5 +1,7 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
 
 import Alert from "@/components/alert/alert";
 import Button from "@/components/button/button";
@@ -7,9 +9,14 @@ import TextField from "@/components/text-field/text-field";
 import { useResetPasswordMutation } from "@/features/authentication/api/reset-password";
 import classes from "./sign-in-form.module.css";
 
-interface FormValues {
-  password: string;
-}
+const formSchema = z.object({
+  password: z
+    .string()
+    .min(8, "Password must have more than 8 characters")
+    .max(64, "Password must have fewer than 64 characters"),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 const defaultValues: FormValues = {
   password: "",
@@ -29,6 +36,7 @@ const ResetPasswordForm = ({ resetToken }: Props) => {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues,
+    resolver: zodResolver(formSchema),
   });
 
   const resetPasswordMutation = useResetPasswordMutation();
@@ -55,7 +63,7 @@ const ResetPasswordForm = ({ resetToken }: Props) => {
         placeholder="Password"
         error={!!errors.password?.message}
         helperText={errors.password?.message}
-        {...register("password", { required: true })}
+        {...register("password")}
       />
 
       {successMessage ? (

@@ -1,19 +1,21 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
 
 import Alert from "@/components/alert/alert";
 import Button from "@/components/button/button";
 import TextField from "@/components/text-field/text-field";
 import { useLoginMutation } from "@/features/authentication/api/login";
 import { setAuthCredentials } from "@/features/authentication/stores/auth-store";
-import { ErrorMessage } from "@/features/authentication/utils/constants";
-import { FormRegex } from "@/features/authentication/utils/validators";
 import classes from "./sign-in-form.module.css";
 
-interface FormValues {
-  email: string;
-  password: string;
-}
+const formSchema = z.object({
+  email: z.string().email("Please provide a valid email address"),
+  password: z.string().min(1, "Please provide a password"),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 const defaultValues: FormValues = {
   email: "",
@@ -28,7 +30,7 @@ export default function SignInForm() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormValues>({ defaultValues });
+  } = useForm<FormValues>({ defaultValues, resolver: zodResolver(formSchema) });
 
   const loginMutation = useLoginMutation();
 
@@ -54,16 +56,7 @@ export default function SignInForm() {
         error={!!errors.email?.message}
         helperText={errors.email?.message}
         containerClassName={classes["text-field"]}
-        {...register("email", {
-          required: {
-            value: true,
-            message: "Please enter your email",
-          },
-          pattern: {
-            value: FormRegex.EMAIL,
-            message: ErrorMessage.EMAIL,
-          },
-        })}
+        {...register("email")}
       />
       <TextField
         type="password"
@@ -71,12 +64,7 @@ export default function SignInForm() {
         error={!!errors.password?.message}
         helperText={errors.password?.message}
         containerClassName={classes["text-field"]}
-        {...register("password", {
-          required: {
-            value: true,
-            message: "Please enter your password",
-          },
-        })}
+        {...register("password")}
       />
 
       {errorMessage ? (

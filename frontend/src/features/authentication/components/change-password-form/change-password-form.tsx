@@ -1,18 +1,23 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
 
 import Alert from "@/components/alert/alert";
 import Button from "@/components/button/button";
 import TextField from "@/components/text-field/text-field";
 import { useChangePasswordMutation } from "@/features/authentication/api/change-password";
-import { ErrorMessage } from "@/features/authentication/utils/constants";
-import { FormRegex } from "@/features/authentication/utils/validators";
 import classes from "./change-password-form.module.css";
 
-interface FormValues {
-  oldPassword: string;
-  newPassword: string;
-}
+const formSchema = z.object({
+  oldPassword: z.string().min(1, "Please provide your current password"),
+  newPassword: z
+    .string()
+    .min(8, "Password must have more than 8 characters")
+    .max(64, "Password must have fewer than 64 characters"),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 const defaultValues: FormValues = {
   oldPassword: "",
@@ -34,6 +39,7 @@ const ChangePasswordForm = ({ email }: Props) => {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues,
+    resolver: zodResolver(formSchema),
   });
 
   const changePasswordMutation = useChangePasswordMutation();
@@ -69,12 +75,7 @@ const ChangePasswordForm = ({ email }: Props) => {
         error={!!errors.oldPassword?.message}
         helperText={errors.oldPassword?.message}
         containerClassName={classes["text-field"]}
-        {...register("oldPassword", {
-          required: {
-            value: true,
-            message: "Please enter your password",
-          },
-        })}
+        {...register("oldPassword")}
       />
       <TextField
         type="password"
@@ -82,16 +83,7 @@ const ChangePasswordForm = ({ email }: Props) => {
         error={!!errors.newPassword?.message}
         helperText={errors.newPassword?.message}
         containerClassName={classes["text-field"]}
-        {...register("newPassword", {
-          required: {
-            value: true,
-            message: "Please enter a new password",
-          },
-          pattern: {
-            value: FormRegex.PASSWORD,
-            message: ErrorMessage.PASSWORD,
-          },
-        })}
+        {...register("newPassword")}
       />
 
       {errorMessage ? (
