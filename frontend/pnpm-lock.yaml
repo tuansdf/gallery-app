@@ -48,9 +48,6 @@ devDependencies:
   postcss:
     specifier: ^8.4.21
     version: 8.4.21
-  postcss-easings:
-    specifier: ^3.0.1
-    version: 3.0.1(postcss@8.4.21)
   prettier:
     specifier: ^2.8.8
     version: 2.8.8
@@ -914,16 +911,6 @@ packages:
 
   /picocolors@1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
-    dev: true
-
-  /postcss-easings@3.0.1(postcss@8.4.21):
-    resolution: {integrity: sha512-n3bG/X3iB0m8d845vhFg/62/ECeT8jY8gE8F2A41z8Mty41spYA4vzMLezha7icVjtGjqlxgO3QE+uOzpDqeww==}
-    engines: {node: '>=10.0'}
-    peerDependencies:
-      postcss: ^8.1.0
-    dependencies:
-      postcss: 8.4.21
-      postcss-value-parser: 4.2.0
     dev: true
 
   /postcss-value-parser@4.2.0:
