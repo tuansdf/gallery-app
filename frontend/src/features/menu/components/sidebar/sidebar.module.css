@@ -17,7 +17,7 @@
 
   transition-property: margin-left;
   transition-duration: 400ms;
-  transition-timing-function: easeInOutQuad;
+  transition-timing-function: ease-in-out;
 }
 
 .container {

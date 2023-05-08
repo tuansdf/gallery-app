@@ -1,21 +1,20 @@
 import { useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
+import Button from "@/components/button/button";
 import HamburgerIcon from "@/features/icons/hamburger-icon";
 import { AppBarContext } from "@/features/menu/context/app-bar-provider";
-import { selectAppBarTitle } from "@/features/menu/stores/app-bar-store";
-import { toggleSidebar } from "@/features/menu/stores/menu-store";
-import Button from "@/features/ui/button/button";
+import { useAppBarTitle } from "@/features/menu/stores/app-bar-store";
+import { useSidebarActions } from "@/features/menu/stores/sidebar-store";
 import classes from "./app-bar.module.css";
 
 const AppBar = () => {
   const { trailing } = useContext(AppBarContext);
 
-  const appBarTitle = useSelector(selectAppBarTitle);
-  const dispatch = useDispatch();
+  const appBarTitle = useAppBarTitle();
+  const { toggleSidebar } = useSidebarActions();
 
-  const handleMenuClick = () => {
-    dispatch(toggleSidebar());
+  const handleSidebarClick = () => {
+    toggleSidebar();
   };
 
   return (
@@ -25,7 +24,7 @@ const AppBar = () => {
         variant="text"
         color="secondary"
         className={classes["menu-button"]}
-        onClick={handleMenuClick}
+        onClick={handleSidebarClick}
       >
         <HamburgerIcon className={classes["menu-icon"]} />
       </Button>

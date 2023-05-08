@@ -1,21 +1,13 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { useRegisterMutation } from "@/features/authentication/stores/auth-api-slice";
+import Alert from "@/components/alert/alert";
+import Button from "@/components/button/button";
+import TextField from "@/components/text-field/text-field";
+import { useRegisterMutation } from "@/features/authentication/api/register";
 import { ErrorMessage } from "@/features/authentication/utils/constants";
 import { FormRegex } from "@/features/authentication/utils/validators";
-import Alert from "@/features/ui/alert/alert";
-import Button from "@/features/ui/button/button";
-import TextField from "@/features/ui/text-field/text-field";
 import classes from "./sign-up-form.module.css";
-
-const initialValues: FormValues = {
-  email: "",
-  password: "",
-  confirmPassword: "",
-  firstName: "",
-  lastName: "",
-};
 
 interface FormValues {
   email: string;
@@ -25,40 +17,42 @@ interface FormValues {
   lastName: string;
 }
 
+const defaultValues: FormValues = {
+  email: "",
+  password: "",
+  confirmPassword: "",
+  firstName: "",
+  lastName: "",
+};
+
 const SignUpForm = () => {
-  const [requestError, setRequestError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
   const {
     register,
     handleSubmit,
-    getValues,
     reset,
     formState: { errors },
-  } = useForm<FormValues>({ values: initialValues });
+  } = useForm<FormValues>({ defaultValues });
 
-  const [registerApi, { isLoading }] = useRegisterMutation();
+  const registerMutation = useRegisterMutation();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    setRequestError("");
+    setErrorMessage("");
+    setSuccessMessage("");
 
-    const { email, password, firstName, lastName } = data;
-    try {
-      await registerApi({
-        email,
-        password,
-        firstName,
-        lastName,
-      }).unwrap();
-
-      reset();
-      setSuccessMessage(
-        "Account has been registered. Please check your email to activate your account."
-      );
-    } catch (e) {
-      setRequestError("Something went wrong.");
-      console.error(e);
-    }
+    registerMutation.mutate(data, {
+      onSuccess: () => {
+        reset();
+        setSuccessMessage(
+          "Account has been registered. Please check your email to activate your account."
+        );
+      },
+      onError: () => {
+        setErrorMessage("Something went wrong!");
+      },
+    });
   };
 
   return (
@@ -124,11 +118,7 @@ const SignUpForm = () => {
         })}
       />
 
-      {requestError ? (
-        <Alert severity="error" className={classes["alert"]}>
-          {requestError}
-        </Alert>
-      ) : null}
+      {errorMessage ? <Alert severity="error">{errorMessage}</Alert> : null}
 
       {successMessage ? (
         <Alert severity="success" className={classes["alert"]}>
@@ -136,7 +126,10 @@ const SignUpForm = () => {
         </Alert>
       ) : null}
 
-      <Button loading={isLoading} disabled={isLoading}>
+      <Button
+        loading={registerMutation.isLoading}
+        disabled={registerMutation.isLoading}
+      >
         Sign Up
       </Button>
     </form>

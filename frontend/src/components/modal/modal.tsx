@@ -2,8 +2,8 @@ import { AnimatePresence, m } from "framer-motion";
 import { PropsWithChildren } from "react";
 import { createPortal } from "react-dom";
 
-import Backdrop from "@/features/ui/backdrop/backdrop";
-import Card from "@/features/ui/card/card";
+import Backdrop from "@/components/backdrop/backdrop";
+import Card from "@/components/card/card";
 import classes from "./modal.module.css";
 
 interface Props extends PropsWithChildren {

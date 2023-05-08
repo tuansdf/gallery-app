@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { useForgotPasswordMutation } from "@/features/authentication/stores/auth-api-slice";
-import Alert from "@/features/ui/alert/alert";
-import Button from "@/features/ui/button/button";
-import TextField from "@/features/ui/text-field/text-field";
+import Alert from "@/components/alert/alert";
+import Button from "@/components/button/button";
+import TextField from "@/components/text-field/text-field";
+import { useForgotPasswordMutatioin } from "@/features/authentication/api/forgot-password";
 import classes from "./sign-in-form.module.css";
 
 interface FormValues {
@@ -27,18 +27,20 @@ const ForgotPasswordForm = () => {
     values: initialValues,
   });
 
-  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
+  const forgotPasswordMutation = useForgotPasswordMutatioin();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setErrorMessage("");
     setSuccessMessage("");
-    try {
-      await forgotPassword(data).unwrap();
-      setSuccessMessage("Email sent. Please check your email to continue");
-    } catch (error) {
-      console.error(error);
-      setErrorMessage("Something went wrong.");
-    }
+
+    forgotPasswordMutation.mutate(data, {
+      onSuccess: () => {
+        setSuccessMessage("Email sent. Please check your email to continue");
+      },
+      onError: () => {
+        setErrorMessage("Something went wrong.");
+      },
+    });
   };
 
   return (
@@ -63,7 +65,10 @@ const ForgotPasswordForm = () => {
         </Alert>
       ) : null}
 
-      <Button loading={isLoading} disabled={isLoading}>
+      <Button
+        loading={forgotPasswordMutation.isLoading}
+        disabled={forgotPasswordMutation.isLoading}
+      >
         Send password reset email
       </Button>
     </form>

@@ -1,60 +1,49 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
-import { useLoginMutation } from "@/features/authentication/stores/auth-api-slice";
-import { setCredentials } from "@/features/authentication/stores/auth-slice";
+import Alert from "@/components/alert/alert";
+import Button from "@/components/button/button";
+import TextField from "@/components/text-field/text-field";
+import { useLoginMutation } from "@/features/authentication/api/login";
+import { setAuthCredentials } from "@/features/authentication/stores/auth-store";
 import { ErrorMessage } from "@/features/authentication/utils/constants";
 import { FormRegex } from "@/features/authentication/utils/validators";
-import Alert from "@/features/ui/alert/alert";
-import Button from "@/features/ui/button/button";
-import TextField from "@/features/ui/text-field/text-field";
 import classes from "./sign-in-form.module.css";
-
-const initialValues: FormValues = {
-  email: "",
-  password: "",
-};
 
 interface FormValues {
   email: string;
   password: string;
 }
 
-export default function SignInForm() {
-  const [requestError, setRequestError] = useState("");
+const defaultValues: FormValues = {
+  email: "",
+  password: "",
+};
 
-  const navigate = useNavigate();
+export default function SignInForm() {
+  const [errorMessage, setErrorMessage] = useState("");
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormValues>({ values: initialValues });
+  } = useForm<FormValues>({ defaultValues });
 
-  const [login, { isLoading }] = useLoginMutation();
-  const dispatch = useDispatch();
+  const loginMutation = useLoginMutation();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    setRequestError("");
+    setErrorMessage("");
 
-    const { email, password } = data;
-    try {
-      const data = await login({
-        email,
-        password,
-      }).unwrap();
-
-      dispatch(setCredentials(data));
-
-      reset();
-      navigate("/", { replace: true });
-    } catch (e) {
-      setRequestError("Email or password is wrong");
-      console.error(e);
-    }
+    loginMutation.mutate(data, {
+      onSuccess: (data) => {
+        reset();
+        setAuthCredentials(data);
+      },
+      onError: () => {
+        setErrorMessage("Something went wrong!");
+      },
+    });
   };
 
   return (
@@ -90,13 +79,16 @@ export default function SignInForm() {
         })}
       />
 
-      {requestError ? (
+      {errorMessage ? (
         <Alert severity="error" className={classes["alert"]}>
-          {requestError}
+          {errorMessage}
         </Alert>
       ) : null}
 
-      <Button loading={isLoading} disabled={isLoading}>
+      <Button
+        loading={loginMutation.isLoading}
+        disabled={loginMutation.isLoading}
+      >
         Sign In
       </Button>
     </form>

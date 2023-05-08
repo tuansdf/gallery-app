@@ -1,32 +1,32 @@
 import { useContext, useEffect, useState } from "react";
 
+import Alert from "@/components/alert/alert";
+import Button from "@/components/button/button";
+import Modal from "@/components/modal/modal";
+import { useGetAlbumsQuery } from "@/features/albums/api/get-albums";
 import AlbumGridSkeleton from "@/features/albums/components/album-grid-skeleton/album-grid-skeleton";
 import AlbumGrid from "@/features/albums/components/album-grid/album-grid";
 import CreateAlbumForm from "@/features/albums/components/create-album-form/create-album-form";
-import { useGetAlbumsQuery } from "@/features/albums/stores/albums-api-slice";
 import PlusIcon from "@/features/icons/plus-icon";
 import XMarkIcon from "@/features/icons/x-mark-icon";
 import { AppBarContext } from "@/features/menu/context/app-bar-provider";
-import { setTitle } from "@/features/menu/stores/app-bar-store";
-import Alert from "@/features/ui/alert/alert";
-import Button from "@/features/ui/button/button";
-import Modal from "@/features/ui/modal/modal";
-import { useDispatch } from "react-redux";
+import { useAppBarActions } from "@/features/menu/stores/app-bar-store";
 import classes from "./index-page.module.css";
 
 const IndexPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { setTrailing } = useContext(AppBarContext);
 
-  const dispatch = useDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data, isLoading, isError } = useGetAlbumsQuery();
+  const { setAppBarTitle } = useAppBarActions();
+
+  const getAlbumsQuery = useGetAlbumsQuery();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
-    dispatch(setTitle("All albums"));
+    setAppBarTitle("All album");
     setTrailing(
       <Button
         variant="text"
@@ -40,19 +40,19 @@ const IndexPage = () => {
     );
 
     return () => {
-      dispatch(setTitle(""));
+      setAppBarTitle("");
       setTrailing(null);
     };
   }, []);
 
   return (
     <main className={classes["main"]}>
-      {isLoading ? (
+      {getAlbumsQuery.isLoading ? (
         <AlbumGridSkeleton />
-      ) : isError ? (
+      ) : getAlbumsQuery.isError ? (
         <Alert severity="error">Something went wrong!</Alert>
-      ) : data ? (
-        <AlbumGrid albums={data} />
+      ) : getAlbumsQuery.data ? (
+        <AlbumGrid albums={getAlbumsQuery.data} />
       ) : null}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>

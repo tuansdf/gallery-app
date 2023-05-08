@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { useResetPasswordMutation } from "@/features/authentication/stores/auth-api-slice";
-import Alert from "@/features/ui/alert/alert";
-import Button from "@/features/ui/button/button";
-import TextField from "@/features/ui/text-field/text-field";
+import Alert from "@/components/alert/alert";
+import Button from "@/components/button/button";
+import TextField from "@/components/text-field/text-field";
+import { useResetPasswordMutation } from "@/features/authentication/api/reset-password";
 import classes from "./sign-in-form.module.css";
 
 interface FormValues {
   password: string;
 }
 
-const initialValues: FormValues = {
+const defaultValues: FormValues = {
   password: "",
 };
 
@@ -20,30 +20,32 @@ interface Props {
 }
 
 const ResetPasswordForm = ({ resetToken }: Props) => {
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>({
-    values: initialValues,
+    defaultValues,
   });
 
-  const [resetPassword, { isLoading }] = useResetPasswordMutation();
+  const resetPasswordMutation = useResetPasswordMutation();
 
   const onSubmit: SubmitHandler<FormValues> = async ({ password }) => {
     setSuccessMessage("");
     setErrorMessage("");
-    try {
-      const data = { password, token: resetToken };
-      await resetPassword(data).unwrap();
-      setSuccessMessage("Password changed successfully");
-    } catch (error) {
-      console.error(error);
-      setErrorMessage("Something went wrong.");
-    }
+
+    const data = { password, token: resetToken };
+    resetPasswordMutation.mutate(data, {
+      onSuccess: () => {
+        setSuccessMessage("Password changed successfully");
+      },
+      onError: () => {
+        setErrorMessage("Something went wrong.");
+      },
+    });
   };
 
   return (
@@ -68,7 +70,10 @@ const ResetPasswordForm = ({ resetToken }: Props) => {
         </Alert>
       ) : null}
 
-      <Button loading={isLoading} disabled={isLoading}>
+      <Button
+        loading={resetPasswordMutation.isLoading}
+        disabled={resetPasswordMutation.isLoading}
+      >
         Reset your password
       </Button>
     </form>
