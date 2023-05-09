@@ -72,7 +72,7 @@ const ResetPasswordForm = ({ resetToken }: Props) => {
         </Alert>
       ) : null}
 
-      {successMessage ? (
+      {errorMessage ? (
         <Alert severity="error" className={classes["alert"]}>
           {errorMessage}
         </Alert>

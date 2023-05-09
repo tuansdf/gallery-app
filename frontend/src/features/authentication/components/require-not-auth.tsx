@@ -1,11 +1,11 @@
 import { Navigate, Outlet } from "react-router-dom";
 
-import { useAuthToken } from "@/features/authentication/stores/auth-store";
+import { useAuthAccessToken } from "@/features/authentication/stores/auth-store";
 
 const RequireNotAuth = () => {
-  const token = useAuthToken();
+  const token = useAuthAccessToken();
 
-  return !token ? <Outlet /> : <Navigate to="/" replace />;
+  return !token ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default RequireNotAuth;

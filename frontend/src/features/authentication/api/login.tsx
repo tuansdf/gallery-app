@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 
+import { User } from "@/features/authentication/types/auth-types";
 import axiosInstance from "@/lib/axios";
 
 export type LoginRequest = {
@@ -7,15 +8,11 @@ export type LoginRequest = {
   password: string;
 };
 
-export type User = {
-  firstName: string;
-  lastName: string;
-  email: string;
+export type LoginResponse = {
+  user: User;
+  refreshToken: string;
+  accessToken: string;
 };
-export type Token = {
-  token: string;
-};
-export type LoginResponse = User & Token;
 
 const login = async (request: LoginRequest): Promise<LoginResponse> => {
   const response = await axiosInstance.post("/auth/login", request);

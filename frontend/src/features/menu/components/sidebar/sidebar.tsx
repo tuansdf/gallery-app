@@ -20,8 +20,6 @@ const Sidebar = () => {
   const isSidebarOpen = useIsSidebarOpen();
   const { closeSidebar } = useSidebarActions();
 
-  if (!authUser) return null;
-
   const handleLogout = () => {
     authLogout();
   };
@@ -29,7 +27,7 @@ const Sidebar = () => {
     closeSidebar();
   };
 
-  const userFullName = authUser.firstName + " " + authUser.lastName;
+  const userFullName = authUser?.firstName + " " + authUser?.lastName;
 
   return (
     <>

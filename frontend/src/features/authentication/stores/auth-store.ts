@@ -1,36 +1,37 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { LoginResponse, User } from "@/features/authentication/api/login";
+import { LoginResponse } from "@/features/authentication/api/login";
+import { User } from "@/features/authentication/types/auth-types";
 
 interface StoreState {
   user: User | null;
-  token: string | null;
+  refreshToken: string | null;
+  accessToken: string | null;
 }
 
+const initialState: StoreState = {
+  user: null,
+  refreshToken: null,
+  accessToken: null,
+};
+
 export const useAuthStore = create<StoreState>()(
-  persist(
-    (_set) => ({
-      user: null,
-      token: null,
-    }),
-    {
-      name: "auth",
-    }
-  )
+  persist((_set) => initialState, {
+    name: "auth",
+  })
 );
 
 export const setAuthCredentials = (data: LoginResponse) =>
   useAuthStore.setState((_state) => {
-    const { token, ...user } = data;
-    return { user, token };
+    const { refreshToken, accessToken, user } = data;
+    return { user, refreshToken, accessToken };
   });
 
-export const authLogout = () =>
-  useAuthStore.setState({
-    token: null,
-    user: null,
-  });
+export const authLogout = () => useAuthStore.setState(initialState);
 
 export const useAuthUser = () => useAuthStore((state) => state.user);
-export const useAuthToken = () => useAuthStore((state) => state.token);
+export const useAuthRefreshToken = () =>
+  useAuthStore((state) => state.refreshToken);
+export const useAuthAccessToken = () =>
+  useAuthStore((state) => state.accessToken);
