@@ -12,6 +12,8 @@ import com.gallery.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,9 +48,28 @@ public class AuthService {
         return new RegisterResponse("A link to activate your account has been emailed to the address provided.");
     }
 
-    public ChangePasswordResponse changePassword(ChangePasswordRequest request) {
+    public LoginResponse login(LoginRequest request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.email(),
+                        request.password()
+                )
+        );
+
         User user = userRepository.findByEmail(request.email())
-                .orElseThrow(() -> new UnauthorizedException(""));
+                .orElseThrow();
+        String jwtToken = jwtUtils.generateToken(user);
+        return new LoginResponse(
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                jwtToken
+        );
+    }
+
+    public ChangePasswordResponse changePassword(ChangePasswordRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
 
         boolean isPasswordCorrect = passwordEncoder.matches(request.oldPassword(), user.getPassword());
         if (!isPasswordCorrect) {
@@ -57,6 +78,7 @@ public class AuthService {
 
         user.setPassword(passwordEncoder.encode(request.newPassword()));
         userRepository.save(user);
+
         return new ChangePasswordResponse("Password changed.");
     }
 
@@ -90,25 +112,6 @@ public class AuthService {
         );
 
         forgotPasswordEmailSender.send(user.getEmail(), emailContent);
-    }
-
-    public LoginResponse login(LoginRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.email(),
-                        request.password()
-                )
-        );
-
-        User user = userRepository.findByEmail(request.email())
-                .orElseThrow();
-        String jwtToken = jwtUtils.generateToken(user);
-        return new LoginResponse(
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                jwtToken
-        );
     }
 
     @Transactional

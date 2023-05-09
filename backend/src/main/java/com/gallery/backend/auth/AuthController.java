@@ -1,6 +1,7 @@
 package com.gallery.backend.auth;
 
 import com.gallery.backend.auth.dto.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,35 +15,35 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(
-            @RequestBody RegisterRequest request
+            @RequestBody @Valid RegisterRequest request
     ) {
         return new ResponseEntity<>(service.register(request), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(
-            @RequestBody LoginRequest request
+            @RequestBody @Valid LoginRequest request
     ) {
         return new ResponseEntity<>(service.login(request), HttpStatus.OK);
     }
 
     @PatchMapping("/password")
     public ResponseEntity<ChangePasswordResponse> changePassword(
-            @RequestBody ChangePasswordRequest request
+            @RequestBody @Valid ChangePasswordRequest request
     ) {
         return new ResponseEntity<>(service.changePassword(request), HttpStatus.OK);
     }
 
     @PostMapping("/forgot-password")
     public ResponseEntity<ForgotPasswordResponse> forgotPassword(
-            @RequestBody ForgotPasswordRequest request
+            @RequestBody @Valid ForgotPasswordRequest request
     ) {
         return new ResponseEntity<>(service.findUserAndSendForgotPasswordEmail(request.email()), HttpStatus.OK);
     }
 
     @PostMapping("/reset-password")
     public ResponseEntity<ResetPasswordResponse> resetPassword(
-            @RequestBody ResetPasswordRequest request
+            @RequestBody @Valid ResetPasswordRequest request
     ) {
         return new ResponseEntity<>(service.resetPassword(request), HttpStatus.OK);
     }

@@ -1,11 +1,13 @@
 package com.gallery.backend.auth.dto;
 
-import org.springframework.lang.NonNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public record ResetPasswordRequest(
-        @NonNull
+        @NotBlank
+        @Size(min = 8, max = 64)
         String password,
-        @NonNull
+        @NotBlank
         String token
 ) {
 }
