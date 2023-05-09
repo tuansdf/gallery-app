@@ -2,9 +2,9 @@ package com.gallery.backend.album;
 
 import com.gallery.backend.album.dto.AlbumResponse;
 import com.gallery.backend.album.dto.CreateAlbumRequest;
+import com.gallery.backend.exception.NotFoundException;
 import com.gallery.backend.image.Image;
 import com.gallery.backend.image.ImageRepository;
-import com.gallery.backend.exception.NotFoundException;
 import com.gallery.backend.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,17 +31,20 @@ public class AlbumService {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<Album> albums = repository.findByUserOrderByCreatedAtDesc(user);
         return albums.stream().map(album -> {
-            AlbumResponse albumResponse = new AlbumResponse();
-            albumResponse.setId(album.getId());
-            albumResponse.setName(album.getName());
-            albumResponse.setCreatedAt(album.getCreatedAt());
-            albumResponse.setUpdatedAt(album.getUpdatedAt());
+            String imageUrl = "";
             Optional<Image> optionalImages = imageRepository.findFirstByAlbumIdAndUserOrderByCreatedAtDesc(album.getId(), user);
             if (optionalImages.isPresent()) {
                 Image image = optionalImages.get();
-                albumResponse.setImageUrl(image.getImageUrl());
+                imageUrl = image.getImageUrl();
             }
-            return albumResponse;
+
+            return new AlbumResponse(
+                    album.getId(),
+                    album.getName(),
+                    imageUrl,
+                    album.getCreatedAt(),
+                    album.getUpdatedAt()
+            );
         }).collect(Collectors.toList());
     }
 
