@@ -48,10 +48,10 @@ public class AuthController {
         return new ResponseEntity<>(service.resetPassword(request), HttpStatus.OK);
     }
 
-    @GetMapping("/verify-email")
+    @PostMapping("/verify-email")
     public ResponseEntity<VerifyEmailResponse> verifyEmail(
-            @RequestParam String token
+            @RequestBody @Valid VerifyEmailRequest request
     ) {
-        return new ResponseEntity<>(service.verifyEmail(token), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(service.verifyEmail(request), HttpStatus.OK);
     }
 }

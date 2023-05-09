@@ -45,7 +45,7 @@ Content-Type: application/json
   "email": "{{email}}"
 }
 
-###
+### Reset password
 
 POST {{base-url}}/auth/reset-password
 Content-Type: application/json

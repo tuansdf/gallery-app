@@ -6,14 +6,15 @@ import com.gallery.backend.confirmationToken.ConfirmationTokenService;
 import com.gallery.backend.email.ForgotPasswordEmailSender;
 import com.gallery.backend.email.VerifyEmailSender;
 import com.gallery.backend.exception.UnauthorizedException;
+import com.gallery.backend.token.TokenService;
 import com.gallery.backend.user.User;
 import com.gallery.backend.user.UserRepository;
 import com.gallery.backend.user.UserService;
+import com.gallery.backend.user.mapper.UserResponseMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,19 +27,26 @@ import java.util.Optional;
 public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
     private final ConfirmationTokenService confirmationTokenService;
     private final UserService userService;
     private final VerifyEmailSender verifyEmailSender;
     private final ForgotPasswordEmailSender forgotPasswordEmailSender;
+    private final UserResponseMapper userResponseMapper;
+    private final TokenService tokenService;
 
     public RegisterResponse register(RegisterRequest request) {
+        Optional<User> userAlreadyExist = userRepository.findByEmail(request.email());
+        if (userAlreadyExist.isPresent()) {
+            return new RegisterResponse("A link to activate your account has been emailed to the address provided.");
+        }
+
         User user = User.builder()
                 .firstName(request.firstName())
                 .lastName(request.lastName())
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
+                .enabled(false)
                 .build();
 
         User savedUser = userRepository.save(user);
@@ -49,27 +57,27 @@ public class AuthService {
     }
 
     public LoginResponse login(LoginRequest request) {
-        authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.email(),
                         request.password()
                 )
         );
 
-        User user = userRepository.findByEmail(request.email())
-                .orElseThrow();
-        String jwtToken = jwtUtils.generateToken(user);
+        User user = (User) authentication.getPrincipal();
+
+        String refreshTokenValue = tokenService.generateJwtRefreshTokenValue(user.getEmail());
+        String accessTokenValue = tokenService.generateJwtRefreshTokenValue(user.getEmail());
+
         return new LoginResponse(
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                jwtToken
+                userResponseMapper.apply(user),
+                refreshTokenValue,
+                accessTokenValue
         );
     }
 
     public ChangePasswordResponse changePassword(ChangePasswordRequest request) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
+        User user = userService.getUserFromSecurityContext();
 
         boolean isPasswordCorrect = passwordEncoder.matches(request.oldPassword(), user.getPassword());
         if (!isPasswordCorrect) {
@@ -115,8 +123,8 @@ public class AuthService {
     }
 
     @Transactional
-    public VerifyEmailResponse verifyEmail(String token) {
-        ConfirmationToken confirmationToken = confirmationTokenService.findByToken(token)
+    public VerifyEmailResponse verifyEmail(VerifyEmailRequest request) {
+        ConfirmationToken confirmationToken = confirmationTokenService.findByToken(request.token())
                 .orElseThrow(() -> new UnauthorizedException("Invalid credentials"));
 
         boolean isTokenConfirmed = confirmationToken.getConfirmedAt() != null;
