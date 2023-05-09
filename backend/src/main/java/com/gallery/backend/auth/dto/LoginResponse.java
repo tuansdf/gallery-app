@@ -2,7 +2,7 @@ package com.gallery.backend.auth.dto;
 
 import org.springframework.lang.NonNull;
 
-public record AuthResponse(
+public record LoginResponse(
         @NonNull
         String firstName,
         @NonNull

@@ -31,19 +31,22 @@ public class AuthService {
     private final VerifyEmailSender verifyEmailSender;
     private final ForgotPasswordEmailSender forgotPasswordEmailSender;
 
-    public void register(RegisterRequest request) {
-        User user = new User(
-                request.firstName(),
-                request.lastName(),
-                request.email(),
-                passwordEncoder.encode(request.password())
-        );
+    public RegisterResponse register(RegisterRequest request) {
+        User user = User.builder()
+                .firstName(request.firstName())
+                .lastName(request.lastName())
+                .email(request.email())
+                .password(passwordEncoder.encode(request.password()))
+                .build();
+
         User savedUser = userRepository.save(user);
 
         sendVerificationEmail(savedUser);
+
+        return new RegisterResponse("A link to activate your account has been emailed to the address provided.");
     }
 
-    public void changePassword(ChangePasswordRequest request) {
+    public ChangePasswordResponse changePassword(ChangePasswordRequest request) {
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new UnauthorizedException(""));
 
@@ -54,6 +57,7 @@ public class AuthService {
 
         user.setPassword(passwordEncoder.encode(request.newPassword()));
         userRepository.save(user);
+        return new ChangePasswordResponse("Password changed.");
     }
 
     private void sendVerificationEmail(User user) {
@@ -66,12 +70,16 @@ public class AuthService {
         verifyEmailSender.send(user.getEmail(), emailContent);
     }
 
-    public void findUserAndSendForgotPasswordEmail(String email) {
+    public ForgotPasswordResponse findUserAndSendForgotPasswordEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
 
         if (user.isPresent()) {
             sendForgotPasswordEmail(user.get());
         }
+
+        return new ForgotPasswordResponse(
+                "If that email address is in our database, we will send you an email to reset your password."
+        );
     }
 
     private void sendForgotPasswordEmail(User user) {
@@ -84,7 +92,7 @@ public class AuthService {
         forgotPasswordEmailSender.send(user.getEmail(), emailContent);
     }
 
-    public AuthResponse login(LoginRequest request) {
+    public LoginResponse login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.email(),
@@ -95,7 +103,7 @@ public class AuthService {
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow();
         String jwtToken = jwtUtils.generateToken(user);
-        return new AuthResponse(
+        return new LoginResponse(
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
@@ -104,7 +112,7 @@ public class AuthService {
     }
 
     @Transactional
-    public void verifyEmail(String token) {
+    public VerifyEmailResponse verifyEmail(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService.findByToken(token)
                 .orElseThrow(() -> new UnauthorizedException("Invalid credentials"));
 
@@ -120,21 +128,17 @@ public class AuthService {
 
         confirmationTokenService.confirmToken(confirmationToken);
         userService.enableUser(confirmationToken.getUser().getEmail());
+
+        return new VerifyEmailResponse("Email verified.");
     }
 
-    public void resetPassword(
-            ResetPasswordRequest request
-    ) {
+    public ResetPasswordResponse resetPassword(ResetPasswordRequest request) {
         ConfirmationToken confirmationToken = confirmationTokenService.findByToken(request.token())
                 .orElseThrow(() -> new UnauthorizedException("Invalid credentials"));
 
         boolean isTokenConfirmed = confirmationToken.getConfirmedAt() != null;
-        if (isTokenConfirmed) {
-            throw new UnauthorizedException("Invalid credentials");
-        }
-
         boolean isTokenExpired = confirmationToken.getExpiresAt().isBefore(LocalDateTime.now());
-        if (isTokenExpired) {
+        if (isTokenConfirmed || isTokenExpired) {
             throw new UnauthorizedException("Invalid credentials");
         }
 
@@ -144,5 +148,7 @@ public class AuthService {
         userRepository.save(user);
 
         confirmationTokenService.confirmToken(confirmationToken);
+
+        return new ResetPasswordResponse("Password reset.");
     }
 }

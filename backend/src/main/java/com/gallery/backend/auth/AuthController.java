@@ -13,49 +13,44 @@ public class AuthController {
     private final AuthService service;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(
+    public ResponseEntity<RegisterResponse> register(
             @RequestBody RegisterRequest request
     ) {
-        service.register(request);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(service.register(request), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(
+    public ResponseEntity<LoginResponse> login(
             @RequestBody LoginRequest request
     ) {
         return new ResponseEntity<>(service.login(request), HttpStatus.OK);
     }
 
     @PatchMapping("/password")
-    public ResponseEntity<Void> changePassword(
+    public ResponseEntity<ChangePasswordResponse> changePassword(
             @RequestBody ChangePasswordRequest request
     ) {
-        service.changePassword(request);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(service.changePassword(request), HttpStatus.OK);
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<Void> forgotPassword(
+    public ResponseEntity<ForgotPasswordResponse> forgotPassword(
             @RequestBody ForgotPasswordRequest request
     ) {
-        service.findUserAndSendForgotPasswordEmail(request.email());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(service.findUserAndSendForgotPasswordEmail(request.email()), HttpStatus.OK);
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<Void> resetPassword(
+    public ResponseEntity<ResetPasswordResponse> resetPassword(
             @RequestBody ResetPasswordRequest request
     ) {
-        service.resetPassword(request);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(service.resetPassword(request), HttpStatus.OK);
     }
 
     @GetMapping("/verify-email")
-    public ResponseEntity<Void> verifyEmail(
+    public ResponseEntity<VerifyEmailResponse> verifyEmail(
             @RequestParam String token
     ) {
-        service.verifyEmail(token);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(service.verifyEmail(token), HttpStatus.NO_CONTENT);
     }
 }
