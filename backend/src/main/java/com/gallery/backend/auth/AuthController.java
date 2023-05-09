@@ -1,6 +1,7 @@
 package com.gallery.backend.auth;
 
 import com.gallery.backend.auth.dto.*;
+import com.gallery.backend.user.dto.UserResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -53,5 +54,22 @@ public class AuthController {
             @RequestBody @Valid VerifyEmailRequest request
     ) {
         return new ResponseEntity<>(service.verifyEmail(request), HttpStatus.OK);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<RefreshTokenResponse> refreshToken(
+            @RequestBody @Valid RefreshTokenRequest request
+    ) {
+        return new ResponseEntity<>(service.refreshToken(request), HttpStatus.OK);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> getCurrentUser() {
+        return new ResponseEntity<>(service.getCurrentUser(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/logout")
+    public ResponseEntity<LogoutResponse> logout() {
+        return new ResponseEntity<>(service.logout(), HttpStatus.OK);
     }
 }

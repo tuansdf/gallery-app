@@ -4,12 +4,12 @@ import com.gallery.backend.album.Album;
 import com.gallery.backend.album.AlbumService;
 import com.gallery.backend.exception.NotFoundException;
 import com.gallery.backend.user.User;
+import com.gallery.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -27,8 +27,9 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class ImageService {
-    private final ImageRepository repository;
+    private final ImageRepository imageRepository;
     private final AlbumService albumService;
+    private final UserService userService;
     private final S3Client s3Client;
 
     @Value("${aws.bucket.name}")
@@ -57,25 +58,25 @@ public class ImageService {
         s3Client.putObject(objectRequest, RequestBody.fromFile(file));
         file.delete();
 
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserFromSecurityContext();
         Album album = albumService.getAlbum(albumId);
         Image image = new Image(originalFileName, imageUrl, user, album);
 
-        return repository.save(image);
+        return imageRepository.save(image);
     }
 
     public List<Image> getImagesByAlbum(UUID albumId, Integer pageNumber, Integer pageSize) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserFromSecurityContext();
         Album album = albumService.getAlbum(albumId);
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
-        Page<Image> imagesPageResult = repository.findByUserAndAlbumOrderByCreatedAtDesc(pageable, user, album);
+        Page<Image> imagesPageResult = imageRepository.findByUserAndAlbumOrderByCreatedAtDesc(pageable, user, album);
         return imagesPageResult.getContent();
     }
 
     public Image getImage(UUID imageId) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return repository.findOneByIdAndUser(imageId, user)
+        User user = userService.getUserFromSecurityContext();
+        return imageRepository.findOneByIdAndUser(imageId, user)
                 .orElseThrow(() -> new NotFoundException(String.format("Image %s not found", imageId)));
     }
 

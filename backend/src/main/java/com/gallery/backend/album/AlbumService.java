@@ -6,6 +6,7 @@ import com.gallery.backend.exception.NotFoundException;
 import com.gallery.backend.image.Image;
 import com.gallery.backend.image.ImageRepository;
 import com.gallery.backend.user.User;
+import com.gallery.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -18,18 +19,19 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class AlbumService {
-    private final AlbumRepository repository;
+    private final AlbumRepository albumRepository;
     private final ImageRepository imageRepository;
+    private final UserService userService;
 
     public Album getAlbum(UUID albumId) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return repository.findOneByIdAndUser(albumId, user)
+        User user = userService.getUserFromSecurityContext();
+        return albumRepository.findOneByIdAndUser(albumId, user)
                 .orElseThrow(() -> new NotFoundException("Album " + albumId + " not found"));
     }
 
     public List<AlbumResponse> getAllAlbums() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Album> albums = repository.findByUserOrderByCreatedAtDesc(user);
+        User user = userService.getUserFromSecurityContext();
+        List<Album> albums = albumRepository.findByUserOrderByCreatedAtDesc(user);
         return albums.stream().map(album -> {
             String imageUrl = "";
             Optional<Image> optionalImages = imageRepository.findFirstByAlbumIdAndUserOrderByCreatedAtDesc(album.getId(), user);
@@ -49,8 +51,8 @@ public class AlbumService {
     }
 
     public Album createAlbum(CreateAlbumRequest request) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserFromSecurityContext();
         Album album = new Album(request.name(), user);
-        return repository.save(album);
+        return albumRepository.save(album);
     }
 }

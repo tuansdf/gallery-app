@@ -1,8 +1,9 @@
-package com.gallery.backend.confirmationToken;
+package com.gallery.backend.token;
 
 import com.gallery.backend.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,26 +14,20 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ConfirmationToken {
+@Builder
+public class Token {
     @Id
     @GeneratedValue
     private UUID id;
     @Column(nullable = false)
-    private String token;
+    private String value;
     @Column(nullable = false)
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     @Column(nullable = false)
     private LocalDateTime expiresAt;
-    private LocalDateTime confirmedAt;
-
-    @ManyToOne
+    @Column(nullable = false)
+    private boolean revoked;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private User user;
-
-    public ConfirmationToken(String token, LocalDateTime createAt, LocalDateTime expiresAt, User user) {
-        this.token = token;
-        this.createAt = createAt;
-        this.expiresAt = expiresAt;
-        this.user = user;
-    }
 }

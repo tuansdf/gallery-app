@@ -1,15 +1,16 @@
 package com.gallery.backend.auth;
 
 import com.gallery.backend.auth.dto.*;
-import com.gallery.backend.confirmationToken.ConfirmationToken;
-import com.gallery.backend.confirmationToken.ConfirmationTokenService;
 import com.gallery.backend.email.ForgotPasswordEmailSender;
 import com.gallery.backend.email.VerifyEmailSender;
 import com.gallery.backend.exception.UnauthorizedException;
+import com.gallery.backend.token.Token;
+import com.gallery.backend.token.TokenRepository;
 import com.gallery.backend.token.TokenService;
 import com.gallery.backend.user.User;
 import com.gallery.backend.user.UserRepository;
 import com.gallery.backend.user.UserService;
+import com.gallery.backend.user.dto.UserResponse;
 import com.gallery.backend.user.mapper.UserResponseMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,9 +18,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,17 +28,17 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final ConfirmationTokenService confirmationTokenService;
     private final UserService userService;
     private final VerifyEmailSender verifyEmailSender;
     private final ForgotPasswordEmailSender forgotPasswordEmailSender;
     private final UserResponseMapper userResponseMapper;
     private final TokenService tokenService;
+    private final TokenRepository tokenRepository;
 
     public RegisterResponse register(RegisterRequest request) {
         Optional<User> userAlreadyExist = userRepository.findByEmail(request.email());
         if (userAlreadyExist.isPresent()) {
-            return new RegisterResponse("A link to activate your account has been emailed to the address provided.");
+            return new RegisterResponse("A link to activate your account has been emailed to the address provided");
         }
 
         User user = User.builder()
@@ -48,12 +48,15 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.password()))
                 .enabled(false)
                 .build();
-
         User savedUser = userRepository.save(user);
 
-        sendVerificationEmail(savedUser);
+        Token token = tokenService.createEmailVerificationToken(savedUser);
+        String emailContent = verifyEmailSender.buildContent(
+                savedUser.getFirstName(), token.getValue()
+        );
+        verifyEmailSender.send(savedUser.getEmail(), emailContent);
 
-        return new RegisterResponse("A link to activate your account has been emailed to the address provided.");
+        return new RegisterResponse("A link to activate your account has been emailed to the address provided");
     }
 
     public LoginResponse login(LoginRequest request) {
@@ -67,7 +70,9 @@ public class AuthService {
         User user = (User) authentication.getPrincipal();
 
         String refreshTokenValue = tokenService.generateJwtRefreshTokenValue(user.getEmail());
-        String accessTokenValue = tokenService.generateJwtRefreshTokenValue(user.getEmail());
+        String accessTokenValue = tokenService.generateJwtAccessTokenValue(user.getEmail());
+
+        tokenService.createRefreshToken(refreshTokenValue, user);
 
         return new LoginResponse(
                 userResponseMapper.apply(user),
@@ -81,30 +86,25 @@ public class AuthService {
 
         boolean isPasswordCorrect = passwordEncoder.matches(request.oldPassword(), user.getPassword());
         if (!isPasswordCorrect) {
-            throw new UnauthorizedException("");
+            throw new UnauthorizedException("Invalid credentials");
         }
 
         user.setPassword(passwordEncoder.encode(request.newPassword()));
         userRepository.save(user);
 
-        return new ChangePasswordResponse("Password changed.");
-    }
-
-    private void sendVerificationEmail(User user) {
-        ConfirmationToken confirmationToken = confirmationTokenService.generateConfirmationToken(user);
-
-        String emailContent = verifyEmailSender.buildContent(
-                user.getFirstName(), confirmationToken.getToken()
-        );
-
-        verifyEmailSender.send(user.getEmail(), emailContent);
+        return new ChangePasswordResponse("Password changed");
     }
 
     public ForgotPasswordResponse findUserAndSendForgotPasswordEmail(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
+        Optional<User> optionalUser = userRepository.findByEmail(email);
 
-        if (user.isPresent()) {
-            sendForgotPasswordEmail(user.get());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            Token token = tokenService.createEmailVerificationToken(user);
+            String emailContent = forgotPasswordEmailSender.buildContent(
+                    user.getFirstName(), token.getValue()
+            );
+            forgotPasswordEmailSender.send(user.getEmail(), emailContent);
         }
 
         return new ForgotPasswordResponse(
@@ -112,54 +112,51 @@ public class AuthService {
         );
     }
 
-    private void sendForgotPasswordEmail(User user) {
-        ConfirmationToken confirmationToken = confirmationTokenService.generateConfirmationToken(user);
-
-        String emailContent = forgotPasswordEmailSender.buildContent(
-                user.getFirstName(), confirmationToken.getToken()
-        );
-
-        forgotPasswordEmailSender.send(user.getEmail(), emailContent);
-    }
-
-    @Transactional
     public VerifyEmailResponse verifyEmail(VerifyEmailRequest request) {
-        ConfirmationToken confirmationToken = confirmationTokenService.findByToken(request.token())
-                .orElseThrow(() -> new UnauthorizedException("Invalid credentials"));
+        Token token = tokenService.findValidTokenByValue(request.token());
 
-        boolean isTokenConfirmed = confirmationToken.getConfirmedAt() != null;
-        if (isTokenConfirmed) {
-            throw new UnauthorizedException("Invalid credentials");
-        }
+        tokenService.revokeToken(token);
+        userService.enableUser(token.getUser());
 
-        boolean isTokenExpired = confirmationToken.getExpiresAt().isBefore(LocalDateTime.now());
-        if (isTokenExpired) {
-            throw new UnauthorizedException("Invalid credentials");
-        }
-
-        confirmationTokenService.confirmToken(confirmationToken);
-        userService.enableUser(confirmationToken.getUser().getEmail());
-
-        return new VerifyEmailResponse("Email verified.");
+        return new VerifyEmailResponse("Email verified");
     }
 
     public ResetPasswordResponse resetPassword(ResetPasswordRequest request) {
-        ConfirmationToken confirmationToken = confirmationTokenService.findByToken(request.token())
-                .orElseThrow(() -> new UnauthorizedException("Invalid credentials"));
+        Token token = tokenService.findValidTokenByValue(request.token());
 
-        boolean isTokenConfirmed = confirmationToken.getConfirmedAt() != null;
-        boolean isTokenExpired = confirmationToken.getExpiresAt().isBefore(LocalDateTime.now());
-        if (isTokenConfirmed || isTokenExpired) {
-            throw new UnauthorizedException("Invalid credentials");
-        }
-
-        User user = userRepository.findByEmail(confirmationToken.getUser().getEmail())
-                .orElseThrow(() -> new UnauthorizedException("Invalid credentials"));
+        User user = token.getUser();
         user.setPassword(passwordEncoder.encode(request.password()));
         userRepository.save(user);
 
-        confirmationTokenService.confirmToken(confirmationToken);
+        tokenService.revokeToken(token);
 
-        return new ResetPasswordResponse("Password reset.");
+        return new ResetPasswordResponse("Password reset");
+    }
+
+    public RefreshTokenResponse refreshToken(RefreshTokenRequest request) {
+        Token refreshToken = tokenService.findValidTokenByValue(request.refreshToken());
+        User user = refreshToken.getUser();
+
+        String refreshTokenValue = tokenService.generateJwtRefreshTokenValue(user.getEmail());
+        String accessTokenValue = tokenService.generateJwtAccessTokenValue(user.getEmail());
+
+        tokenService.createRefreshToken(refreshTokenValue, user);
+
+        return new RefreshTokenResponse(
+                refreshTokenValue,
+                accessTokenValue
+        );
+    }
+
+    public UserResponse getCurrentUser() {
+        User user = userService.getUserFromSecurityContext();
+        return userResponseMapper.apply(user);
+    }
+
+    public LogoutResponse logout() {
+        User user = userService.getUserFromSecurityContext();
+        List<Token> tokens = tokenRepository.findAllByUser(user);
+        tokens.forEach(tokenService::revokeToken);
+        return new LogoutResponse("Logged out");
     }
 }

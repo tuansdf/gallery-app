@@ -2,6 +2,7 @@ package com.gallery.backend.album;
 
 import com.gallery.backend.album.dto.AlbumResponse;
 import com.gallery.backend.album.dto.CreateAlbumRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class AlbumController {
 
     @PostMapping()
     public ResponseEntity<Album> createAlbum(
-            @RequestBody CreateAlbumRequest request
+            @RequestBody @Valid CreateAlbumRequest request
     ) {
         return new ResponseEntity<>(service.createAlbum(request), HttpStatus.CREATED);
     }

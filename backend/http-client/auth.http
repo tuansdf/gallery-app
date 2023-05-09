@@ -33,8 +33,12 @@ Content-Type: application/json
 
 ### Verify email
 
-GET {{base-url}}/auth/verify-email?token={{confirmation-token}}
+POST {{base-url}}/auth/verify-email
 Content-Type: application/json
+
+{
+  "token": "{{confirmation-token}}"
+}
 
 ### Forgot password
 

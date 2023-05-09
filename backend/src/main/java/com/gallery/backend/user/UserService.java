@@ -1,6 +1,5 @@
 package com.gallery.backend.user;
 
-import com.gallery.backend.exception.NotFoundException;
 import com.gallery.backend.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -13,11 +12,9 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
 
-    public void enableUser(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+    public User enableUser(User user) {
         user.setEnabled(true);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public User getUserFromSecurityContext() {

@@ -1,11 +1,11 @@
 ### Get all albums
 
-GET {{base-url}}/albums/
+GET {{base-url}}/albums
 Authorization: Bearer {{token}}
 
 ### Create new album
 
-POST {{base-url}}/albums/
+POST {{base-url}}/albums
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
