@@ -5,7 +5,7 @@ import com.gallery.backend.confirmationToken.ConfirmationToken;
 import com.gallery.backend.confirmationToken.ConfirmationTokenService;
 import com.gallery.backend.email.ForgotPasswordEmailSender;
 import com.gallery.backend.email.VerifyEmailSender;
-import com.gallery.backend.shared.exception.UnauthorizedException;
+import com.gallery.backend.exception.UnauthorizedException;
 import com.gallery.backend.user.User;
 import com.gallery.backend.user.UserRepository;
 import com.gallery.backend.user.UserService;

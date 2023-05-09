@@ -4,7 +4,7 @@ import com.gallery.backend.album.dto.AlbumResponse;
 import com.gallery.backend.album.dto.CreateAlbumRequest;
 import com.gallery.backend.image.Image;
 import com.gallery.backend.image.ImageRepository;
-import com.gallery.backend.shared.exception.NotFoundException;
+import com.gallery.backend.exception.NotFoundException;
 import com.gallery.backend.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;

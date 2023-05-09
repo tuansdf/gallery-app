@@ -2,7 +2,7 @@ package com.gallery.backend.image;
 
 import com.gallery.backend.album.Album;
 import com.gallery.backend.album.AlbumService;
-import com.gallery.backend.shared.exception.NotFoundException;
+import com.gallery.backend.exception.NotFoundException;
 import com.gallery.backend.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

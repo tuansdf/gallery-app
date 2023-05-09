@@ -1,4 +1,4 @@
-package com.gallery.backend.shared.exception;
+package com.gallery.backend.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

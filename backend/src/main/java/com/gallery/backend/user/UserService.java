@@ -1,6 +1,6 @@
 package com.gallery.backend.user;
 
-import com.gallery.backend.shared.exception.NotFoundException;
+import com.gallery.backend.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
