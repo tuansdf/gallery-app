@@ -1,8 +1,11 @@
 package com.gallery.backend.image;
 
 import com.gallery.backend.album.Album;
+import com.gallery.backend.album.AlbumRepository;
 import com.gallery.backend.album.AlbumService;
 import com.gallery.backend.exception.NotFoundException;
+import com.gallery.backend.image.dto.ImageResponse;
+import com.gallery.backend.image.mapper.ImageResponseMapper;
 import com.gallery.backend.user.User;
 import com.gallery.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +23,6 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -28,16 +30,18 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ImageService {
     private final ImageRepository imageRepository;
+    private final AlbumRepository albumRepository;
     private final AlbumService albumService;
     private final UserService userService;
     private final S3Client s3Client;
+    private final ImageResponseMapper imageResponseMapper;
 
     @Value("${aws.bucket.name}")
     private String bucketName;
     @Value("${aws.bucket.url-prefix}")
     private String bucketUrlPrefix;
 
-    public Image createImage(MultipartFile imageFile, UUID albumId) {
+    public ImageResponse createImage(MultipartFile imageFile, UUID albumId) {
         String originalFileName = imageFile.getOriginalFilename();
         String fileExtension = "jpg";
         if (originalFileName != null) {
@@ -59,25 +63,29 @@ public class ImageService {
         file.delete();
 
         User user = userService.getUserFromSecurityContext();
-        Album album = albumService.getAlbum(albumId);
+        Album album = albumRepository.findById(albumId)
+                .orElseThrow(() -> new NotFoundException("Album not found"));
         Image image = new Image(originalFileName, imageUrl, user, album);
+        Image savedImage = imageRepository.save(image);
 
-        return imageRepository.save(image);
+        return imageResponseMapper.apply(savedImage);
     }
 
-    public List<Image> getImagesByAlbum(UUID albumId, Integer pageNumber, Integer pageSize) {
+    public Page<Image> getImagesByAlbum(UUID albumId, Integer pageNumber, Integer pageSize) {
         User user = userService.getUserFromSecurityContext();
-        Album album = albumService.getAlbum(albumId);
+        Album album = albumRepository.findById(albumId)
+                .orElseThrow(() -> new NotFoundException("Album not found"));
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
         Page<Image> imagesPageResult = imageRepository.findByUserAndAlbumOrderByCreatedAtDesc(pageable, user, album);
-        return imagesPageResult.getContent();
+        return imagesPageResult;
     }
 
-    public Image getImage(UUID imageId) {
+    public ImageResponse getImage(UUID imageId) {
         User user = userService.getUserFromSecurityContext();
-        return imageRepository.findOneByIdAndUser(imageId, user)
+        Image image = imageRepository.findOneByIdAndUser(imageId, user)
                 .orElseThrow(() -> new NotFoundException(String.format("Image %s not found", imageId)));
+        return imageResponseMapper.apply(image);
     }
 
     private File convertMultiPartToFile(MultipartFile file) {

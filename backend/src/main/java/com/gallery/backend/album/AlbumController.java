@@ -23,7 +23,7 @@ public class AlbumController {
     }
 
     @GetMapping("/{albumId}")
-    public ResponseEntity<Album> getAlbum(
+    public ResponseEntity<AlbumResponse> getAlbum(
             @PathVariable("albumId") UUID albumId
     ) {
         return new ResponseEntity<>(service.getAlbum(albumId), HttpStatus.OK);

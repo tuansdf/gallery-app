@@ -1,8 +1,19 @@
 ### Create image
 
-POST {{base-url}}/albums/
+POST {{base-url}}/images?albumId={{album-id}}
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
 }
+
+### Get images in album
+
+GET {{base-url}}/images?albumId={{album-id}}
+Authorization: Bearer {{token}}
+
+
+### Get image
+
+GET {{base-url}}/images/{{image-id}}
+Authorization: Bearer {{token}}

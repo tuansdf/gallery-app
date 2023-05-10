@@ -1,5 +1,6 @@
 package com.gallery.backend.album;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gallery.backend.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class Album {
     @Column(nullable = false)
     private String name;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private User user;
@@ -30,9 +32,10 @@ public class Album {
     private LocalDateTime updatedAt;
 
     public Album(String name, User user) {
+        LocalDateTime now = LocalDateTime.now();
         this.name = name;
         this.user = user;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
     }
 }

@@ -1,6 +1,8 @@
 package com.gallery.backend.image;
 
+import com.gallery.backend.image.dto.ImageResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -18,7 +19,7 @@ public class ImageController {
     private final ImageService service;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Image> createImage(
+    public ResponseEntity<ImageResponse> createImage(
             @RequestParam("image") MultipartFile image,
             @RequestParam("albumId") UUID albumId
     ) {
@@ -26,7 +27,7 @@ public class ImageController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Image>> getImages(
+    public ResponseEntity<Page<Image>> getImages(
             @RequestParam UUID albumId,
             @RequestParam(defaultValue = "0") Integer pageNumber,
             @RequestParam(defaultValue = "100") Integer pageSize
@@ -35,7 +36,7 @@ public class ImageController {
     }
 
     @GetMapping("/{imageId}")
-    public ResponseEntity<Image> getImage(
+    public ResponseEntity<ImageResponse> getImage(
             @PathVariable UUID imageId
     ) {
         return new ResponseEntity<>(service.getImage(imageId), HttpStatus.OK);

@@ -1,5 +1,6 @@
 package com.gallery.backend.image;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gallery.backend.album.Album;
 import com.gallery.backend.user.User;
 import jakarta.persistence.*;
@@ -27,10 +28,12 @@ public class Image {
     @Column(nullable = false)
     private String imageUrl;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private User user;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Album album;
@@ -39,11 +42,12 @@ public class Image {
     private LocalDateTime updatedAt;
 
     public Image(String name, String imageUrl, User user, Album album) {
+        LocalDateTime now = LocalDateTime.now();
         this.name = name;
         this.imageUrl = imageUrl;
         this.user = user;
         this.album = album;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
     }
 }
