@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: var(--z-loader);
+}
+
+.icon {
+  --size: 3rem;
+  width: var(--size);
+  height: var(--size);
+
+  color: hsl(var(--clr-neutral-100));
+
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

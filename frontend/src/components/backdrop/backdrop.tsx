@@ -7,7 +7,12 @@ interface Props extends HTMLMotionProps<"div"> {
   show?: boolean;
 }
 
-const Backdrop = ({ show = true, className, ...restProps }: Props) => {
+const Backdrop = ({
+  show = true,
+  className,
+  children,
+  ...restProps
+}: Props) => {
   return (
     <AnimatePresence>
       {show ? (
@@ -17,7 +22,9 @@ const Backdrop = ({ show = true, className, ...restProps }: Props) => {
           animate={{ opacity: 1 }}
           className={clsx(classes["backdrop"], className)}
           {...restProps}
-        ></m.div>
+        >
+          {children}
+        </m.div>
       ) : null}
     </AnimatePresence>
   );

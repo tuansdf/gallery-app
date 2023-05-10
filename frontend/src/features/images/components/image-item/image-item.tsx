@@ -9,13 +9,15 @@ interface Props extends ImgHTMLAttributes<HTMLImageElement> {
 
 const ImageItem = ({ imageUrl, imageName, ...restProps }: Props) => {
   return (
-    <img
-      src={imageUrl}
-      loading="lazy"
-      alt={imageName}
-      className={classes["img"]}
-      {...restProps}
-    />
+    <button className={classes["clickable"]}>
+      <img
+        src={imageUrl}
+        loading="lazy"
+        alt={imageName}
+        className={classes["img"]}
+        {...restProps}
+      />
+    </button>
   );
 };
 

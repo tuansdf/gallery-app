@@ -18,3 +18,7 @@
 .img:hover {
   opacity: 90%;
 }
+
+.clickable {
+  all: unset;
+}

@@ -2,6 +2,7 @@ import { useContext, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import Alert from "@/components/alert/alert";
+import ScreenLoader from "@/components/screen-loader/screen-loader";
 import Skeleton from "@/components/skeleton/skeleton";
 import { useGetAlbumQuery } from "@/features/albums/api/get-album";
 import { useGetImagesQuery } from "@/features/images/api/get-images";
@@ -13,6 +14,7 @@ import {
   useImageDetailActions,
   useIsImageDetailOpening,
 } from "@/features/images/stores/image-detail-store";
+import { useIsUploadingImage } from "@/features/images/stores/upload-image-store";
 import { makeImagesByMonth } from "@/features/images/utils/make-images-by-month";
 import { AppBarContext } from "@/features/menu/context/app-bar-provider";
 import { useAppBarActions } from "@/features/menu/stores/app-bar-store";
@@ -23,6 +25,7 @@ const AlbumPage = () => {
 
   const { albumId } = useParams();
 
+  const isUploadingImage = useIsUploadingImage();
   const isImageDetailOpening = useIsImageDetailOpening();
   const { fetchingImagesSuccessful, openImage } = useImageDetailActions();
   const { setAppBarTitle } = useAppBarActions();
@@ -102,6 +105,8 @@ const AlbumPage = () => {
         images={getImagesQuery.data || []}
         albumName={getAlbumQuery.data?.name || ""}
       />
+
+      <ScreenLoader show={isUploadingImage} />
     </main>
   );
 };

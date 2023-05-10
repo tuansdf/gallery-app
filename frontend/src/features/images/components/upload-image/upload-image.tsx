@@ -3,6 +3,7 @@ import { ChangeEventHandler, useId } from "react";
 import Button from "@/components/button/button";
 import UploadIcon from "@/features/icons/upload-icon";
 import { useCreateImageMutation } from "@/features/images/api/create-image";
+import { useUploadImageActions } from "@/features/images/stores/upload-image-store";
 import classes from "./upload-image.module.css";
 
 interface Props {
@@ -11,6 +12,8 @@ interface Props {
 
 const UploadImage = ({ albumId }: Props) => {
   const inputId = useId();
+
+  const { startUploading, finishUploading } = useUploadImageActions();
 
   const createImageMutation = useCreateImageMutation(albumId);
 
@@ -21,7 +24,8 @@ const UploadImage = ({ albumId }: Props) => {
       image: imageFile,
       albumId,
     };
-    createImageMutation.mutate(data);
+    startUploading();
+    createImageMutation.mutate(data, { onSettled: () => finishUploading() });
   };
 
   return (

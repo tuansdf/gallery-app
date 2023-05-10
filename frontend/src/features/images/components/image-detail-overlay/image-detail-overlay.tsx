@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import dayjs from "dayjs";
 import { AnimatePresence, m } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Backdrop from "@/components/backdrop/backdrop";
 import Button from "@/components/button/button";
@@ -30,17 +30,34 @@ const ImageDetailOverlay = ({ images, show, albumName }: Props) => {
 
   const currentlySelectedImage = images[currentOpeningImageIndex];
 
-  if (!currentlySelectedImage) return null;
-
-  const imageCreatedDate = dayjs(
-    currentlySelectedImage.createdAt.toString()
-  ).format("MMM DD, YYYY, h:mm:ss A");
-
   const closeInfo = () => setIsInfoOpen(false);
   const toggleInfo = () => setIsInfoOpen((prev) => !prev);
   const onNext = () => previousImage();
   const onPrev = () => nextImage();
   const onClose = () => closeImage();
+
+  useEffect(() => {
+    const listenToKeyDown = (e: KeyboardEvent) => {
+      const key = e.key;
+      if (key === "ArrowRight") {
+        onNext();
+      } else if (key === "ArrowLeft") {
+        onPrev();
+      } else if (key === "Escape") {
+        onClose();
+      }
+    };
+    document.addEventListener("keydown", listenToKeyDown);
+    return () => {
+      document.removeEventListener("keydown", listenToKeyDown);
+    };
+  }, []);
+
+  if (!currentlySelectedImage) return null;
+
+  const imageCreatedDate = dayjs(
+    currentlySelectedImage.createdAt.toString()
+  ).format("MMM DD, YYYY, h:mm:ss A");
 
   return (
     <AnimatePresence>
