@@ -16,7 +16,7 @@ public class DefaultExceptionHandler {
         );
         return new ResponseEntity<>(response, exception.getStatus());
     }
-    
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<BaseExceptionResponse> handleOtherException(Exception exception) {
         BaseExceptionResponse response = new BaseExceptionResponse(

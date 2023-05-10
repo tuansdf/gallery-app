@@ -2,7 +2,6 @@ package com.gallery.backend.user.mapper;
 
 import com.gallery.backend.user.User;
 import com.gallery.backend.user.dto.UserResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;

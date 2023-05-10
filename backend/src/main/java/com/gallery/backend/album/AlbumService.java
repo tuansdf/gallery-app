@@ -8,7 +8,6 @@ import com.gallery.backend.image.ImageRepository;
 import com.gallery.backend.user.User;
 import com.gallery.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

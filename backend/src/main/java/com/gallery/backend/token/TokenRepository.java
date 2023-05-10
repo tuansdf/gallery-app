@@ -9,5 +9,6 @@ import java.util.UUID;
 
 public interface TokenRepository extends JpaRepository<Token, UUID> {
     Optional<Token> findByValue(String value);
+
     List<Token> findAllByUser(User user);
 }

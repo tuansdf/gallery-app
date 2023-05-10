@@ -36,9 +36,13 @@ public class AuthService {
     private final TokenRepository tokenRepository;
 
     public RegisterResponse register(RegisterRequest request) {
+        RegisterResponse registerResponse = new RegisterResponse(
+                "A link to activate your account has been emailed to the address provided"
+        );
+
         Optional<User> userAlreadyExist = userRepository.findByEmail(request.email());
         if (userAlreadyExist.isPresent()) {
-            return new RegisterResponse("A link to activate your account has been emailed to the address provided");
+            return registerResponse;
         }
 
         User user = User.builder()
@@ -56,15 +60,12 @@ public class AuthService {
         );
         verifyEmailSender.send(savedUser.getEmail(), emailContent);
 
-        return new RegisterResponse("A link to activate your account has been emailed to the address provided");
+        return registerResponse;
     }
 
     public LoginResponse login(LoginRequest request) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.email(),
-                        request.password()
-                )
+                new UsernamePasswordAuthenticationToken(request.email(), request.password())
         );
 
         User user = (User) authentication.getPrincipal();
@@ -108,7 +109,7 @@ public class AuthService {
         }
 
         return new ForgotPasswordResponse(
-                "If that email address is in our database, we will send you an email to reset your password."
+                "If that email address is in our database, we will send you an email to reset your password"
         );
     }
 
