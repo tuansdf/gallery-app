@@ -1,26 +1,20 @@
 import ImageItem from "@/features/images/components/image-item/image-item";
-import { useImageDetailActions } from "@/features/images/stores/image-detail-store";
 import { Image } from "@/features/images/types/image-types";
 import classes from "./image-grid.module.css";
 
 interface Props {
   images: Image[];
+  onImageClick: (imageId: string) => void;
 }
 
-const ImageGrid = ({ images }: Props) => {
-  const { openImage } = useImageDetailActions();
-
-  const handleClick = (index: number) => {
-    openImage(index);
-  };
-
+const ImageGrid = ({ images, onImageClick }: Props) => {
   return (
     <div className={classes["main"]}>
-      {images.map((image, i) => (
+      {images.map((image) => (
         <ImageItem
           imageUrl={image.imageUrl}
           imageName={image.name}
-          onClick={() => handleClick(i)}
+          onClick={() => onImageClick(image.id)}
           key={image.id}
           loading="lazy"
         />

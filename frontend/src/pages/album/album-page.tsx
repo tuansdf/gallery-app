@@ -10,7 +10,6 @@ import ImageGridSkeleton from "@/features/images/components/image-grid-skeleton/
 import ImageGrid from "@/features/images/components/image-grid/image-grid";
 import UploadImage from "@/features/images/components/upload-image/upload-image";
 import {
-  useCurrentOpeningImageIndex,
   useImageDetailActions,
   useIsImageDetailOpening,
 } from "@/features/images/stores/image-detail-store";
@@ -25,9 +24,7 @@ const AlbumPage = () => {
   const { albumId } = useParams();
 
   const isImageDetailOpening = useIsImageDetailOpening();
-  const currentOpeningImageIndex = useCurrentOpeningImageIndex();
-  const { nextImage, closeImage, previousImage, fetchingImagesSuccessful } =
-    useImageDetailActions();
+  const { fetchingImagesSuccessful, openImage } = useImageDetailActions();
   const { setAppBarTitle } = useAppBarActions();
 
   if (!albumId) return <Alert severity="info">Something went wrong!</Alert>;
@@ -40,14 +37,20 @@ const AlbumPage = () => {
     return makeImagesByMonth(getImagesQuery.data);
   }, [getImagesQuery.data]);
 
-  const handleNextImageClick = () => {
-    previousImage();
-  };
-  const handlePrevImageClick = () => {
-    nextImage();
-  };
-  const handleCloseImageClick = () => {
-    closeImage();
+  const handleImageClick = (imageId: string) => {
+    const images = getImagesQuery.data;
+    if (!images) return null;
+
+    const imagesLength = images.length;
+    let tmp = 0;
+    for (let i = 0; i < imagesLength; i++) {
+      if (images[i].id === imageId) {
+        tmp = i;
+        break;
+      }
+    }
+
+    openImage(tmp);
   };
 
   useEffect(() => {
@@ -85,7 +88,10 @@ const AlbumPage = () => {
               <div className={classes["section-title"]}>
                 {byMonth.groupName}
               </div>
-              <ImageGrid images={byMonth.data} />
+              <ImageGrid
+                images={byMonth.data}
+                onImageClick={handleImageClick}
+              />
             </div>
           );
         })
@@ -94,10 +100,7 @@ const AlbumPage = () => {
       <ImageDetailOverlay
         show={isImageDetailOpening && !!getImagesQuery.data}
         images={getImagesQuery.data || []}
-        onClose={handleCloseImageClick}
-        onNext={handleNextImageClick}
-        onPrev={handlePrevImageClick}
-        currentIndex={currentOpeningImageIndex || 0}
+        albumName={getAlbumQuery.data?.name || ""}
       />
     </main>
   );

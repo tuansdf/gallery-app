@@ -9,38 +9,38 @@ import ChevronLeftIcon from "@/features/icons/chevron-left-icon";
 import ChevronRightIcon from "@/features/icons/chevron-right-icon";
 import ExclamationCircleIcon from "@/features/icons/exclamation-circle-icon";
 import XMarkIcon from "@/features/icons/x-mark-icon";
+import {
+  useCurrentOpeningImageIndex,
+  useImageDetailActions,
+} from "@/features/images/stores/image-detail-store";
 import { Image } from "@/features/images/types/image-types";
 import classes from "./image-detail-overlay.module.css";
 
 interface Props {
   images: Image[];
-  onNext: () => void;
-  onClose: () => void;
-  onPrev: () => void;
-  currentIndex: number;
   show: boolean;
+  albumName: string;
 }
 
-const ImageDetailOverlay = ({
-  images,
-  onNext,
-  onClose,
-  onPrev,
-  show,
-  currentIndex,
-}: Props) => {
+const ImageDetailOverlay = ({ images, show, albumName }: Props) => {
   const [isInfoOpen, setIsInfoOpen] = useState(false);
 
-  const currentImage = images[currentIndex];
+  const currentOpeningImageIndex = useCurrentOpeningImageIndex();
+  const { nextImage, closeImage, previousImage } = useImageDetailActions();
 
-  if (!currentImage) return null;
+  const currentlySelectedImage = images[currentOpeningImageIndex];
 
-  const imageCreatedDate = dayjs(currentImage.createdAt.toString()).format(
-    "MMM DD, YYYY, h:mm:ss A"
-  );
+  if (!currentlySelectedImage) return null;
+
+  const imageCreatedDate = dayjs(
+    currentlySelectedImage.createdAt.toString()
+  ).format("MMM DD, YYYY, h:mm:ss A");
 
   const closeInfo = () => setIsInfoOpen(false);
   const toggleInfo = () => setIsInfoOpen((prev) => !prev);
+  const onNext = () => previousImage();
+  const onPrev = () => nextImage();
+  const onClose = () => closeImage();
 
   return (
     <AnimatePresence>
@@ -62,7 +62,10 @@ const ImageDetailOverlay = ({
             >
               <ChevronLeftIcon className={classes["change-image-icon"]} />
             </button>
-            <img src={currentImage.imageUrl} className={classes["image"]} />
+            <img
+              src={currentlySelectedImage.imageUrl}
+              className={classes["image"]}
+            />
             <button
               className={clsx(
                 classes["change-image-button"],
@@ -114,10 +117,13 @@ const ImageDetailOverlay = ({
             >
               <XMarkIcon className={classes["func-icon"]} />
             </Button>
-            <h2 className={classes["info-name"]}>{currentImage.name}</h2>
+
+            <h2 className={classes["info-name"]}>
+              {currentlySelectedImage.name}
+            </h2>
             <section className={classes["info-section"]}>
               <div className={classes["info-title"]}>Album</div>
-              <div>{currentImage.album.name}</div>
+              <div>{albumName}</div>
             </section>
             <section className={classes["info-section"]}>
               <div className={classes["info-title"]}>Uploaded</div>
