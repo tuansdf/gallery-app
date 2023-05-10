@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -75,10 +76,9 @@ public class ImageService {
         User user = userService.getUserFromSecurityContext();
         Album album = albumRepository.findById(albumId)
                 .orElseThrow(() -> new NotFoundException("Album not found"));
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.DESC, "createdAt"));
 
-        Page<Image> imagesPageResult = imageRepository.findByUserAndAlbumOrderByCreatedAtDesc(pageable, user, album);
-        return imagesPageResult;
+        return imageRepository.findByUserAndAlbum(pageable, user, album);
     }
 
     public ImageResponse getImage(UUID imageId) {

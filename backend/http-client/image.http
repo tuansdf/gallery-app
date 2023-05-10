@@ -9,7 +9,7 @@ Content-Type: application/json
 
 ### Get images in album
 
-GET {{base-url}}/images?albumId={{album-id}}
+GET {{base-url}}/images?albumId={{album-id}}&pageSize=2&pageNumber=1
 Authorization: Bearer {{token}}
 
 

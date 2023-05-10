@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ImageRepository extends JpaRepository<Image, UUID> {
-    Page<Image> findByUserAndAlbumOrderByCreatedAtDesc(Pageable pageable, User user, Album album);
+    Page<Image> findByUserAndAlbum(Pageable pageable, User user, Album album);
 
     Optional<Image> findOneByIdAndUser(UUID id, User user);
 
